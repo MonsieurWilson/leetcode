@@ -27,8 +27,8 @@ int main(){
     Solution s;
 
     /**
-	 * Get and print the array
-	 */
+     * Get and print the array
+     */
     /*
     cout<<"Input the array size:"<<endl;
     int size;
@@ -42,37 +42,37 @@ int main(){
     */
 
     /**
-	 * Get and print the vector
-	 */
+     * Get and print the vector
+     */
     /*
-	cout<<"Input the vector size"<<endl;
-	int size;
-	cin>>size;
-	cout<<"Input the vector:"<<endl;
-	vector<int> vec;
-	Vector::createVector(vec, size);
-	cout<<"The vector is:"<<endl;
-	Vector::printVector(vec, 0, size);
-	cout<<endl;
+    cout<<"Input the vector size"<<endl;
+    int size;
+    cin>>size;
+    cout<<"Input the vector:"<<endl;
+    vector<int> vec;
+    Vector::createVector(vec, size);
+    cout<<"The vector is:"<<endl;
+    Vector::printVector(vec, 0, size);
+    cout<<endl;
     */
 
-	/**
-	 * Create and traversal the tree
-	 */
+    /**
+     * Create and traversal the tree
+     */
     /*
-	TreeNode *root = Tree::createTree(vec);
-	vector<int> traversal = s.preorderTraversal(root);
-	cout<<"The preorderTraversal sequence is:"<<endl;
-	Vector::printVector(traversal, 0, traversal.size());
-	cout<<endl;
-	traversal = s.inorderTraversal(root);
-	cout<<"The inorderTraversal sequence is:"<<endl;
-	Vector::printVector(traversal, 0, traversal.size());
-	cout<<endl;
-	traversal = s.postorderTraversal(root);
-	cout<<"The postorderTraversal sequence is:"<<endl;
-	Vector::printVector(traversal, 0, traversal.size());
-	cout<<endl;
+    TreeNode *root = Tree::createTree(vec);
+    vector<int> traversal = s.preorderTraversal(root);
+    cout<<"The preorderTraversal sequence is:"<<endl;
+    Vector::printVector(traversal, 0, traversal.size());
+    cout<<endl;
+    traversal = s.inorderTraversal(root);
+    cout<<"The inorderTraversal sequence is:"<<endl;
+    Vector::printVector(traversal, 0, traversal.size());
+    cout<<endl;
+    traversal = s.postorderTraversal(root);
+    cout<<"The postorderTraversal sequence is:"<<endl;
+    Vector::printVector(traversal, 0, traversal.size());
+    cout<<endl;
     */
 
     int n;
