@@ -22,9 +22,9 @@ vector<string> subsets(const string &s) {
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
-	clock_t startTime, finishTime;
-	startTime = clock();
-	Solution s;
+    clock_t startTime, finishTime;
+    startTime = clock();
+    Solution s;
 
     /**
 	 * Get and print the array
@@ -83,8 +83,8 @@ int main(){
 
 
     // Time
-	cout<<"-------------------Time Cost-----------------------"<<endl; 
+    cout<<"-------------------Time Cost-----------------------"<<endl; 
     finishTime = clock();
-	cout<<"The time cost is : "<<1000.0 * (finishTime - startTime) / CLOCKS_PER_SEC<<" ms."<<endl;
+    cout<<"The time cost is : "<<1000.0 * (finishTime - startTime) / CLOCKS_PER_SEC<<" ms."<<endl;
     return 0;
 }
