@@ -75,6 +75,9 @@ int main(){
 	cout<<endl;
     */
 
+    int n;
+    cin>>n;
+    cout<<s.countPrimes(n)<<endl;
 
 
 

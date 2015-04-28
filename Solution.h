@@ -3983,6 +3983,7 @@ public:
 		}
 		return max(maxLength, end - beg);
 	}
+
 	int lengthOfLongestSubstring_improved(string s) {
 		int beg = 0, end = 0;
 		int maxLength = 0;
@@ -6601,6 +6602,29 @@ public:
             }
         }
         return node->next;
+    }
+    // Count Primes
+    // Description:
+    // Count the number of prime numbers less than a non-negative number, n
+    int countPrimes(int n) {
+        if (n <= 1) {
+            return 0;
+        }
+        int ret = 0, root = sqrt(n);
+        vector<bool> num(n + 1, true);
+        num[1] = false;
+        for (int i = 2; i <= root; ++i) {
+            if (num[i]) {
+                ++ret;
+                for (int j = i * i; j < n; j += i) {
+                    num[j] = false;
+                }
+            }
+        }
+        for (int i = root + 1; i < n; ++i) {
+            if (num[i]) ++ret;
+        }
+        return ret;
     }
 };
 #endif
