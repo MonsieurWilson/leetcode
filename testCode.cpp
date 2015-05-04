@@ -75,10 +75,17 @@ int main(){
     cout<<endl;
     */
 
-    int n;
-    cin>>n;
-    cout<<s.countPrimes(n)<<endl;
 
+    string str1, str2;
+    getline(cin, str1);
+    getline(cin, str2);
+    bool ret = s.isIsomorphic(str1, str2);
+    if (ret) {
+        cout<<"True"<<endl;
+    }
+    else {
+        cout<<"False"<<endl;
+    }
 
 
 

@@ -1538,16 +1538,25 @@ public:
     int removeDuplicatesII(int A[], int n) {
         int count = 0;
         for (int idx = 0; idx != n; ++idx) {
-            if (idx != n - 2 && A[idx] == A[idx + 1] && A[idx] == A[idx + 2]) {
+            if (idx < n - 2 && A[idx] == A[idx + 2]) {
                 ++count;
             }
-            else {
-                if (count > 0) {
-                    A[idx - count] = A[idx];
-                }
+            else if (count > 0) {
+                A[idx - count] = A[idx];
             }
         }
         return n - count;
+    }
+
+    int removeDuplicatesII_improved(int A[], int n) {
+        if (n <= 2) return n;
+        int lens = 1;
+        for (int idx = 2; idx < n; ++idx) {
+            if (A[idx] != A[lens - 1]) {
+                A[++lens] = A[idx];
+            }
+        }
+        return ++lens;
     }
     // Combinations
     // Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
@@ -5166,40 +5175,33 @@ public:
         vector<vector<bool> > visited(board.size(), vector<bool>(board[0].size(), false));
         for (int r = 0; r < board.size(); ++r) {
             for (int c = 0; c < board[0].size(); ++c) {
-                if (board[r][c] == word[0]) {
-                    found = exist(board, visited, r, c, word);
-                    if (found) {
-                        return found;
-                    }
+                if (exist(board, visited, r, c, word)) {
+                    return true;
                 }
             }
         }
         return found;
     }
     bool exist(const vector<vector<char> > &board, vector<vector<bool> > &visited, const int &r, const int &c, const string &word) {
-        visited[r][c] = true;
+        // DFS.
+        if (board[r][c] != word[0] || visited[r][c]) {
+            return false;
+        }
         if (word.size() <= 1) {
             return true;
         }
-        if (r > 0 && board[r - 1][c] == word[1] && visited[r - 1][c] == false) {
-            if (exist(board, visited, r - 1, c, word.substr(1))) {
-                return true;
-            }
+        visited[r][c] = true;
+        if (r > 0 && exist(board, visited, r - 1, c, word.substr(1))) {
+            return true;
         }
-        if (r < board.size() - 1 && board[r + 1][c] == word[1] && visited[r + 1][c] == false) {
-            if (exist(board, visited, r + 1, c, word.substr(1))) {
-                return true;
-            }
+        if (r < board.size() - 1 && exist(board, visited, r + 1, c, word.substr(1))) {
+            return true;
         }
-        if (c > 0 && board[r][c - 1] == word[1] && visited[r][c - 1] == false) {
-            if (exist(board, visited, r, c - 1, word.substr(1))) {
-                return true;
-            }
+        if (c > 0 && exist(board, visited, r, c - 1, word.substr(1))) {
+            return true;
         }
-        if (c < board[0].size() && board[r][c + 1] == word[1] && visited[r][c + 1] == false) {
-            if (exist(board, visited, r, c + 1, word.substr(1))) {
-                return true;
-            }
+        if (c < board[0].size() && exist(board, visited, r, c + 1, word.substr(1))) {
+            return true;
         }
         visited[r][c] = false;
         return false;
@@ -6625,6 +6627,26 @@ public:
             if (num[i]) ++ret;
         }
         return ret;
+    }
+    // Isomorphic Strings
+    // Given two strings s and t, determine if they are isomorphic.
+    // Two strings are isomorphic if the characters in s can be replaced to get t.
+    // All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.
+    // For example,
+    // Given "egg", "add", return true.
+    // Given "foo", "bar", return false.
+    // Given "paper", "title", return true.
+    // Note:
+    // You may assume both s and t have the same length.
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> smap, tmap;
+        for (int idx = 0; idx < s.size(); ++idx) {
+            if (smap.count(s[idx]) && smap[s[idx]] != t[idx]) return false;
+            if (tmap.count(t[idx]) && tmap[t[idx]] != s[idx]) return false;
+            smap[s[idx]] = t[idx];
+            tmap[t[idx]] = s[idx];
+        }
+        return true;
     }
 };
 #endif
