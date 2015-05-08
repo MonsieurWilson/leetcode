@@ -75,17 +75,11 @@ int main(){
     cout<<endl;
     */
 
+    ListNode *head = List::createList();
+    ListNode *ret = s.reverseList(head);
+    List::printList(ret);
+    cout<<endl;
 
-    string str1, str2;
-    getline(cin, str1);
-    getline(cin, str2);
-    bool ret = s.isIsomorphic(str1, str2);
-    if (ret) {
-        cout<<"True"<<endl;
-    }
-    else {
-        cout<<"False"<<endl;
-    }
 
 
 
