@@ -6673,6 +6673,39 @@ public:
     // 2, [[1,0],[0,1]]
     // There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        // Kahn
+        vector<int> indegree(numCourses, 0);
+        vector<vector<int> > edges(numCourses, vector<int>());
+        int edgeNum = prerequisites.size();
+        if (!edgeNum) {
+            return true;
+        }
+        for (int idx = 0; idx < edgeNum; ++idx) {
+            int from = prerequisites[idx][0], to = prerequisites[idx][1];
+            ++indegree[to];
+            edges[from].push_back(to);
+        }
+        queue<int> zeroDegree;
+        for (int idx = 0; idx < numCourses; ++idx) {
+            if (indegree[idx] == 0) {
+                zeroDegree.push(idx);
+            }
+        }
+        while (!zeroDegree.empty()) {
+            int index = zeroDegree.front();
+            zeroDegree.pop();
+            for (int idx = 0; idx < edges[index].size(); ++idx) {
+                --edgeNum;
+                int node = edges[index][idx];
+                if (--indegree[node] == 0) {
+                    zeroDegree.push(node);
+                }
+            }
+        }
+        if (edgeNum) {
+            return false;
+        }
+        return true;
     }
 };
 #endif

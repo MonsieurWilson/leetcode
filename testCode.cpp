@@ -75,10 +75,15 @@ int main(){
     cout<<endl;
     */
 
-    ListNode *head = List::createList();
-    ListNode *ret = s.reverseList(head);
-    List::printList(ret);
-    cout<<endl;
+    int numCourses;
+    cout<<"Input the numCourses:"<<endl;
+    cin>>numCourses;
+    vector<vector<int> > pre;
+    Vector::createMatrix(pre);
+    bool ret = s.canFinish(numCourses, pre);
+    if (ret) cout<<"True"<<endl;
+    else cout<<"False"<<endl;
+
 
 
 

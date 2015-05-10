@@ -156,7 +156,7 @@ private:
     stack<TreeNode *> nodeStack;
     TreeNode *ptr;
 };
-    
+
 // Min Stack
 // Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 // push(x) -- Push element x onto stack.
@@ -198,12 +198,41 @@ private:
     stack<int> eleStack, minStack;
 };
 
-/*
- * Method:
- * createGraph
- * printGraph
- */
-class UndirectedGraph {
+// Implement Trie (Prefix Tree) 
+// Implement a trie with insert, search, and startsWith methods.
+class TrieNode {
+public:
+    // Initialize your data structure here.
+    TrieNode() {
+
+    }
 };
+
+class Trie {
+public:
+    Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    void insert(string s) {
+
+    }
+
+    // Returns if the word is in the trie.
+    bool search(string key) {
+
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    bool startsWith(string prefix) {
+
+    }
+
+private:
+    TrieNode* root;
+};
+
 
 #endif
