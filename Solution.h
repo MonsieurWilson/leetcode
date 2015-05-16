@@ -6586,7 +6586,7 @@ public:
         }
         return ret;
     }
-    // Remove Linked List Elements 
+    // Remove Linked List Elements
     // Remove all elements from a linked list of integers that have value val.
     // Example
     // Given: 1 --> 2 --> 6 --> 3 --> 4 --> 5 --> 6, val = 6
@@ -6663,10 +6663,11 @@ public:
         }
         return tmp->next;
     }
-    // Course Schedule 
+    // Course Schedule
     // There are a total of n courses you have to take, labeled from 0 to n - 1.
     // Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
     // Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+    //
     // For example:
     // 2, [[1,0]]
     // There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.
@@ -6706,6 +6707,82 @@ public:
             return false;
         }
         return true;
+    }
+    // Course Schedule II 
+    // There are a total of n courses you have to take, labeled from 0 to n - 1.
+    // Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+    // Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
+    // There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
+    //
+    // For example:
+    // 2, [[1,0]]
+    // There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1]
+    // 4, [[1,0],[2,0],[3,1],[3,2]]
+    // There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        vector<int> topOrder, indegree(numCourses, 0);
+        vector<vector<int> > edges(numCourses, vector<int>());
+        int edgeNum = prerequisites.size();
+        for (int idx = 0; idx < edgeNum; ++idx) {
+            int to = prerequisites[idx].first, from = prerequisites[idx].second;
+            ++indegree[to];
+            edges[from].push_back(to);
+        }
+        queue<int> zeroDegree;
+        for (int idx = 0; idx < numCourses; ++idx) {
+            if (indegree[idx] == 0) {
+                zeroDegree.push(idx);
+            }
+        }
+        while (!zeroDegree.empty()) {
+            int index = zeroDegree.front();
+            zeroDegree.pop();
+            topOrder.push_back(index);
+            for (int idx = 0; idx < edges[index].size(); ++idx) {
+                int node = edges[index][idx];
+                --edgeNum;
+                if (--indegree[node] == 0) {
+                    zeroDegree.push(node);
+                }
+            }
+        }
+        if (edgeNum) {
+            return vector<int>();
+        }
+        return topOrder;
+    }
+
+    // Minimum Size Subarray Sum
+    // Given an array of n positive integers and a positive integer s, find the minimal length of a subarray of which the sum ≥ s. If there isn't one, return 0 instead.
+    // For example, given the array [2,3,1,2,4,3] and s = 7,
+    // the subarray [4,3] has the minimal length under the problem constraint.
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int ret = INT_MAX, start = 0;
+        int localSum = 0;
+        for (int idx = 0; idx < nums.size(); ++idx) {
+            localSum += nums[idx];
+            while (start < idx && localSum - nums[start] >= s) {
+                localSum -= nums[start++];
+            }
+            if (localSum >= s) {
+                ret = min(ret, idx - start + 1);
+            }
+        }
+        return ret == INT_MAX ? 0 : ret;
+    }
+    
+    int minSubArrayLen_sort(int s, vector<int> &nums) {
+        // NlogN
+        sort(nums.begin(), nums.end());
+        int ret = INT_MAX, N = nums.size(), localSum = 0;
+        for (int idx = N - 1; idx >= 0; --idx) {
+            localSum += nums[idx];
+            if (localSum >= s) {
+                ret = N - idx;
+                break;
+            }
+        }
+        return ret == INT_MAX ? 0 : ret;
     }
 };
 #endif

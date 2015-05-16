@@ -75,14 +75,19 @@ int main(){
     cout<<endl;
     */
 
-    int numCourses;
-    cout<<"Input the numCourses:"<<endl;
-    cin>>numCourses;
-    vector<vector<int> > pre;
-    Vector::createMatrix(pre);
-    bool ret = s.canFinish(numCourses, pre);
-    if (ret) cout<<"True"<<endl;
-    else cout<<"False"<<endl;
+    int num;
+    cin>>num;
+    cout<<"Input the pre size :"<<endl;
+    int size;
+    cin>>size;
+    vector<pair<int, int>> pre(size, pair<int, int>());
+    for (int idx = 0; idx < size; ++idx) {
+        cin>>pre[idx].first>>pre[idx].second;
+    }
+    vector<int> ret = s.findOrder(num, pre);
+    Vector::printVector(ret, 0, ret.size());
+    cout<<endl;
+    
 
 
 
