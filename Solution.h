@@ -6720,7 +6720,7 @@ public:
     // 4, [[1,0],[2,0],[3,1],[3,2]]
     // There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
     vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
-        vector<int> topOrder, indegree(numCourses, 0);
+        vector<int> ret, indegree(numCourses, 0);
         vector<vector<int> > edges(numCourses, vector<int>());
         int edgeNum = prerequisites.size();
         for (int idx = 0; idx < edgeNum; ++idx) {
@@ -6737,7 +6737,7 @@ public:
         while (!zeroDegree.empty()) {
             int index = zeroDegree.front();
             zeroDegree.pop();
-            topOrder.push_back(index);
+            ret.push_back(index);
             for (int idx = 0; idx < edges[index].size(); ++idx) {
                 int node = edges[index][idx];
                 --edgeNum;
@@ -6749,7 +6749,7 @@ public:
         if (edgeNum) {
             return vector<int>();
         }
-        return topOrder;
+        return ret;
     }
 
     // Minimum Size Subarray Sum
@@ -6766,20 +6766,6 @@ public:
             }
             if (localSum >= s) {
                 ret = min(ret, idx - start + 1);
-            }
-        }
-        return ret == INT_MAX ? 0 : ret;
-    }
-    
-    int minSubArrayLen_sort(int s, vector<int> &nums) {
-        // NlogN
-        sort(nums.begin(), nums.end());
-        int ret = INT_MAX, N = nums.size(), localSum = 0;
-        for (int idx = N - 1; idx >= 0; --idx) {
-            localSum += nums[idx];
-            if (localSum >= s) {
-                ret = N - idx;
-                break;
             }
         }
         return ret == INT_MAX ? 0 : ret;
