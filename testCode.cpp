@@ -19,6 +19,7 @@ vector<string> subsets(const string &s) {
     return ret;
 }
 
+
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
@@ -44,7 +45,6 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout<<"Input the vector size"<<endl;
     int size;
     cin>>size;
@@ -54,7 +54,6 @@ int main(){
     cout<<"The vector is:"<<endl;
     Vector::printVector(vec, 0, size);
     cout<<endl;
-    */
 
     /**
      * Create and traversal the tree
@@ -75,18 +74,8 @@ int main(){
     cout<<endl;
     */
 
-    int num;
-    cin>>num;
-    cout<<"Input the pre size :"<<endl;
-    int size;
-    cin>>size;
-    vector<pair<int, int>> pre(size, pair<int, int>());
-    for (int idx = 0; idx < size; ++idx) {
-        cin>>pre[idx].first>>pre[idx].second;
-    }
-    vector<int> ret = s.findOrder(num, pre);
-    Vector::printVector(ret, 0, ret.size());
-    cout<<endl;
+    cout<<"The min element is :"<<endl;
+    cout<<findMin(vec, 0, size - 1)<<endl;
     
 
 

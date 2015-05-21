@@ -852,7 +852,7 @@ public:
         vector<int> ret;
         ret.push_back(0);
         for (int idx = 0; idx != n; ++idx) {
-            int temp = 1<<idx;
+            int temp = 1 << idx;
             for (int idx2 = ret.size() - 1; idx2 >= 0; --idx2) {
                 ret.push_back(ret[idx2] + temp);
             }
@@ -5449,7 +5449,7 @@ public:
     int getHash(const string &str) {
         int ret = 0;
         for (int idx = 0; idx < str.size(); ++idx) {
-            ret = ret<<2 | getHashCode(str[idx]);
+            ret = ret << 2 | getHashCode(str[idx]);
         }
         return ret;
     }
@@ -5787,7 +5787,6 @@ public:
                 lDividend -= lDivisor << i;
                 quot += 1 << i;
                 ++i;
-                cout<<"i = "<<i<<" lDividend = "<<lDividend<<" quot = "<<quot<<endl;
             }
         }
         return symbol ? -quot : quot;
@@ -5927,7 +5926,6 @@ public:
         q.push(pair<int, int>(r, c));
         while (!q.empty()) {
             int row = q.front().first, col = q.front().second;
-            cout<<row<<" "<<col<<endl;
             q.pop();
             if (row - 1 >= 0 && board[row - 1][col] == 'O') {
                 q.push(pair<int, int>(row - 1, col));
@@ -6526,17 +6524,17 @@ public:
             ++bits;
             num >>= 1;
         }
-        if (m == 0 || 1L<<bits <= n) {
+        if (m == 0 || 1L << bits <= n) {
             return 0;
         }
-        else if (m == 1<<bits - 1 || m == n) {
+        else if (m == 1 << bits - 1 || m == n) {
             return m;
         }
         else {
             // '-' manipulation has more priority than '<<' manuipulation.
-            m &= (1<<bits - 1) - 1;
-            n &= (1<<bits - 1) - 1;
-            return 1<<bits - 1 | rangeBitwiseAnd(m, n);
+            m &= (1 << bits - 1) - 1;
+            n &= (1 << bits - 1) - 1;
+            return 1 << bits - 1 | rangeBitwiseAnd(m, n);
         }
     }
     int rangeBitwiseAnd_improved(int m, int n) {
@@ -6546,7 +6544,7 @@ public:
             n >>= 1;
             ++num;
         }
-        return m<<num;
+        return m << num;
     }
     // Happy Number
     // Write an algorithm to determine if a number is "happy".
