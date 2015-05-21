@@ -87,7 +87,7 @@ public:
     static ListNode *createList(){
         string val;
         ListNode *head = NULL, *prep;
-        while (cin>>val && val != string("#")){
+        while (cin >> val && val != string("#")){
             ListNode *ptr = new ListNode(atoi(val.c_str()));
             if (head == NULL){
                 head = ptr;
@@ -103,12 +103,12 @@ public:
     static void printList(ListNode *head){
         ListNode *ptr = head;
         if (head == NULL){
-            cout<<"The list is empty.";
+            cout << "The list is empty.";
         }
         while (ptr != NULL){
-            cout<<ptr->val;
+            cout << ptr->val;
             if (ptr->next != NULL){
-                cout<<"->";
+                cout << "->";
             }
             ptr = ptr->next;
         }
@@ -122,7 +122,7 @@ public:
 /**
  * Your BSTIterator will be called like this:
  * BSTIterator i = BSTIterator(root);
- * while (i.hasNext()) cout << i.next();
+ * while (i.hasNext()) cout  <<  i.next();
  */
 class BSTIterator{
 public:
