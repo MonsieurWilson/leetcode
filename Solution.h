@@ -6711,7 +6711,6 @@ public:
     // Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
     // Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
     // There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
-    //
     // For example:
     // 2, [[1,0]]
     // There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1]
@@ -6767,6 +6766,35 @@ public:
             }
         }
         return ret == INT_MAX ? 0 : ret;
+    }
+    // Kth Largest Element in an Array
+    // Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+    // For example,
+    // Given [3,2,1,5,6,4] and k = 2, return 5.
+    // Note: 
+    // You may assume k is always valid, 1 ≤ k ≤ array's length.
+    int findKthLargest(vector<int>& nums, int k) {
+        int N = nums.size(), beg = 0, end = N - 1, pivot = -1;
+        while (pivot != N - k && beg <= end) {
+            pivot = part(nums, beg, end);
+            if (pivot > N - k) {
+                end = pivot - 1;
+            }
+            else if (pivot < N - k) {
+                beg = pivot + 1;
+            }
+        }
+        return nums[pivot];
+    }
+    int part(vector<int> &nums, const int &beg, const int &end) {
+        int pivotVal = nums[end], i = beg - 1;
+        for (int j = beg; j <= end; ++j) {
+            if (nums[j] < pivotVal) {
+                swap(nums[++i], nums[j]);
+            }
+        }
+        swap(nums[++i], nums[end]);
+        return i;
     }
 };
 #endif

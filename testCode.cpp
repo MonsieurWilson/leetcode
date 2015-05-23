@@ -74,9 +74,9 @@ int main(){
     cout << endl;
     */
 
-    cout << "The min element is :" << endl;
-    cout << findMin(vec, 0, size - 1) << endl;
-    
+    int k; 
+    cin >> k;
+    cout << s.findKthLargest(vec, k) << endl;
 
 
 
