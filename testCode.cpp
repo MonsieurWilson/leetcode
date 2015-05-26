@@ -74,10 +74,8 @@ int main(){
     cout << endl;
     */
 
-    int k; 
-    cin >> k;
-    cout << s.findKthLargest(vec, k) << endl;
-
+    bool ret = s.containDuplicate(vec);
+    cout << (ret ? "True" : "False") << endl;
 
 
 

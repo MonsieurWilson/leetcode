@@ -6796,5 +6796,40 @@ public:
         swap(nums[++i], nums[end]);
         return i;
     }
+    // House Robber II
+    // After robbing those houses on that street, the thief has found himself a new place for his thievery so that he will not get too much attention. This time, all houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, the security system for these houses remain the same as for those in the previous street.
+    // Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+    int robII(vector<int>& nums) {
+        int lens = nums.size();
+        if (!lens) {
+            return 0;
+        }
+        else if (lens <= 3) {
+            return *max_element(nums.begin(), nums.end());
+        }
+        vector<int> dp1(lens, 0), dp2(lens, 0);
+        dp1[0] = nums[0];
+        dp1[1] = max(nums[0], nums[1]);
+        dp2[0] = 0;
+        dp2[1] = nums[1];
+        for (int idx = 2; idx < lens; ++idx) {
+            dp1[idx] = max(dp1[idx - 1], dp1[idx - 2] + nums[idx]);
+            dp2[idx] = max(dp2[idx - 1], dp2[idx - 2] + nums[idx]);
+        }
+        dp1[lens - 1] = dp1[lens - 2];
+        return max(dp1[lens - 1], dp2[lens - 1]);
+    }
+    // Contains Duplicate
+    // Given an array of integers, find if the array contains any diplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
+    bool containDuplicate(vector<int> &nums) {
+        unordered_set<int> uset;
+        for (int idx = 0; idx < nums.size(); ++idx) {
+            if (uset.count(nums[idx])) {
+                return true;
+            }
+            uset.insert(nums[idx]);
+        }
+        return false;
+    }
 };
 #endif
