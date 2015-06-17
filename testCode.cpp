@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <limits>
 #define LL long long
 
 using namespace std;
@@ -38,13 +39,14 @@ int main(){
     int *array = new int[size];
     Array::getArray(array, 0, size);
     cout << "The array is:" << endl;
-    Array::printArray(array, 0, size);
+    // Array::printArray(array, 0, size);
     cout << endl;
     */
 
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
@@ -54,6 +56,7 @@ int main(){
     cout << "The vector is:" << endl;
     Vector::printVector(vec, 0, size);
     cout << endl;
+    */
 
     /**
      * Create and traversal the tree
@@ -74,8 +77,15 @@ int main(){
     cout << endl;
     */
 
-    bool ret = s.containDuplicate(vec);
-    cout << (ret ? "True" : "False") << endl;
+    cout << "max(float): " << numeric_limits<float>::max() << endl;
+    cout << "min(float): " << numeric_limits<float>::min() << endl;
+
+    cout << "max(double): " << numeric_limits<double>::max() << endl;
+    cout << "min(double): " << numeric_limits<double>::min() << endl;
+
+    cout << "max(long long): " << numeric_limits<long long>::max() << endl;
+    cout << "min(long long): " << numeric_limits<long long>::min() << endl;
+
 
 
 

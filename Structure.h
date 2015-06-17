@@ -79,7 +79,6 @@ public:
 /*
  * Method:
  * createList()
- * printList(ListNode *head)
  */
 
 class List{
@@ -100,20 +99,24 @@ public:
         }
         return head;
     }
-    static void printList(ListNode *head){
-        ListNode *ptr = head;
-        if (head == NULL){
-            cout << "The list is empty.";
-        }
-        while (ptr != NULL){
-            cout << ptr->val;
-            if (ptr->next != NULL){
-                cout << "->";
+};
+
+static ostream & operator << (ostream &out, const ListNode *head) {
+    if (head == nullptr) {
+        out << "The list is empty.";
+    }
+    else {
+        const ListNode *ptr = head;
+        while (ptr) {
+            out << ptr->val;
+            if (ptr->next) {
+                out << "->";
             }
             ptr = ptr->next;
         }
     }
-};
+    return out;
+}
 
 // Binary Search Tree Iterator
 // Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
