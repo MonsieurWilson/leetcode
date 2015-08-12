@@ -1,12 +1,15 @@
 #include <iostream>
 #include <ctime>
 #include <limits>
+#include <cstring>
+
 #define LL long long
 
 using namespace std;
 
-#include "Solution.h"
+// #include "Solution.h"
 
+/*
 vector<string> subsets(const string &s) {
     vector<string> ret(1, "");
     int N = s.size();
@@ -19,6 +22,7 @@ vector<string> subsets(const string &s) {
     }
     return ret;
 }
+*/
 
 
 int main(){
@@ -26,7 +30,7 @@ int main(){
     ios::sync_with_stdio(false); 
     clock_t startTime, finishTime;
     startTime = clock();
-    Solution s;
+    // Solution s;
 
     /**
      * Get and print the array
@@ -77,15 +81,8 @@ int main(){
     cout << endl;
     */
 
-    cout << "max(float): " << numeric_limits<float>::max() << endl;
-    cout << "min(float): " << numeric_limits<float>::min() << endl;
-
-    cout << "max(double): " << numeric_limits<double>::max() << endl;
-    cout << "min(double): " << numeric_limits<double>::min() << endl;
-
-    cout << "max(long long): " << numeric_limits<long long>::max() << endl;
-    cout << "min(long long): " << numeric_limits<long long>::min() << endl;
-
+    char cmd[1024] = {0};
+    printf("strlen(cmd) = %d\n", strlen(cmd));
 
 
 
