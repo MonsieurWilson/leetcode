@@ -1,6 +1,9 @@
 #ifndef STRUCTURE
 #define STRUCTURE
+
+#include <vector>
 #include <queue>
+#include <stack>
 
 struct TreeNode{
     int val;

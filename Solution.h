@@ -14,12 +14,15 @@
 #include <unordered_set>
 #include <stack>
 #include <queue>
+
+using namespace std;
 // Data Structure head files and I/O head files
 #include "Structure.h"
 #include "Vector.h"
 #include "Array.h"
 
 #include <sstream>
+
 
 class Solution{
 public:
