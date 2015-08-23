@@ -6185,8 +6185,8 @@ public:
     //
     // _________________________
     // | -2 (K) |  -3  |   3    |
-    // | -5        |  -10 |   1    |
-    // | 10        |  30  |  -5 (P)|
+    // | -5     |  -10 |   1    |
+    // | 10     |  30  |  -5 (P)|
     // _________________________
     int calculateMinimumHP(vector<vector<int> > &dungeon) {
         if (dungeon.size() == 0) {
@@ -6709,7 +6709,7 @@ public:
         }
         return true;
     }
-    // Course Schedule II 
+    // Course Schedule II
     // There are a total of n courses you have to take, labeled from 0 to n - 1.
     // Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
     // Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
@@ -6774,7 +6774,7 @@ public:
     // Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
     // For example,
     // Given [3,2,1,5,6,4] and k = 2, return 5.
-    // Note: 
+    // Note:
     // You may assume k is always valid, 1 ≤ k ≤ array's length.
     int findKthLargest(vector<int>& nums, int k) {
         int N = nums.size(), beg = 0, end = N - 1, pivot = -1;
@@ -6861,6 +6861,42 @@ public:
     // [[1,2,6], [1,3,5], [2,3,4]]
     vector<vector<int>> combinationSum3(int k, int n) {
 
+    }
+    // Ugly Number
+    // Write a program to check whether a given number is an ugly number.
+    // Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 6, 8 are ugly while 14 is not ugly since it includes another prime factor 7.
+    // Note that 1 is typically treated as an ugly number.
+    bool isUgly(int num) {
+        int div[] = {2, 3, 5};
+        for (int idx = 0; idx < 3; ++idx) {
+            while (num && num % div[idx] == 0) {
+                num /= div[idx];
+            }
+        }
+        return num == 1;
+    }
+    // Ugly Number II 
+    // Write a program to find the n-th ugly number.
+    // Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
+    // Note that 1 is typically treated as an ugly number.
+    int nthUglyNumber(int n) {
+        vector<int> ret(1, 1);
+        int base[] = {2, 3, 5}, idx[] = {0, 0, 0};
+        for (int i = 2; i <= n; ++i) {
+            int minVal = base[0] * ret[idx[0]];
+            for (int j = 1; j < 3; ++j) {
+                minVal = min(minVal, base[j] * ret[idx[j]]);
+            }
+
+            for (int j = 0; j < 3; ++j) {
+                if (base[j] * ret[idx[j]] == minVal) {
+                    ++idx[j];
+                }
+            }
+            ret.push_back(minVal);
+        }
+
+        return ret[ret.size() - 1];
     }
 };
 #endif

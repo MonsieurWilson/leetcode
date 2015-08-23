@@ -24,25 +24,6 @@ vector<string> subsets(const string &s) {
 }
 */
 
-bool checkBST(TreeNode *root) {
-    int minVal = INT_MIN, maxVal = INT_MAX;
-    return checkBST(root, minVal, maxVal);
-}
-
-bool checkBST(TreeNode *root, cosnt int &minVal, const int &maxVal) {
-    if (root == nullptr) {
-        return true;
-    }
-    if (root->val < minVal || root->val > maxVal) {
-        return false;
-    }
-    if (!checkBST(root->left, minVal, root->val) || !checkBST(root->right, root->val, maxVal)) {
-        return false;
-    }
-    return true;
-}
-
-
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
@@ -68,6 +49,7 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
@@ -77,10 +59,12 @@ int main(){
     cout << "The vector is:" << endl;
     Vector::printVector(vec, 0, size);
     cout << endl;
+    */
 
     /**
      * Create and traversal the tree
      */
+    /*
     TreeNode *root = Tree::createTree(vec);
     vector<int> traversal = s.preorderTraversal(root);
     cout << "The preorderTraversal sequence is:" << endl;
@@ -94,7 +78,13 @@ int main(){
     cout << "The postorderTraversal sequence is:" << endl;
     Vector::printVector(traversal, 0, traversal.size());
     cout << endl;
+    */
 
+    cout << "Input a number :" << endl;
+    int num;
+    while (cin >> num && num != -1) {
+        printf("The %dth ugly number is %d\n", num, s.nthUglyNumber(num));
+    }
 
 
 
