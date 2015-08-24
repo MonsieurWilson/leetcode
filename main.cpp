@@ -49,17 +49,15 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
-    vector<string> vec;
+    vector<int> vec;
     Vector::createVector(vec, size);
     cout << "The vector is:" << endl;
     Vector::printVector(vec, 0, size);
     cout << endl;
-    */
 
     /**
      * Create and traversal the tree
@@ -80,12 +78,10 @@ int main(){
     cout << endl;
     */
 
-    cout << "Input a number :" << endl;
-    int num;
-    while (cin >> num && num != -1) {
-        printf("The %dth ugly number is %d\n", num, s.nthUglyNumber(num));
-    }
-
+    vector<int> ret = s.singleNumberIII(vec);
+    cout << "The result is :" << endl;
+    Vector::printVector(ret, 0, ret.size());
+    cout << endl;
 
 
     // Time

@@ -6875,7 +6875,7 @@ public:
         }
         return num == 1;
     }
-    // Ugly Number II 
+    // Ugly Number II
     // Write a program to find the n-th ugly number.
     // Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly numbers.
     // Note that 1 is typically treated as an ugly number.
@@ -6898,5 +6898,103 @@ public:
 
         return ret[ret.size() - 1];
     }
+    // Add Digits
+    // Given a non-negative integer num, repeatedly add all its digits until the result has only one digit.
+    // For example:
+    // Given num = 38, the process is like: 3 + 8 = 11, 1 + 1 = 2. Since 2 has only one digit, return it.
+    int addDigits(int num) {
+        int ret;
+        if (num == 0) {
+            ret = 0;
+        }
+        else {
+            ret = num % 9 == 0 ? 9 : num % 9;
+        }
+        return ret;
+    }
+    // Binary Tree Paths
+    // Given a binary tree, return all root-to-leaf paths.
+    // For example, given the following binary tree:
+    //    1
+    //  /   \
+    // 2     3
+    //  \
+    //   5
+    // All root-to-leaf paths are:
+    // ["1->2->5", "1->3"]
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<vector<string> > paths;
+        if (root) {
+            binaryTreePaths(root, vector<string>(), paths);
+        }
+        vector<string> ret;
+        for (int i = 0; i < paths.size(); ++i) {
+            string path;
+            for (int l = 0; l < paths[i].size(); ++l) {
+                path += paths[i][l];
+                if (l != paths[i].size() - 1) {
+                    path += "->";
+                }
+            }
+            ret.push_back(path);
+        }
+        return ret;
+    }
+    void binaryTreePaths(TreeNode *root, vector<string> path, vector<vector<string> > &paths) {
+        path.push_back(to_string(root->val));
+
+        if (root->left == nullptr && root->right == nullptr && path.size() != 0) {
+            paths.push_back(path);
+            return;
+        }
+        if (root->left != nullptr) {
+            binaryTreePaths(root->left, path, paths);
+        }
+        if (root->right != nullptr) {
+            binaryTreePaths(root->right, path, paths);
+        }
+    }
+    // Single Number III
+    // Given an array of numbers nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once.
+    // For example:
+    // Given nums = [1, 2, 1, 3, 2, 5], return [3, 5].
+    // Note:
+    // The order of the result is not important. So in the above example, [5, 3] is also correct.
+    // Your algorithm should run in linear runtime complexity. Could you implement it using only constant space complexity?
+    vector<int> singleNumberIII(vector<int>& nums) {
+        int xorVal = 0;
+        for (int idx = 0; idx < nums.size(); ++idx) {
+            xorVal ^= nums[idx];
+        }
+
+        vector<int> ret;
+        if (xorVal) {
+            int mask = 1;
+            while (!(xorVal & mask)) {
+                mask <<= 1;
+            }
+            vector<int> class1, class2;
+            for (int idx = 0; idx < nums.size(); ++idx) {
+                if (nums[idx] & mask) {
+                    class1.push_back(nums[idx]);
+                }
+                else {
+                    class2.push_back(nums[idx]);
+                }
+            }
+            int unqNum = 0;
+            for (int idx = 0; idx < class1.size(); ++idx) {
+                unqNum ^= class1[idx];
+            }
+            ret.push_back(unqNum);
+            unqNum = 0;
+            for (int idx = 0; idx < class2.size(); ++idx) {
+                unqNum ^= class2[idx];
+            }
+            ret.push_back(unqNum);
+        }
+        return ret;
+    }
+
 };
 #endif

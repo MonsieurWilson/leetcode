@@ -30,7 +30,7 @@ public:
         }
         cout << "}";
     }
-    // 2D vector
+    // Matrix
     template <typename T>
     static void createMatrix(vector<vector<T> > &vec){
         cout << "Input the Matrix's row number:" << endl;
