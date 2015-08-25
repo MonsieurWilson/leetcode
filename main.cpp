@@ -49,6 +49,7 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
@@ -58,6 +59,7 @@ int main(){
     cout << "The vector is:" << endl;
     Vector::printVector(vec, 0, size);
     cout << endl;
+    */
 
     /**
      * Create and traversal the tree
@@ -78,10 +80,14 @@ int main(){
     cout << endl;
     */
 
-    vector<int> ret = s.singleNumberIII(vec);
-    cout << "The result is :" << endl;
-    Vector::printVector(ret, 0, ret.size());
-    cout << endl;
+    string src, dst;
+    cout << "Input the src string: " << endl;
+    cin >> src;
+    cout << "Input the dst string: " << endl;
+    cin >> dst;
+
+    bool ret = s.isAnagram(src, dst);
+    cout << (ret ? "True" : "False") << endl;
 
 
     // Time
