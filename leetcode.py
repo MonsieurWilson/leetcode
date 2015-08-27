@@ -15,11 +15,12 @@ class Interval:
             ptr = head
             while True:
                 ele = raw_input()
-        if ele == '#':
-            break
-        ptr.next = ListNode(ele)
-        ptr = ptr.next
-    return head.next
+                if ele == '#':
+                    break
+            ptr.next = ListNode(ele)
+            ptr = ptr.next
+            return head.next
+
 def printList(head):
     # @param a ListNode
     if head == None:

@@ -7017,5 +7017,19 @@ public:
         }
         return true;
     }
+    // Missing Number
+    // Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+    // For example,
+    // Given nums = [0, 1, 3] return 2.
+    // Note:
+    // Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
+    int missingNumber(vector<int>& nums) {
+        int N = nums.size();
+        int sum = N * (N + 1) / 2;
+        for (int idx = 0; idx < N; ++idx) {
+            sum -= nums[idx];
+        }
+        return sum;
+    }
 };
 #endif
