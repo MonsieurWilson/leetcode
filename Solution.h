@@ -182,7 +182,7 @@ public:
             if (p->val != q->val) {
                 return false;
             }
-            return isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
+            return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
         }
         else {
             return false;
@@ -194,11 +194,11 @@ public:
             return true;
         }
         else if (p != nullptr && q != nullptr) {
-            stack<TreeNode *> nodeStack_p,nodeStack_q;
+            stack<TreeNode *> nodeStack_p, nodeStack_q;
             nodeStack_p.push(p);
             nodeStack_q.push(q);
             while (!nodeStack_p.empty() && !nodeStack_q.empty()) {
-                TreeNode *tempNode_p = nodeStack_p.top(),*tempNode_q = nodeStack_q.top();
+                TreeNode *tempNode_p = nodeStack_p.top(), *tempNode_q = nodeStack_q.top();
                 nodeStack_p.pop();
                 nodeStack_q.pop();
                 if (tempNode_p == nullptr && tempNode_q == nullptr) {
@@ -321,7 +321,7 @@ public:
         if (head == nullptr) {
             return false;
         }
-        ListNode *p = head,*q = p->next;
+        ListNode *p = head, *q = p->next;
         int count = 1;
         while (q != nullptr) {
             if (q == p) {
@@ -349,16 +349,16 @@ public:
     vector<int> preorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        preorderTraversalAux(root,ret);
+        preorderTraversalHelper(root, ret);
         return ret;
 
     }
-    void preorderTraversalAux(TreeNode *root, vector<int> &vec) {
-        // Recursive auxiliary function
+    void preorderTraversalHelper(TreeNode *root, vector<int> &vec) {
+        // Recursive helper function
         if (root != nullptr) {
             vec.push_back(root->val);
-            preorderTraversalAux(root->left,vec);
-            preorderTraversalAux(root->right,vec);
+            preorderTraversalHelper(root->left, vec);
+            preorderTraversalHelper(root->right, vec);
         }
     }
 
@@ -400,15 +400,15 @@ public:
     vector<int> inorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        inorderTraversalAux(root,ret);
+        inorderTraversalHelper(root,ret);
         return ret;
     }
-    void inorderTraversalAux(TreeNode *root, vector<int> &vec) {
+    void inorderTraversalHelper(TreeNode *root, vector<int> &vec) {
         // Auxiliary function
         if (root != nullptr) {
-            inorderTraversalAux(root->left,vec);
+            inorderTraversalHelper(root->left,vec);
             vec.push_back(root->val);
-            inorderTraversalAux(root->right,vec);
+            inorderTraversalHelper(root->right,vec);
         }
     }
 
@@ -439,7 +439,7 @@ public:
     vector<int> morrisInorderTraversal(TreeNode *root) {
         // Morris Traversal
         vector<int> order;
-        for(TreeNode *now=root,*tmp; now;) {
+        for(TreeNode *now = root, *tmp; now;) {
             if(now->left == nullptr) {
                 order.push_back(now->val);
                 now=now->right;
@@ -475,13 +475,13 @@ public:
     vector<int> postorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        postorderTraversalAux(root,ret);
+        postorderTraversalHelper(root,ret);
         return ret;
     }
-    void postorderTraversalAux(TreeNode *root,vector<int> &ret) {
+    void postorderTraversalHelper(TreeNode *root,vector<int> &ret) {
         if (root != nullptr) {
-            postorderTraversalAux(root->left,ret);
-            postorderTraversalAux(root->right,ret);
+            postorderTraversalHelper(root->left,ret);
+            postorderTraversalHelper(root->right,ret);
             ret.push_back(root->val);
         }
     }
@@ -682,16 +682,16 @@ public:
         TreeNode *root = nullptr;
         if (!num.empty()) {
             int beg = 0, end = num.size();
-            root = sortAux(num, beg, end);
+            root = sortHelper(num, beg, end);
         }
         return root;
     }
-    TreeNode *sortAux(vector<int> &num, const int &beg, const int &end) {
+    TreeNode *sortHelper(vector<int> &num, const int &beg, const int &end) {
         if (beg < end) {
             int mid = (beg + end - 1) / 2;
             TreeNode *root = new TreeNode(num[mid]);
-            root->left = sortAux(num, beg, mid);
-            root->right = sortAux(num, mid + 1, end);
+            root->left = sortHelper(num, beg, mid);
+            root->right = sortHelper(num, mid + 1, end);
             return root;
         }
         return nullptr;
@@ -815,14 +815,14 @@ public:
         if (root == nullptr) {
             return true;
         }
-        int ret = isBalancedImprovedAux(root);
-        return (isBalancedImprovedAux(root) == UNBALANCE) ? false : true;
+        int ret = isBalancedImprovedHelper(root);
+        return (isBalancedImprovedHelper(root) == UNBALANCE) ? false : true;
     }
-    int isBalancedImprovedAux(TreeNode *root) {
+    int isBalancedImprovedHelper(TreeNode *root) {
         if (root == nullptr) {
             return 0;
         }
-        int leftDepth = isBalancedImprovedAux(root->left), rightDepth = isBalancedImprovedAux(root->right);
+        int leftDepth = isBalancedImprovedHelper(root->left), rightDepth = isBalancedImprovedHelper(root->right);
         if (leftDepth == UNBALANCE || rightDepth == UNBALANCE) {
             return UNBALANCE;
         }
@@ -1281,9 +1281,9 @@ public:
         if (root == nullptr) {
             return true;
         }
-        return isSymmetricAux(root->left, root->right);
+        return isSymmetricHelper(root->left, root->right);
     }
-    bool isSymmetricAux(TreeNode *pLeft, TreeNode *pRight) {
+    bool isSymmetricHelper(TreeNode *pLeft, TreeNode *pRight) {
         if (pLeft == nullptr && pRight == nullptr) {
             return true;
         }
@@ -1295,7 +1295,7 @@ public:
                 return false;
             }
             else {
-                return isSymmetricAux(pLeft->left,pRight->right) && isSymmetricAux(pLeft->right,pRight->left);
+                return isSymmetricHelper(pLeft->left,pRight->right) && isSymmetricHelper(pLeft->right,pRight->left);
             }
         }
     }
@@ -6655,14 +6655,14 @@ public:
         if (head == nullptr) {
             return nullptr;
         }
-        ListNode *tmp = new ListNode(0), *ptr = head, *mem = ptr;
-        while (ptr) {
-            mem = ptr->next;
-            ptr->next = tmp->next;
-            tmp->next = ptr;
-            ptr = mem;
+        ListNode *prev = nullptr, *mem = nullptr;
+        while (head) {
+            mem = head->next;
+            head->next = prev;
+            prev = head;
+            head = mem;
         }
-        return tmp->next;
+        return prev;
     }
     // Course Schedule
     // There are a total of n courses you have to take, labeled from 0 to n - 1.
@@ -7030,6 +7030,184 @@ public:
             sum -= nums[idx];
         }
         return sum;
+    }
+    // Rectangle Area
+    // Find the total area covered by two rectilinear rectangles in a 2D plane.
+    // Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.
+    // Assume that the total area is never beyond the maximum possible value of int.
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int sqSum = (C - A) * (D - B) + (G - E) * (H - F);
+        if (H > B && F < D) {
+            if (G > A && E < C) {
+                int coinY = min(H, D) - max(F, B);
+                int coinX = min(G, C) - max(E, A);
+                sqSum -= coinY * coinX;
+            }
+        }
+        return sqSum;
+    }
+    // Invert Binary Tree
+    // Invert a binary tree.
+    //      4
+    //    /   \
+    //   2     7
+    //  / \   / \
+    // 1   3 6   9
+    // to
+    //      4
+    //    /   \
+    //   7     2
+    //  / \   / \
+    // 9   6 3   1
+    TreeNode* invertTree(TreeNode* root) {
+        if (root == nullptr) {
+            return root;
+        }
+        if (root->left || root->right ) {
+            swap(root->left, root->right);
+            invertTree(root->left);
+            invertTree(root->right);
+        }
+        return root;
+    }
+    TreeNode* invertTree_iteration(TreeNode* root) {
+        if (root == nullptr) {
+            return root;
+        }
+        
+        stack<TreeNode *> nodeStack;
+        nodeStack.push(root);
+        while (!nodeStack.empty()) {
+            TreeNode *topVal = nodeStack.top();
+            swap(topVal->left, topVal->right);
+            nodeStack.pop();
+            if (topVal->left) {
+                nodeStack.push(topVal->left);
+            }
+            if (topVal->right) {
+                nodeStack.push(topVal->right);
+            }
+        }
+
+        return root;
+    }
+    // Summary Ranges
+    // Given a sorted integer array without duplicates, return the summary of its ranges.
+    // For example, given [0,1,2,4,5,7], return ["0->2","4->5","7"].
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> ret;
+        int N = nums.size();
+        if (N == 0) {
+            return ret;
+        }
+        int beg = nums[0], cnt = 1;
+        for (int idx = 1; idx < N; ++idx) {
+            if (nums[idx] != nums[idx - 1] + 1) {
+                string range = to_string(beg);
+                if (cnt > 1) {
+                    range += "->" + to_string(nums[idx - 1]);
+                }
+                ret.push_back(range);
+                cnt = 1;
+                beg = nums[idx];
+            }
+            else {
+                ++cnt;
+            }
+        }
+        string range = to_string(beg);
+        if (cnt > 1) {
+            range += "->" + to_string(nums[N - 1]);
+        }
+        ret.push_back(range);
+
+        return ret;
+    }
+    // Power of Two
+    // Given an integer, write a function to determine if it is a power of two.
+    bool isPowerOfTwo(int n) {
+        if (n < 1) {
+            return false;
+        }
+        while (n % 2 == 0) {
+            n /= 2;
+        }
+        return n == 1 ? true : false;
+    }
+    // Palindrome Linked List
+    // Given a singly linked list, determine if it is a palindrome.
+    // Follow up:
+    // Could you do it in O(n) time and O(1) space?
+    bool isPalindrome(ListNode* head) {
+        if (head == nullptr) {
+            return true;
+        }
+        /* find the mid node of the list */
+        ListNode *slow, *fast;
+        slow = fast = head;
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        if (fast) {
+            slow = slow->next;
+        }
+        /* reverse the last half of the list */
+        ListNode *prev, *mem;
+        prev = mem = nullptr;
+        while (slow) {
+            mem = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = mem;
+        }
+
+        while (prev && prev->val == head->val) {
+            prev = prev->next;
+            head = head->next;
+        }
+        return prev == nullptr;
+    }
+    // Lowest Common Ancestor of a Binary Search Tree
+    // Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+    // According to the definition of LCA on Wikipedia: "The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself)."
+    //
+    //         _______6______
+    //        /              \
+    //     ___2__          ___8__
+    //    /      \        /      \
+    //    0      _4       7       9
+    //          /  \
+    //          3   5
+    // For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!covers(root, p) || !covers(root, q)) {
+            return nullptr;
+        }
+        return lowestCommonAncestorHelper(root, p, q);
+    }
+    bool covers(TreeNode *root, TreeNode *p) {
+        if (root == nullptr) {
+            return false;
+        }
+        if (root == p) {
+            return true;
+        }
+        return covers(root->left, p) || covers(root->right, p);
+    }
+    TreeNode *lowestCommonAncestorHelper(TreeNode *root, TreeNode *p, TreeNode *q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        bool is_p_on_left = covers(root->left, p), is_q_on_left = covers(root->left, q);
+        if (is_p_on_left != is_q_on_left) {
+            return root;
+        }
+        TreeNode *side = is_p_on_left ? root->left : root->right;
+        return lowestCommonAncestorHelper(side, p, q);
     }
 };
 #endif

@@ -204,41 +204,84 @@ private:
     stack<int> eleStack, minStack;
 };
 
-// Implement Trie (Prefix Tree) 
-// Implement a trie with insert, search, and startsWith methods.
-class TrieNode {
+// Implement Stack using Queues
+// Implement the following operations of a stack using queues.
+// push(x) -- Push element x onto stack.
+// pop() -- Removes the element on top of the stack.
+// top() -- Get the top element.
+// empty() -- Return whether the stack is empty.
+// Notes:
+// You must use only standard operations of a queue -- which means only push to back, peek/pop from front, size, and is empty operations are valid.
+// Depending on your language, queue may not be supported natively. You may simulate a queue by using a list or deque (double-ended queue), as long as you use only standard operations of a queue.
+// You may assume that all operations are valid (for example, no pop or top operations will be called on an empty stack).
+class Stack {
 public:
-    // Initialize your data structure here.
-    TrieNode() {
-
-    }
-};
-
-class Trie {
-public:
-    Trie() {
-        root = new TrieNode();
+    // Push element x onto stack.
+    void push(int x) {
+        q.push(x);
+        for (int i = 1; i < q.size(); ++i) {
+            q.push(q.front());
+            q.pop();
+        }
     }
 
-    // Inserts a word into the trie.
-    void insert(string s) {
-
+    // Removes the element on top of the stack.
+    void pop() {
+        q.pop();
     }
 
-    // Returns if the word is in the trie.
-    bool search(string key) {
-
+    // Get the top element.
+    int top() {
+        return q.front();
     }
 
-    // Returns if there is any word in the trie
-    // that starts with the given prefix.
-    bool startsWith(string prefix) {
-
+    // Return whether the stack is empty.
+    bool empty() {
+        return q.empty();
     }
-
 private:
-    TrieNode* root;
+    queue<int> q;
 };
 
+// Implement Queue using Stacks
+// Implement the following operations of a queue using stacks.
+// push(x) -- Push element x to the back of queue.
+// pop() -- Removes the element from in front of queue.
+// peek() -- Get the front element.
+// empty() -- Return whether the queue is empty.
+// Notes:
+// You must use only standard operations of a stack -- which means only push to top, peek/pop from top, size, and is empty operations are valid.
+// Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
+// You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
+class Queue {
+public:
+    // Push element x to the back of queue.
+    void push(int x) {
+        inSt.push(x);
+    }
 
+    // Removes the element from in front of queue.
+    void pop(void) {
+        peek();
+        outSt.pop();
+    }
+
+    // Get the front element.
+    int peek(void) {
+        if (outSt.empty()) {
+            while (!inSt.empty()) {
+                outSt.push(inSt.top());
+                inSt.pop();
+            }
+        }
+        return outSt.top();
+    }
+
+    // Return whether the queue is empty.
+    bool empty(void) {
+        return inSt.empty() && outSt.empty();
+    }
+private:
+    stack<int> inSt, outSt;
+};
 #endif

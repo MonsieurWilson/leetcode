@@ -49,6 +49,7 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
@@ -58,6 +59,7 @@ int main(){
     cout << "The vector is:" << endl;
     Vector::printVector(vec, 0, size);
     cout << endl;
+    */
 
     /**
      * Create and traversal the tree
@@ -78,9 +80,7 @@ int main(){
     cout << endl;
     */
 
-    int msNum = s.missingNumber(vec);
-    cout << "The missing number is " << msNum << endl;
-
+    cout << (true == false) << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
