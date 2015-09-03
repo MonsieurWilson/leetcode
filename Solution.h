@@ -6860,7 +6860,27 @@ public:
     // Output:
     // [[1,2,6], [1,3,5], [2,3,4]]
     vector<vector<int>> combinationSum3(int k, int n) {
-
+        vector<vector<int> > ret;
+        vector<int> line;
+        combinationSum3Helper(1, k, n, line, ret);
+        return ret;
+    }
+    void combinationSum3Helper(const int beg, const int &k, const int &n, vector<int> &line, vector<vector<int> > &ret) {
+        if (beg > 9) {
+            return;
+        }
+        if (line.size() < k) {
+            int localSum = accumulate(line.begin(), line.end(), 0) + beg;
+            line.push_back(beg);
+            if (line.size() == k && localSum == n) {
+                ret.push_back(line);
+            }
+            else if (localSum < n) {
+                combinationSum3Helper(beg + 1, k, n, line, ret);
+            }
+            line.pop_back();
+        }
+        combinationSum3Helper(beg + 1, k, n, line, ret);
     }
     // Ugly Number
     // Write a program to check whether a given number is an ugly number.
@@ -7244,6 +7264,15 @@ public:
             return y;
         }
 
+        if (x && y) {
+            return root;
+        }
+        else if (root == p || root == q) {
+            return root;
+        }
+        else {
+            return y ? y : x;
+        }
     }
     // Delete Node in a Linked List
     // Write a function to delete a node (except the tail) in a singly linked list, given only access to that node.

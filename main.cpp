@@ -80,7 +80,17 @@ int main(){
     cout << endl;
     */
 
-    cout << (true == false) << endl;
+    cout << "Input the k value:" << endl;
+    int k;
+    cin >> k;
+    cout << "Input the n value:" << endl;
+    int n;
+    cin >> n;
+
+    vector<vector<int> > ret = s.combinationSum3(k, n);
+    cout << "The result set is:" << endl;
+    Vector::printMatrix(ret);
+    cout << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
