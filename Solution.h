@@ -7181,8 +7181,24 @@ public:
     //          3   5
     // For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!covers(root, p) || !covers(root, q)) {
+            return nullptr;
+        }
+        while (root) {
+            int val1 = root->val - p->val, val2 = root->val - q->val;
+            if (val1 * val2 <= 0) {
+                return root;
+            }
+            else {
+                bool isLeft = val1 > 0 ? true : false;
+                root = isLeft ? root->left : root->right;
+            }
+        }
+        
+        return nullptr;
+    }
+    // Lowest Common Ancestor of a Binary Tree
+    TreeNode* lowestCommonAncestorII(TreeNode* root, TreeNode* p, TreeNode* q) {
         if (!covers(root, p) || !covers(root, q)) {
             return nullptr;
         }
@@ -7210,6 +7226,31 @@ public:
         }
         TreeNode *side = is_p_on_left ? root->left : root->right;
         return lowestCommonAncestorHelper(side, p, q);
+    }
+
+    TreeNode* lowestCommonAncestorII_improved(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        if (root == p && root == q) {
+            return root;
+        }
+        TreeNode *x = lowestCommonAncestorII_improved(root->left, p, q);
+        if (x && x != p && x != q) {
+            return x;
+        }
+        TreeNode *y = lowestCommonAncestorII_improved(root->right, p, q);
+        if (y && y != p && y != q) {
+            return y;
+        }
+
+    }
+    // Delete Node in a Linked List
+    // Write a function to delete a node (except the tail) in a singly linked list, given only access to that node.
+    // Supposed the linked list is 1 -> 2 -> 3 -> 4 and you are given the third node with value 3, the linked list should become 1 -> 2 -> 4 after calling your function.
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        node->next = node->next->next;
     }
 };
 #endif
