@@ -6835,7 +6835,7 @@ public:
         return false;
     }
     // Contains Duplicate II
-    // Given an array of integer s and an integer k, return true if and only if there are two distinct indices i and j in the array such that nums[i] = nums[j] and the difference between i and j is at most k.
+    // Given an array of integers and an integer k, return true if and only if there are two distinct indices i and j in the array such that nums[i] = nums[j] and the difference between i and j is at most k.
     bool containsNearbyDuplicate(vector<int> &nums, int k) {
         unordered_map<int, int> umap;
         for (int idx = 0; idx < nums.size(); ++idx) {
@@ -7280,6 +7280,11 @@ public:
     void deleteNode(ListNode* node) {
         node->val = node->next->val;
         node->next = node->next->next;
+    }
+    // Contains Duplicate III
+    // Given an array of integers, find out whether there are two distinct indices i and j in the array such that the difference between nums[i] and nums[j] is at most t and the difference between i and j is at most k.
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+        // bucket sort problem
     }
 };
 #endif

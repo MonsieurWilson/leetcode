@@ -80,16 +80,16 @@ int main(){
     cout << endl;
     */
 
-    cout << "Input the k value:" << endl;
-    int k;
-    cin >> k;
-    cout << "Input the n value:" << endl;
-    int n;
-    cin >> n;
-
-    vector<vector<int> > ret = s.combinationSum3(k, n);
-    cout << "The result set is:" << endl;
-    Vector::printMatrix(ret);
+    map<int, int> hashmap;
+    int ele;
+    int counter = 0;
+    while (scanf("%d", &ele) != EOF) {
+        hashmap[ele] = counter++;
+    }
+    cout << "The elements in hashmap is:" << endl;
+    for (auto ptr = hashmap.begin(); ptr != hashmap.end(); ++ptr) {
+        cout << ptr->first << ": " << ptr->second << endl;
+    }
     cout << endl;
 
     // Time
