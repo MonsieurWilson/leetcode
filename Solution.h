@@ -7297,5 +7297,34 @@ public:
         }
         return false;
     }
+    // Maximal Square
+    // Given a 2D binary matrix filled with 0's and 1's, find the largest square containing all 1's and return its area.
+    // For example, given the following matrix:
+    // 1 0 1 0 0
+    // 1 0 1 1 1
+    // 1 1 1 1 1
+    // 1 0 0 1 0
+    // Return 4.
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int row = matrix.size();
+        if (row == 0) {
+            return 0;
+        }
+        int col = matrix[0].size(), maxSq = 0;
+
+        for (int r = 0; r < N; ++r) {
+            for (int c = 0; c < N; ++c) {
+                if (matrix[r][c] != '0' && r > 0 && c > 0) {
+                    matrix[r][c] = min(matrix[r][c - 1] - '0', matrix[r - 1][c] - '0');
+                    if (r - matrix[r][c] && c - matrix[r][c] && matrix[r - matrix[r][c]][c - matrix[r][c]]) {
+                        matrix[r][c] += 1;
+                    }
+                    maxSq = max(maxSq, matrix[r][c] - '0');
+                }
+            }
+        }
+        return maxSq;
+    }
+
 };
 #endif
