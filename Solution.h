@@ -7312,24 +7312,41 @@ public:
             return 0;
         }
         int col = matrix[0].size(), maxSq = 0;
+        vector<vector<int> > dp(row, vector<int>(col, 0));
 
+        for (int c = 0; c < col; ++c) {
+            if (matrix[0][c] == '1') {
+                dp[0][c] = 1;
+                maxSq = max(maxSq, dp[0][c]);
+            }
+        }
         for (int r = 0; r < row; ++r) {
-            for (int c = 0; c < col; ++c) {
-                if (matrix[r][c] != '0' && r > 0 && c > 0) {
-                    int tmp = min(matrix[r][c - 1] - '0', matrix[r - 1][c] - '0');
-                    if (r - tmp >= 0 && c - tmp >= 0 && matrix[r - tmp][c - tmp]) {
-                        tmp += 1;
-                    }
-                    maxSq = max(maxSq, tmp);
-                    matrix[r][c] = tmp + '0';
+            if (matrix[r][0] == '1') {
+                dp[r][0] = 1;
+                maxSq = max(maxSq, dp[r][0]);
+            }
+        }
+        for (int r = 1; r < row; ++r) {
+            for (int c = 1; c < col; ++c) {
+                if (matrix[r][c] == '0') {
+                    dp[r][c] = 0;
                 }
-                else if (matrix[r][c] != '0') {
-                    maxSq = max(matrix[r][c] - '0', maxSq);
+                else {
+                    dp[r][c] = 1;
+                    if (matrix[r - 1][c - 1] == '1' && matrix[r][c - 1] == '1' && matrix[r - 1][c] == '1') {
+                        dp[r][c] += min(dp[r - 1][c - 1], min(dp[r - 1][c], dp[r][c - 1]));
+                    }
+                    maxSq = max(maxSq, dp[r][c]);
                 }
             }
         }
-        return maxSq;
+        return maxSq * maxSq;
     }
-
+    // Count Complete Tree Nodes
+    // Given a complete binary tree, count the number of nodes.
+    // Definition of a complete binary tree from Wikipedia:
+    // In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+    int countNodes(TreeNode* root) {
+    }
 };
 #endif

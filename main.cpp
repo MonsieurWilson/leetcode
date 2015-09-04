@@ -86,6 +86,7 @@ int main(){
     int ret = s.maximalSquare(matrix);
     cout << endl << "The result is " << ret << endl;
 
+
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
     finishTime = clock();
