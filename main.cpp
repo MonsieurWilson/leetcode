@@ -80,17 +80,11 @@ int main(){
     cout << endl;
     */
 
-    map<int, int> hashmap;
-    int ele;
-    int counter = 0;
-    while (scanf("%d", &ele) != EOF) {
-        hashmap[ele] = counter++;
-    }
-    cout << "The elements in hashmap is:" << endl;
-    for (auto ptr = hashmap.begin(); ptr != hashmap.end(); ++ptr) {
-        cout << ptr->first << ": " << ptr->second << endl;
-    }
-    cout << endl;
+    vector<vector<char> > matrix;
+    Vector::createMatrix(matrix);
+    Vector::printMatrix(matrix);
+    int ret = s.maximalSquare(matrix);
+    cout << endl << "The result is " << ret << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

@@ -10,6 +10,7 @@
 #include <climits>
 // Containers
 #include <map>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <stack>
@@ -7312,14 +7313,18 @@ public:
         }
         int col = matrix[0].size(), maxSq = 0;
 
-        for (int r = 0; r < N; ++r) {
-            for (int c = 0; c < N; ++c) {
+        for (int r = 0; r < row; ++r) {
+            for (int c = 0; c < col; ++c) {
                 if (matrix[r][c] != '0' && r > 0 && c > 0) {
-                    matrix[r][c] = min(matrix[r][c - 1] - '0', matrix[r - 1][c] - '0');
-                    if (r - matrix[r][c] && c - matrix[r][c] && matrix[r - matrix[r][c]][c - matrix[r][c]]) {
-                        matrix[r][c] += 1;
+                    int tmp = min(matrix[r][c - 1] - '0', matrix[r - 1][c] - '0');
+                    if (r - tmp >= 0 && c - tmp >= 0 && matrix[r - tmp][c - tmp]) {
+                        tmp += 1;
                     }
-                    maxSq = max(maxSq, matrix[r][c] - '0');
+                    maxSq = max(maxSq, tmp);
+                    matrix[r][c] = tmp + '0';
+                }
+                else if (matrix[r][c] != '0') {
+                    maxSq = max(matrix[r][c] - '0', maxSq);
                 }
             }
         }
