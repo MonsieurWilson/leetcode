@@ -7,8 +7,6 @@
 
 #define LL long long
 
-
-
 /*
 vector<string> subsets(const string &s) {
     vector<string> ret(1, "");
@@ -49,23 +47,18 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
-    vector<int> vec;
+    vector<string> vec;
     Vector::createVector(vec, size);
-    cout << "The vector is:" << endl;
-    Vector::printVector(vec, 0, size);
-    cout << endl;
-    */
 
     /**
      * Create and traversal the tree
      */
-    /*
     TreeNode *root = Tree::createTree(vec);
+    /*
     vector<int> traversal = s.preorderTraversal(root);
     cout << "The preorderTraversal sequence is:" << endl;
     Vector::printVector(traversal, 0, traversal.size());
@@ -80,12 +73,8 @@ int main(){
     cout << endl;
     */
 
-    vector<vector<char> > matrix;
-    Vector::createMatrix(matrix);
-    Vector::printMatrix(matrix);
-    int ret = s.maximalSquare(matrix);
-    cout << endl << "The result is " << ret << endl;
 
+    cout << "The total number of the nodes is: " << s.countNodes(root) << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

@@ -7345,8 +7345,54 @@ public:
     // Count Complete Tree Nodes
     // Given a complete binary tree, count the number of nodes.
     // Definition of a complete binary tree from Wikipedia:
-    // In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+    // In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2^h nodes inclusive at the last level h.
     int countNodes(TreeNode* root) {
+        int depth = 0;
+        TreeNode *ptr = root;
+        while (ptr) {
+            ptr = ptr->left;
+            ++depth;
+        }
+        if (depth <= 1) {
+            return depth;
+        }
+
+        int d = 1;
+        ptr = root;
+        int lastNum = 0;
+        while (d <= depth - 1) {
+            TreeNode *inLeft = inorderLeft(ptr, d, depth - 1);
+            if (inLeft->left && inLeft->right) {
+                ptr = ptr->right;
+                ++d;
+                if (d == depth) {
+                    lastNum += 2;
+                }
+                else {
+                    lastNum += pow(2, depth - d);
+                }
+            }
+            else if (!inLeft->left && !inLeft->right) {
+                ptr = ptr->left;
+                ++d;
+            }
+            else {
+                ++lastNum;
+                break;
+            }
+        }
+        return pow(2, depth - 1) + lastNum - 1;
+    }
+    TreeNode *inorderLeft(TreeNode *root, int cur, const int &dst) {
+        if (cur < dst) {
+            root = root->left;
+            ++cur;
+            while (cur != dst) {
+                root = root->right;
+                ++cur;
+            }
+        }
+        return root;
     }
 };
 #endif
