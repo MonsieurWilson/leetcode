@@ -7369,7 +7369,7 @@ public:
                     lastNum += 2;
                 }
                 else {
-                    lastNum += pow(2, depth - d);
+                    lastNum += 1 << (depth - d);
                 }
             }
             else if (!inLeft->left && !inLeft->right) {
@@ -7381,7 +7381,7 @@ public:
                 break;
             }
         }
-        return pow(2, depth - 1) + lastNum - 1;
+        return (1 << (depth - 1)) + lastNum - 1;
     }
     TreeNode *inorderLeft(TreeNode *root, int cur, const int &dst) {
         if (cur < dst) {
