@@ -7471,6 +7471,9 @@ public:
         tmp[0] = ch;
         return string(tmp, 1);
     }
-
+    // Majority Element II
+    // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
+    vector<int> majorityElement(vector<int>& nums) {
+    }
 };
 #endif
