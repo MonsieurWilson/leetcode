@@ -889,8 +889,8 @@ public:
         return combination(m + n -2, n - 1);
     }
     int combination(int m, int n) {
-        if (n > m /2) {
-            combination(m,m - n);
+        if (n > m / 2) {
+            combination(m, m - n);
         }
         long long ret = 1;
         for (int idx = 1; idx <= n; ++idx) {
@@ -7394,5 +7394,83 @@ public:
         }
         return root;
     }
+    // Basic Calculator && Basic Calculator II
+    // Implement a basic calculator to evaluate a simple expression string.
+    // The expression string may contain open ( and closing parentheses ), the plus + or minus sign -, non-negative integers and empty spaces .
+    // You may assume that the given expression is always valid.
+    int calculate(string s) {
+        vector<string> RPN = convertToRPN(s);
+        Vector::printVector(RPN, 0, RPN.size());
+        cout << endl;
+        return evalRPN(RPN);
+    }
+    vector<string> convertToRPN(const string &s) {
+        vector<string> RPN;
+        stack<char> opSt;
+        int lens = s.size();
+        int idx = 0;
+        while (idx < lens) {
+            // omit the spaces
+            while (idx < lens && s[idx] == ' ') {
+                ++idx;
+            }
+            // parse number or operation
+            if (idx >= lens) {
+                break;
+            }
+            else if (s[idx] >= '0' && s[idx] <= '9') {
+                int numStart = idx;
+                while (idx < lens && s[idx] >= '0' && s[idx] <= '9') {
+                    ++idx;
+                }
+                RPN.push_back(s.substr(numStart, idx - numStart));
+            }
+            else {
+                char topOp;
+                if (s[idx] == '(') {
+                    opSt.push(s[idx]);
+                }
+                else if (s[idx] == ')') {
+                    while ((topOp = opSt.top()) != '(') {
+                        opSt.pop();
+                        RPN.push_back(ch2str(topOp));
+                    }
+                    opSt.pop();
+                }
+                else if (s[idx] == '*' || s[idx] == '/') {
+                    while (!opSt.empty()) {
+                        topOp = opSt.top();
+                        if (topOp == '*' || topOp == '/') {
+                            opSt.pop();
+                            RPN.push_back(ch2str(topOp));
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    opSt.push(s[idx]);
+                }
+                else {
+                    while (!opSt.empty() && (topOp = opSt.top()) != '(') {
+                        opSt.pop();
+                        RPN.push_back(ch2str(topOp));
+                    }
+                    opSt.push(s[idx]);
+                }
+                ++idx;
+            }
+        }
+        while (!opSt.empty()) {
+            RPN.push_back(ch2str(opSt.top()));
+            opSt.pop();
+        }
+        return RPN;
+    }
+    string ch2str(const char &ch) {
+        char tmp[1];
+        tmp[0] = ch;
+        return string(tmp, 1);
+    }
+
 };
 #endif

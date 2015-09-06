@@ -47,18 +47,20 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<string> vec;
     Vector::createVector(vec, size);
+    */
 
     /**
      * Create and traversal the tree
      */
-    TreeNode *root = Tree::createTree(vec);
     /*
+    TreeNode *root = Tree::createTree(vec);
     vector<int> traversal = s.preorderTraversal(root);
     cout << "The preorderTraversal sequence is:" << endl;
     Vector::printVector(traversal, 0, traversal.size());
@@ -73,8 +75,11 @@ int main(){
     cout << endl;
     */
 
+    cout << "Input the expression to calculate: " << endl;
+    string expr;
+    getline(cin, expr);
+    cout << s.calculate(expr) << endl;
 
-    cout << "The total number of the nodes is: " << s.countNodes(root) << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
