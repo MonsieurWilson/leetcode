@@ -1,7 +1,6 @@
 #ifndef VECTOR
 #define VECTOR
 
-#include <vector>
 /*
  * Method:
  * getVector(vector<T> &vec, int size)

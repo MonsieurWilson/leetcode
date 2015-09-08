@@ -1,7 +1,6 @@
 #ifndef ARRAY
 #define ARRAY
 
-#include <iostream>
 /*
  * Method:
  * getArray(T *array, const int &beg, const int &end)

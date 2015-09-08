@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstring>
 #include <climits>
+
 // Containers
 #include <map>
 #include <set>
@@ -16,13 +17,14 @@
 #include <stack>
 #include <queue>
 
-using namespace std;
+#include <iostream>
+#include <sstream>
+#include <ctime>
+
 // Data Structure head files and I/O head files
 #include "Structure.h"
 #include "Vector.h"
 #include "Array.h"
-
-#include <sstream>
 
 
 class Solution{
@@ -7400,8 +7402,6 @@ public:
     // You may assume that the given expression is always valid.
     int calculate(string s) {
         vector<string> RPN = convertToRPN(s);
-        Vector::printVector(RPN, 0, RPN.size());
-        cout << endl;
         return evalRPN(RPN);
     }
     vector<string> convertToRPN(const string &s) {
@@ -7473,7 +7473,7 @@ public:
     }
     // Majority Element II
     // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
-    vector<int> majorityElement(vector<int>& nums) {
+    vector<int> majorityElementII(vector<int>& nums) {
     }
 };
 #endif
