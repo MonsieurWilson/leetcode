@@ -49,7 +49,7 @@ int main(){
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
-    Vector::createVector(vec, size);
+    Vector::crtVec(vec, size);
 
     /**
      * Create and traversal the tree
@@ -58,22 +58,12 @@ int main(){
     TreeNode *root = Tree::createTree(vec);
     vector<int> traversal = s.preorderTraversal(root);
     cout << "The preorderTraversal sequence is:" << endl;
-    Vector::printVector(traversal, 0, traversal.size());
-    cout << endl;
-    traversal = s.inorderTraversal(root);
-    cout << "The inorderTraversal sequence is:" << endl;
-    Vector::printVector(traversal, 0, traversal.size());
-    cout << endl;
-    traversal = s.postorderTraversal(root);
-    cout << "The postorderTraversal sequence is:" << endl;
-    Vector::printVector(traversal, 0, traversal.size());
-    cout << endl;
+    cout << traversal << endl;
     */
 
     vector<int> ret = s.majorityElementII(vec);
     cout << "The result is: " << endl;
-    Vector::printVector(ret, 0, ret.size());
-    cout << endl;
+    cout << ret << endl;
 
 
 

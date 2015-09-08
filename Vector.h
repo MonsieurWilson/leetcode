@@ -11,7 +11,7 @@
 class Vector{
 public:
     template <typename T>
-    static void createVector(vector<T> &vec, int size){
+    static void crtVec(vector<T> &vec, int size){
         for (int idx = 0; idx != size; ++idx){
             T ele;
             cin >> ele;
@@ -19,7 +19,7 @@ public:
         }
     }
     template <typename T>
-    static void printVector(const vector<T> &vec, const int &beg, const int &end){
+    static void prtVec(const vector<T> &vec, const int &beg, const int &end){
         cout << "{";
         for (int idx = beg; idx != end; ++idx){
             cout << vec[idx];
@@ -29,9 +29,22 @@ public:
         }
         cout << "}";
     }
-    // Matrix
     template <typename T>
-    static void createMatrix(vector<vector<T> > &vec){
+    static void prtVec(const vector<T> &vec){
+        prtVec(vec, 0, vec.size());
+    }
+};
+
+template <typename T>
+ostream &operator << (ostream &o, const vector<T> &vec) {
+    Vector::prtVec(vec);
+    return o;
+}
+
+class Matrix {
+public:
+    template <typename T>
+    static void crtMat(vector<vector<T> > &vec){
         cout << "Input the Matrix's row number:" << endl;
         int row;
         cin >> row;
@@ -50,7 +63,7 @@ public:
         }
     }
     template <typename T>
-    static void printMatrix(const vector<vector<T> > &vec){
+    static void prtMat(const vector<vector<T> > &vec){
         int row = vec.size();
         cout << "[" << endl;
         for (int r = 0; r != row; ++r){
