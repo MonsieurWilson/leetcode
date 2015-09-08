@@ -4,21 +4,6 @@ using namespace std;
 
 #define LL long long
 
-/*
-vector<string> subsets(const string &s) {
-    vector<string> ret(1, "");
-    int N = s.size();
-    for (int idx = 0; idx < N; ++idx) {
-        int M = ret.size();
-        for (int j = 0; j < M; ++j) {
-            ret.push_back(ret[j]);
-            ret.back() += s[idx];
-        }
-    }
-    return ret;
-}
-*/
-
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
@@ -56,15 +41,14 @@ int main(){
      */
     /*
     TreeNode *root = Tree::createTree(vec);
-    vector<int> traversal = s.preorderTraversal(root);
-    cout << "The preorderTraversal sequence is:" << endl;
+    vector<int> traversal = s.inorderTraversal(root);
+    cout << "The inorderTraversal sequence is:" << endl;
     cout << traversal << endl;
     */
 
-    vector<int> ret = s.majorityElementII(vec);
-    cout << "The result is: " << endl;
+    vector<int> ret = s.productExceptSelf(vec);
+    cout << "The result is :" << endl;
     cout << ret << endl;
-
 
 
     // Time

@@ -418,24 +418,21 @@ public:
     vector<int> inorderTraversal_iteration(TreeNode *root) {
         // Iterative
         vector<int> ret;
-        if (root == nullptr) {
-            return ret;
-        }
         stack<TreeNode *> tempStack;
         TreeNode *ptr = root;
-        while (!tempStack.empty() || ptr != nullptr) {
-            if (ptr != nullptr) {
+        while (true) {
+            while (ptr) {
                 tempStack.push(ptr);
                 ptr = ptr->left;
             }
-            else {
-                ptr = tempStack.top();
-                tempStack.pop();
-                ret.push_back(ptr->val);
-                ptr = ptr->right;
+            if (tempStack.empty()) {
+                break;
             }
+            ptr = tempStack.top();
+            tempStack.pop();
+            ret.push_back(ptr->val);
+            ptr = ptr->right;
         }
-
         return ret;
     }
 
@@ -7520,6 +7517,112 @@ public:
     // Follow up:
     // What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
     int kthSmallest(TreeNode* root, int k) {
+        int num = 0, ret = 0;
+        if (root == nullptr) {
+            return 0;
+        }
+        stack<TreeNode *> nodeSt;
+        TreeNode *ptr = root;
+        while (true) {
+            while (ptr) {
+                nodeSt.push(ptr);
+                ptr = ptr->left;
+            }
+            if (nodeSt.empty()) {
+                break;
+            }
+            // visit
+            ptr = nodeSt.top();
+            nodeSt.pop();
+            if (++num == k) {
+                ret = ptr->val;
+            }
+            else {
+                ptr = ptr->right;
+            }
+        }
+        return ret;
     }
+    // Number of Digit One
+    // Given an integer n, count the total number of digit 1 appearing in all non-negative integers less than or equal to n.
+    // For example:
+    // Given n = 13,
+    // Return 6, because digit 1 occurred in the following numbers: 1, 10, 11, 12, 13.
+    int countDigitOne(int n) {
+        if (n <= 0) {
+            return 0;
+        }
+        else if (n < 10) {
+            return 1;
+        }
+        int numBits = 0, highBits = 1;
+        int x = n;
+        while (x >= 10) {
+            highBits *= 10;
+            x /= 10;
+        }
+        if (x == 1) {
+            return n % highBits + 1 + countDigitOne(highBits - 1) + countDigitOne(n % highBits);
+        }
+        else {
+            return highBits + n / highBits * countDigitOne(highBits - 1) + countDigitOne(n % highBits);
+        }
+    }
+
+    // Follow up, the number of k
+    int countDigitK(int n, int k) {
+        long long base = 1;
+        int ret = 0, last = 0;
+        while (n >= base) {
+            int curNum = (n / base) % 10;
+            int remain = n % base;
+            ret += curNum * last;
+            if (curNum > k) {
+                ret += base;
+            }
+            else if (curNum == k) {
+                ret += remain + 1;
+            }
+            last = last * 10 + base;
+            base *= 10;
+        }
+        return ret;
+    }
+    // Product of Array Except Self
+    // Given an array of n integers where n > 1, nums, return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+    // Solve it without division and in O(n).
+    // For example, given [1,2,3,4], return [24,12,8,6].
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int lens = nums.size();
+        vector<int> ret(lens, 1);
+        for (int idx = 0; idx < lens - 1; ++idx) {
+            ret[idx] = nums[idx + 1];
+        }
+
+        for (int idx = 1; idx < lens; ++idx) {
+            nums[idx] *= nums[idx - 1];
+            ret[lens - 1 - idx] *= ret[lens -idx];
+        }
+        for (int idx = 1; idx < lens; ++idx) {
+            ret[idx] *= nums[idx - 1];
+        }
+        return ret;
+    }
+    // Search a 2D Matrix II
+    // Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+    // 1)Integers in each row are sorted in ascending from left to right.
+    // 2)Integers in each column are sorted in ascending from top to bottom.
+    // For example,
+    // Consider the following matrix:
+    // [
+    //   [1,   4,  7, 11, 15],
+    //   [2,   5,  8, 12, 19],
+    //   [3,   6,  9, 16, 22],
+    //   [10, 13, 14, 17, 24],
+    //   [18, 21, 23, 26, 30]
+    // ]
+    // Given target = 5, return true.
+    // Given target = 20, return false.
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
 };
 #endif
