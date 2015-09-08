@@ -7474,6 +7474,44 @@ public:
     // Majority Element II
     // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
     vector<int> majorityElementII(vector<int>& nums) {
+        vector<int> ret;
+        int cnt1 = 0, cnt2 = 0, candidate1 = 0, candidate2 = 0;
+        int lens = nums.size();
+        if (lens == 0) {
+            return ret;
+        }
+        // Moore voting algorithm
+        for (int idx = 0; idx < lens; ++idx) {
+            if (!cnt1 || nums[idx] == candidate1) {
+                ++cnt1;
+                candidate1 = nums[idx];
+            }
+            else if (!cnt2 || nums[idx] == candidate2) {
+                ++cnt2;
+                candidate2 = nums[idx];
+            }
+            else {
+                --cnt1;
+                --cnt2;
+            }
+        }
+        // check whether two candidates are real majority elements
+        cnt1 = cnt2 = 0;
+        for (int idx = 0; idx < lens; ++idx) {
+            if (nums[idx] == candidate1) {
+                ++cnt1;
+            }
+            else if (nums[idx] == candidate2) {
+                ++cnt2;
+            }
+        }
+        if (cnt1 > lens / 3) {
+            ret.push_back(candidate1);
+        }
+        if (cnt2 > lens / 3) {
+            ret.push_back(candidate2);
+        }
+        return ret;
     }
 };
 #endif

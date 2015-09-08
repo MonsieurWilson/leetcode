@@ -1,6 +1,6 @@
 EXE = solve
 OBJ = main.o
-CFLAGS = -std=c++11 -O3
+CFLAGS = -std=c++11
 COMPILERS = g++ $(CFLAGS)
 
 solve: $(OBJ)

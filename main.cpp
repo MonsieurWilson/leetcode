@@ -44,14 +44,12 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
-    vector<string> vec;
+    vector<int> vec;
     Vector::createVector(vec, size);
-    */
 
     /**
      * Create and traversal the tree
@@ -72,10 +70,11 @@ int main(){
     cout << endl;
     */
 
-    cout << "Input the expression to calculate: " << endl;
-    string expr;
-    getline(cin, expr);
-    cout << s.calculate(expr) << endl;
+    vector<int> ret = s.majorityElementII(vec);
+    cout << "The result is: " << endl;
+    Vector::printVector(ret, 0, ret.size());
+    cout << endl;
+
 
 
     // Time
