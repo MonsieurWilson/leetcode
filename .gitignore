@@ -26,4 +26,6 @@ ompiled Object files
 *.exe
 *.out
 *.app
+
+# user define
 solve

@@ -3,10 +3,10 @@
 
 /*
  * Method:
- * getVector(vector<T> &vec, int size)
- * printVector(const vector<T> &vec, const int &beg, const int &end)
- * getVector2D(vector<vector<T> > &vec);
- * printVector2D(const vector<vector<T> > &vec);
+ * crtVec(vector<T> &vec, int size)
+ * prtVec(const vector<T> &vec, const int &beg, const int &end)
+ * crtMat(vector<vector<T> > &vec);
+ * prtMat(const vector<vector<T> > &vec);
  */
 class Vector{
 public:
