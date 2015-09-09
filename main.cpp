@@ -14,17 +14,12 @@ int main(){
     /**
      * Get and print the array
      */
-    /*
     cout << "Input the array size:" << endl;
     int size;
     cin >> size;
     cout << "Input the array:" << endl;
-    int *array = new int[size];
-    Array::crtArr(array, 0, size);
-    cout << "The array is:" << endl;
-    // Array::prtArr(array, 0, size);
-    cout << endl;
-    */
+    int *arr = new int[size];
+    Array::crtArr(arr, 0, size);
 
     /**
      * Get and print the vector
@@ -48,11 +43,8 @@ int main(){
     cout << traversal << endl;
     */
 
-    cout << "Input a equation to caculate:" << endl;
-    string eq;
-    getline(cin, eq);
-    int ret = s.calculate(eq);
-    cout << "The result is :" << endl << ret << endl;
+    cout << "The single number in the array is: " << s.singleNumber_hash(arr, size) << endl;
+
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

@@ -73,7 +73,7 @@ public:
     int singleNumber(int A[], int n) {
         // Bit Manipulation
         int sum = 0;
-        for (size_t idx = 0; idx != n; ++idx) {
+        for (int idx = 0; idx != n; ++idx) {
             sum ^= A[idx];
         }
 
@@ -82,15 +82,17 @@ public:
 
     int singleNumber_hash(int A[], int n) {
         // Hash Table
-        map<int,int> hash_map;
-        for (size_t idx = 0; idx != n; ++idx) {
-            pair<map<int,int>::iterator,bool> p = hash_map.insert(make_pair(A[idx],1));
-            if (p.second == false) {
-                ++p.first->second;
+        unordered_map<int,int> hashmap;
+        for (int idx = 0; idx != n; ++idx) {
+            if (hashmap.count(A[idx]) == 0) {
+                hashmap[A[idx]] = 1;
+            }
+            else {
+                ++hashmap[A[idx]];
             }
         }
         int ret = 0;
-        for (map<int,int>::iterator mapit = hash_map.begin(); mapit != hash_map.end(); ++mapit) {
+        for (auto mapit = hashmap.begin(); mapit != hashmap.end(); ++mapit) {
             if (mapit->second == 1) {
                 ret = mapit->first;
                 break;
@@ -107,7 +109,7 @@ public:
         if (root == nullptr) {
             return 0;
         }
-        int leftDepth = 1 + maxDepth(root->left),rightDepth = 1 + maxDepth(root->right);
+        int leftDepth = 1 + maxDepth(root->left), rightDepth = 1 + maxDepth(root->right);
 
         return leftDepth >= rightDepth ? leftDepth : rightDepth;
     }
@@ -117,27 +119,27 @@ public:
         if (root == nullptr) {
             return 0;
         }
-        stack<TreeNode *> nodeStack;
+        stack<TreeNode *> nodeSt;
         stack<int> depthStack;
         // Initialize the depth
         int depth = 0;
-        nodeStack.push(root);
+        nodeSt.push(root);
         depthStack.push(1);
-        while(!nodeStack.empty()) {
-            TreeNode *tempNode = nodeStack.top();
+        while(!nodeSt.empty()) {
+            TreeNode *tempNode = nodeSt.top();
             int tempDepth = depthStack.top();
-            nodeStack.pop();
+            nodeSt.pop();
             depthStack.pop();
             if (tempNode->left == nullptr && tempNode->right == nullptr) {
                 depth = tempDepth >= depth ? tempDepth : depth;
             }
             else {
                 if (tempNode->left != nullptr) {
-                    nodeStack.push(tempNode->left);
+                    nodeSt.push(tempNode->left);
                     depthStack.push(tempDepth + 1);
                 }
                 if (tempNode->right != nullptr) {
-                    nodeStack.push(tempNode->right);
+                    nodeSt.push(tempNode->right);
                     depthStack.push(tempDepth + 1);
                 }
             }
@@ -196,21 +198,21 @@ public:
             return true;
         }
         else if (p != nullptr && q != nullptr) {
-            stack<TreeNode *> nodeStack_p, nodeStack_q;
-            nodeStack_p.push(p);
-            nodeStack_q.push(q);
-            while (!nodeStack_p.empty() && !nodeStack_q.empty()) {
-                TreeNode *tempNode_p = nodeStack_p.top(), *tempNode_q = nodeStack_q.top();
-                nodeStack_p.pop();
-                nodeStack_q.pop();
+            stack<TreeNode *> nodeSt_p, nodeSt_q;
+            nodeSt_p.push(p);
+            nodeSt_q.push(q);
+            while (!nodeSt_p.empty() && !nodeSt_q.empty()) {
+                TreeNode *tempNode_p = nodeSt_p.top(), *tempNode_q = nodeSt_q.top();
+                nodeSt_p.pop();
+                nodeSt_q.pop();
                 if (tempNode_p == nullptr && tempNode_q == nullptr) {
                     continue;
                 }
                 else if (tempNode_p != nullptr && tempNode_q != nullptr && tempNode_p->val == tempNode_q->val) {
-                    nodeStack_p.push(tempNode_p->left);
-                    nodeStack_p.push(tempNode_p->right);
-                    nodeStack_q.push(tempNode_q->left);
-                    nodeStack_q.push(tempNode_q->right);
+                    nodeSt_p.push(tempNode_p->left);
+                    nodeSt_p.push(tempNode_p->right);
+                    nodeSt_q.push(tempNode_q->left);
+                    nodeSt_q.push(tempNode_q->right);
                 }
                 else {
                     return false;
@@ -371,17 +373,17 @@ public:
             return ret;
         }
 
-        stack<TreeNode *> tempStack;
-        tempStack.push(root);
-        while (!tempStack.empty()) {
-            TreeNode *ptr = tempStack.top();
-            tempStack.pop();
+        stack<TreeNode *> tmpSt;
+        tmpSt.push(root);
+        while (!tmpSt.empty()) {
+            TreeNode *ptr = tmpSt.top();
+            tmpSt.pop();
             ret.push_back(ptr->val);
             if (ptr->right != nullptr) {
-                tempStack.push(ptr->right);
+                tmpSt.push(ptr->right);
             }
             if (ptr->left != nullptr) {
-                tempStack.push(ptr->left);
+                tmpSt.push(ptr->left);
             }
         }
 
@@ -417,18 +419,18 @@ public:
     vector<int> inorderTraversal_iteration(TreeNode *root) {
         // Iterative
         vector<int> ret;
-        stack<TreeNode *> tempStack;
+        stack<TreeNode *> tmpSt;
         TreeNode *ptr = root;
         while (true) {
             while (ptr) {
-                tempStack.push(ptr);
+                tmpSt.push(ptr);
                 ptr = ptr->left;
             }
-            if (tempStack.empty()) {
+            if (tmpSt.empty()) {
                 break;
             }
-            ptr = tempStack.top();
-            tempStack.pop();
+            ptr = tmpSt.top();
+            tmpSt.pop();
             ret.push_back(ptr->val);
             ptr = ptr->right;
         }
@@ -492,17 +494,17 @@ public:
         if (root == nullptr) {
             return ret;
         }
-        stack<TreeNode *> tempStack;
-        tempStack.push(root);
-        while (!tempStack.empty()) {
-            TreeNode *ptr = tempStack.top();
-            tempStack.pop();
+        stack<TreeNode *> tmpSt;
+        tmpSt.push(root);
+        while (!tmpSt.empty()) {
+            TreeNode *ptr = tmpSt.top();
+            tmpSt.pop();
             ret.push_back(ptr->val);
             if (ptr->left != nullptr) {
-                tempStack.push(ptr->left);
+                tmpSt.push(ptr->left);
             }
             if (ptr->right != nullptr) {
-                tempStack.push(ptr->right);
+                tmpSt.push(ptr->right);
             }
         }
         reverse(ret.begin(),ret.end());
@@ -2037,22 +2039,22 @@ public:
         if (root == nullptr) {
             return;
         }
-        stack<TreeNode *> nodeStack;
-        nodeStack.push(root);
+        stack<TreeNode *> nodeSt;
+        nodeSt.push(root);
         TreeNode *prep = nullptr;
-        while (!nodeStack.empty()) {
-            TreeNode *ptr = nodeStack.top();
-            nodeStack.pop();
+        while (!nodeSt.empty()) {
+            TreeNode *ptr = nodeSt.top();
+            nodeSt.pop();
             if (prep != nullptr) {
                 prep->left = nullptr;
                 prep->right = ptr;
             }
             prep = ptr;
             if (ptr->right != nullptr) {
-                nodeStack.push(ptr->right);
+                nodeSt.push(ptr->right);
             }
             if (ptr->left != nullptr) {
-                nodeStack.push(ptr->left);
+                nodeSt.push(ptr->left);
             }
         }
     }
@@ -3793,17 +3795,17 @@ public:
 
     bool isValidBST_iteration(TreeNode *root) {
         // Inorder traversal.
-        stack<TreeNode *> tempStack;
+        stack<TreeNode *> tmpSt;
         TreeNode *ptr = root;
         TreeNode *prev = nullptr;
-        while (!tempStack.empty() || ptr != nullptr) {
+        while (!tmpSt.empty() || ptr != nullptr) {
             if (ptr != nullptr) {
-                tempStack.push(ptr);
+                tmpSt.push(ptr);
                 ptr = ptr->left;
             }
             else {
-                ptr = tempStack.top();
-                tempStack.pop();
+                ptr = tmpSt.top();
+                tmpSt.pop();
                 if (prev != nullptr && prev->val >= ptr->val) {
                     return false;
                 }
@@ -7094,17 +7096,17 @@ public:
             return root;
         }
 
-        stack<TreeNode *> nodeStack;
-        nodeStack.push(root);
-        while (!nodeStack.empty()) {
-            TreeNode *topVal = nodeStack.top();
+        stack<TreeNode *> nodeSt;
+        nodeSt.push(root);
+        while (!nodeSt.empty()) {
+            TreeNode *topVal = nodeSt.top();
             swap(topVal->left, topVal->right);
-            nodeStack.pop();
+            nodeSt.pop();
             if (topVal->left) {
-                nodeStack.push(topVal->left);
+                nodeSt.push(topVal->left);
             }
             if (topVal->right) {
-                nodeStack.push(topVal->right);
+                nodeSt.push(topVal->right);
             }
         }
 
