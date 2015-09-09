@@ -48,15 +48,11 @@ int main(){
     cout << traversal << endl;
     */
 
-    vector<vector<int> > mat;
-    Matrix::crtMat(mat);
-    int target;
-    cout << "Input the target:" << endl;
-    cin >> target;
-    bool ret = s.searchMatrixII(mat, target);
-    cout << "The result is :" << endl;
-    cout << (ret ? "True" : "False") << endl;
-
+    cout << "Input a equation to caculate:" << endl;
+    string eq;
+    getline(cin, eq);
+    int ret = s.calculate(eq);
+    cout << "The result is :" << endl << ret << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

@@ -60,11 +60,10 @@ public:
     // 28 -> AB
     string convertToTitle(int n) {
         string ret = "";
-        do {
-            --n;
-            ret = char('A' + n % 26) + ret;
+        while (n) {
+            ret = char(--n % 26 + 'A') + ret;
             n /= 26;
-        } while (n);
+        }
         return ret;
     }
     // Single Number
@@ -7424,13 +7423,14 @@ public:
             }
             else {
                 char topOp;
+                string topOp_str = "";
                 if (s[idx] == '(') {
                     opSt.push(s[idx]);
                 }
                 else if (s[idx] == ')') {
                     while ((topOp = opSt.top()) != '(') {
                         opSt.pop();
-                        RPN.push_back(ch2str(topOp));
+                        RPN.push_back(topOp + topOp_str);
                     }
                     opSt.pop();
                 }
@@ -7439,7 +7439,7 @@ public:
                         topOp = opSt.top();
                         if (topOp == '*' || topOp == '/') {
                             opSt.pop();
-                            RPN.push_back(ch2str(topOp));
+                            RPN.push_back(topOp + topOp_str);
                         }
                         else {
                             break;
@@ -7450,7 +7450,7 @@ public:
                 else {
                     while (!opSt.empty() && (topOp = opSt.top()) != '(') {
                         opSt.pop();
-                        RPN.push_back(ch2str(topOp));
+                        RPN.push_back(topOp + topOp_str);
                     }
                     opSt.push(s[idx]);
                 }
@@ -7458,15 +7458,44 @@ public:
             }
         }
         while (!opSt.empty()) {
-            RPN.push_back(ch2str(opSt.top()));
+            string tmp = "";
+            RPN.push_back(opSt.top() + tmp);
             opSt.pop();
         }
         return RPN;
     }
-    string ch2str(const char &ch) {
-        char tmp[1];
-        tmp[0] = ch;
-        return string(tmp, 1);
+    // Basic Calculator II 
+    // Implement a basic calculator to evaluate a simple expression string.
+    // The expression string contains only non-negative integers, +, -, *, / operators and empty spaces . The integer division should truncate toward zero.
+    // You may assume that the given expression is always valid.
+    // Some examples:
+    // "3+2*2" = 7
+    // " 3/2 " = 1
+    // " 3+5 / 2 " = 5
+    int calculateII(string s) {
+        int result = 0, cur_res = 0;
+        char op = '+';
+        for(int pos = s.find_first_not_of(' '); pos < s.size(); pos = s.find_first_not_of(' ', pos)) {
+            if(isdigit(s[pos])) {
+                int tmp = s[pos] - '0';
+                while(++pos < s.size() && isdigit(s[pos]))
+                    tmp = tmp*10 + (s[pos] - '0');
+                switch(op) {
+                    case '+' : cur_res += tmp; break;
+                    case '-' : cur_res -= tmp; break;
+                    case '*' : cur_res *= tmp; break;
+                    case '/' : cur_res /= tmp; break;
+                }
+            }
+            else {
+                if(s[pos] == '+' || s[pos] == '-') {
+                    result += cur_res;
+                    cur_res = 0;
+                }
+                op = s[pos++];
+            }
+        }
+        return result + cur_res;
     }
     // Majority Element II
     // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
