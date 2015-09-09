@@ -5,26 +5,26 @@ struct TreeNode{
     int val;
     TreeNode *left;
     TreeNode *right;
-    TreeNode(int x):val(x),left(NULL),right(NULL){}
+    TreeNode(int x):val(x),left(nullptr),right(nullptr){}
 };
 
 struct ListNode{
     int val;
     ListNode *next;
-    ListNode(int x):val(x),next(NULL){}
+    ListNode(int x):val(x),next(nullptr){}
 };
 
 struct TreeLinkNode{
     int val;
     TreeLinkNode *next;
     TreeLinkNode *left, *right;
-    TreeLinkNode(int x):val(x),next(NULL),left(NULL),right(NULL){}
+    TreeLinkNode(int x):val(x),next(nullptr),left(nullptr),right(nullptr){}
 };
 
 struct RandomListNode{
     int label;
     RandomListNode *next, *random;
-    RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+    RandomListNode(int x) : label(x), next(nullptr), random(nullptr) {}
 };
 
 struct UndirectedGraphNode{
@@ -49,14 +49,14 @@ class Tree{
 public:
     static TreeNode *createTree(const vector<string> &vec){
         queue<TreeNode *> q;
-        TreeNode *root = NULL;
+        TreeNode *root = nullptr;
         if (vec.size() > 0){
             root = new TreeNode(atoi(vec[0].c_str()));
             q.push(root);
         }
         int idx = 1;
         while (idx < vec.size()){
-            if (q.front() == NULL){
+            if (q.front() == nullptr){
                 q.pop();
                 continue;
             }
@@ -84,10 +84,10 @@ class List{
 public:
     static ListNode *createList(){
         string val;
-        ListNode *head = NULL, *prep;
+        ListNode *head = nullptr, *prep;
         while (cin >> val && val != string("#")){
             ListNode *ptr = new ListNode(atoi(val.c_str()));
-            if (head == NULL){
+            if (head == nullptr){
                 head = ptr;
                 prep = head;
             }
@@ -135,13 +135,13 @@ public:
 
     /** @return whether we have a next smallest number */
     bool hasNext() {
-        return !nodeStack.empty() || ptr != NULL;
+        return !nodeStack.empty() || ptr != nullptr;
     }
 
     /** @return the next smallest number */
     int next() {
-        while (!nodeStack.empty() || ptr != NULL){
-            if (ptr != NULL){
+        while (!nodeStack.empty() || ptr != nullptr){
+            if (ptr != nullptr){
                 nodeStack.push(ptr);
                 ptr = ptr->left;
             }

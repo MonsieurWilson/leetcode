@@ -119,28 +119,22 @@ public:
         if (root == nullptr) {
             return 0;
         }
-        stack<TreeNode *> nodeSt;
-        stack<int> depthStack;
-        // Initialize the depth
         int depth = 0;
-        nodeSt.push(root);
-        depthStack.push(1);
-        while(!nodeSt.empty()) {
-            TreeNode *tempNode = nodeSt.top();
-            int tempDepth = depthStack.top();
-            nodeSt.pop();
-            depthStack.pop();
-            if (tempNode->left == nullptr && tempNode->right == nullptr) {
-                depth = tempDepth >= depth ? tempDepth : depth;
+        stack<pair<TreeNode *, int> > tmpSt;
+        tmpSt.push(make_pair(root, 1));
+        while(!tmpSt.empty()) {
+            TreeNode *tmpNode = tmpSt.top().first;
+            int tmpDepth = tmpSt.top().second;
+            tmpSt.pop();
+            if (tmpNode->left == nullptr && tmpNode->right == nullptr) {
+                depth = max(tmpDepth, depth);
             }
             else {
-                if (tempNode->left != nullptr) {
-                    nodeSt.push(tempNode->left);
-                    depthStack.push(tempDepth + 1);
+                if (tmpNode->left != nullptr) {
+                    tmpSt.push(make_pair(tmpNode->left, tmpDepth + 1));
                 }
-                if (tempNode->right != nullptr) {
-                    nodeSt.push(tempNode->right);
-                    depthStack.push(tempDepth + 1);
+                if (tmpNode->right != nullptr) {
+                    tmpSt.push(make_pair(tmpNode->right, tmpDepth + 1));
                 }
             }
         }
@@ -151,21 +145,15 @@ public:
     // You may assume that the array is non-empty and the majority element always exist in the array.
     // Solution: Sorting, Hash table, Divide and conquer, Bit manipulation, Moore voting algorithm
     int majorityElement(vector<int> &num) {
-        // Sorting method
-        sort(num.begin(), num.end());
-        vector<int>::size_type mid = (num.size() - 1) / 2;
-        return num[mid];
-    }
-    int majorityElement_voting(vector<int> &num) {
         // Moore voting algorithm
         int candidate = 0, counter = 0;
-        for(vector<int>::const_iterator it = num.begin(); it != num.end(); ++it) {
+        for (int idx = 0; idx < num.size(); ++idx) {
             if (counter == 0) {
-                candidate = *it;
+                candidate = num[idx];
                 ++counter;
             }
             else {
-                if (candidate == *it) {
+                if (candidate == num[idx]) {
                     ++counter;
                 }
                 else {
@@ -182,7 +170,7 @@ public:
         if (p == nullptr && q == nullptr) {
             return true;
         }
-        else if (p != nullptr && q != nullptr) {
+        else if (p && q) {
             if (p->val != q->val) {
                 return false;
             }
@@ -193,95 +181,156 @@ public:
         }
     }
     bool isSameTree_iteration(TreeNode *p, TreeNode *q) {
-        // Using auxiliary stack
-        if (p == nullptr && q == nullptr) {
-            return true;
-        }
-        else if (p != nullptr && q != nullptr) {
-            stack<TreeNode *> nodeSt_p, nodeSt_q;
-            nodeSt_p.push(p);
-            nodeSt_q.push(q);
-            while (!nodeSt_p.empty() && !nodeSt_q.empty()) {
-                TreeNode *tempNode_p = nodeSt_p.top(), *tempNode_q = nodeSt_q.top();
-                nodeSt_p.pop();
-                nodeSt_q.pop();
-                if (tempNode_p == nullptr && tempNode_q == nullptr) {
-                    continue;
-                }
-                else if (tempNode_p != nullptr && tempNode_q != nullptr && tempNode_p->val == tempNode_q->val) {
-                    nodeSt_p.push(tempNode_p->left);
-                    nodeSt_p.push(tempNode_p->right);
-                    nodeSt_q.push(tempNode_q->left);
-                    nodeSt_q.push(tempNode_q->right);
-                }
-                else {
-                    return false;
-                }
+        stack<pair<TreeNode *, TreeNode *> > nodeSt;
+        nodeSt.push(make_pair(p, q));
+        while (!nodeSt.empty()) {
+            TreeNode *tmpP = nodeSt.top().first, *tmpQ = nodeSt.top().second;
+            nodeSt.pop();
+            if (tmpP == nullptr && tmpQ == nullptr) {
+                continue;
             }
-            return true;
+            else if (tmpP && tmpQ && tmpP->val == tmpQ->val) {
+                nodeSt.push(make_pair(tmpP->left, tmpQ->left));
+                nodeSt.push(make_pair(tmpP->right, tmpQ->right));
+            }
+            else {
+                return false;
+            }
         }
-        else {
-            return false;
-        }
+        return true;
     }
     // Reverse Integer
     // Reverse digits of an integer.
     // Example1: x = 123, return 321
     // Example2: x = -123, return -321
-    // click to show spoilers.
-    // Have you thought about this?
-    // Here are some good questions to ask before coding. Bonus points for you if you have already thought through this!
     // If the integer's last digit is 0, what should the output be? ie, cases such as 10, 100.
     // Did you notice that the reversed integer might overflow? Assume the input is a 32-bit integer, then the reverse of 1000000003 overflows. How should you handle such cases?
     // Throw an exception? Good, but what if throwing an exception is not an option? You would then have to re-design the function (ie, add an extra parameter).
     int reverseNumber(int x) {
-        // Noticing about the overflow situation
-        int symbol = 1;
-        long long num = x;
-        if (num < 0) {
-            symbol = -1;
-            num = -num;
-        }
-        queue<int> tempQueue;
-        while (num) {
-            tempQueue.push(num%10);
-            num /= 10;
-        }
-        long long ret = 0;
-        while (!tempQueue.empty()) {
-            ret = 10 * ret + tempQueue.front();
-            tempQueue.pop();
-        }
-        if (ret > INT_MAX) {
-            return 0;
-        }
-        return static_cast<int>(ret * symbol);
-    }
-    int reverseNumber_improved(int x) {
-        long long ret = 0;
-        int num = abs(x);
+        long long ret = 0, num = labs(x);
+        int sign = x > 0 ? 1 : -1;
         while (num) {
             ret = ret * 10 + num % 10;
             num /= 10;
         }
-        if (ret > INT_MAX || ret < INT_MIN) {
-            return 0;
+        return ret > INT_MAX ? 0 : ret * sign;
+    }
+    // Best Time to Buy and Sell Stock
+    // If you were only permitted to complete at most one transaction (ie, buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+    int maxProfit(vector<int> &prices) {
+        int maxProfit = 0;
+        int minVal = INT_MAX;
+        for (int idx = 0; idx < prices.size(); ++idx) {
+            minVal = min(minVal, prices[idx]);
+            maxProfit = max(maxProfit, prices[idx] - minVal);
         }
-        return ret * (x > 0 ? 1 : -1);
+        return maxProfit;
     }
     // Best Time to Buy and Sell Stock II
     // Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times). However, you may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
-    int maxProfit(vector<int> &prices) {
+    int maxProfitII(vector<int> &prices) {
         // Allow to make several transactions
         // Greedy
         int profit = 0;
         for (int idx = 1; idx < prices.size(); ++idx) {
-            if (prices[idx] > prices[idx - 1]) {
-                profit += prices[idx] - prices[idx - 1];
-            }
+            profit += max(0, prices[idx] - prices[idx - 1]);
         }
         return profit;
     }
+    // Best Time to Buy and Sell Stock III
+    // Say you have an array for which the ith element is the price of a given stock on day i.
+    // Design an algorithm to find the maximum profit. You may complete at most two transactions.
+    // Note:
+    // You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+    int maxProfitIII(vector<int> &prices) {
+        int lens = prices.size();
+        if (lens < 2) {
+            return 0;
+        }
+        // leftMax[i] means the maxProfit before suffix i, while rightMax[i] means the maxProfit after suffix i.
+        vector<int> leftMax(lens, 0), rightMax(lens, 0);
+        int minEle = prices[0], maxEle = prices[lens - 1];
+        for (int idx = 1; idx < lens; ++idx) {
+            if (prices[idx] < minEle) {
+                minEle = prices[idx];
+            }
+            leftMax[idx] = max(leftMax[idx - 1], prices[idx] - minEle);
+
+            int ridx = lens - 1 - idx;
+            if (prices[ridx] > maxEle) {
+                maxEle = prices[ridx];
+            }
+            rightMax[ridx] = max(rightMax[ridx + 1], maxEle - prices[ridx]);
+        }
+        // Combine the leftMax and rightMax.
+        int ret = 0;
+        for (int idx = 0; idx != lens; ++idx) {
+            ret = max(ret, leftMax[idx] + rightMax[idx]);
+        }
+        return ret;
+    }
+
+    int maxProfitIII_improved(vector<int>& prices) {
+        // Another interesting solution
+        int states[2][4] = {INT_MIN, 0, INT_MIN, 0};
+        int len = prices.size(), cur = 0, next = 1;
+        for(int i = 0; i < len; ++i)
+        {
+            states[next][0] = max(states[cur][0], -prices[i]);
+            states[next][1] = max(states[cur][1], states[cur][0] + prices[i]);
+            states[next][2] = max(states[cur][2], states[cur][1] - prices[i]);
+            states[next][3] = max(states[cur][3], states[cur][2] + prices[i]);
+            swap(next, cur);
+        }
+        return max(states[cur][1], states[cur][3]);
+    }
+    // Best Time to Buy and Sell Stock IV
+    // Say you have an array for which the ith element is the price of a given stock on day i.
+    // Design an algorithm to find the maximum profit. You may complete at most k transactions.
+    // Note:
+    // You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+    int maxProfitIV(int k, vector<int> &prices) {
+        int ret = 0;
+        int N = prices.size();
+        int v = 0, p = 0;
+        vector<int> profits;
+        stack<pair<int, int> > vpPairs;
+        while (p < N) {
+            for (v = p; (v < N - 1) && prices[v] >= prices[v + 1]; ++v);
+            for (p = v + 1; (p < N) && prices[p] >= prices[p - 1]; ++p);
+            while (!vpPairs.empty() && prices[vpPairs.top().first] > prices[v]) {
+                profits.push_back(prices[vpPairs.top().second] - prices[vpPairs.top().first]);
+                vpPairs.pop();
+            }
+            while (!vpPairs.empty() && prices[vpPairs.top().second] <= prices[p - 1]) {
+                profits.push_back(prices[vpPairs.top().second] - prices[v]);
+                v = vpPairs.top().first;
+                vpPairs.pop();
+            }
+            vpPairs.push(pair<int, int>(v, p - 1));
+        }
+        while (!vpPairs.empty()) {
+            profits.push_back(prices[vpPairs.top().second] - prices[vpPairs.top().first]);
+            vpPairs.pop();
+        }
+        make_heap(profits.begin(), profits.end());
+        for (int i = 0; (i < k) && !profits.empty(); ++i) {
+            pop_heap(profits.begin(), profits.end());
+            ret += profits.back();
+            profits.pop_back();
+        }
+        return ret;
+    }
+
+    int maxProfitIV_improved(int k, vector<int> &prices) {
+        vector<vector<int> > states(2, vector<int>(2 * k, 0));
+        int cur = 0, next = 1;
+        for (int i = 0; i < prices.size(); ++i) {
+            for (int j = 0; j < 2 * k; j += 2) {
+            }
+        }
+    }
+                
     // Unique Binary Search Trees
     // Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
     // For example,
@@ -1037,17 +1086,6 @@ public:
                 matrix[idxj][size - 1 - idxi] = temp;
             }
         }
-    }
-    // Best Time to Buy and Sell Stock
-    // If you were only permitted to complete at most one transaction (ie, buy one and sell one share of the stock), design an algorithm to find the maximum profit.
-    int maxProfitII(vector<int> &prices) {
-        int maxProfit = 0;
-        int min = INT_MAX;
-        for (vector<int>::const_iterator it = prices.begin(); it != prices.end(); ++it) {
-            min = (*it < min) ? *it : min;
-            maxProfit = (*it - min) > maxProfit ? (*it - min) : maxProfit;
-        }
-        return maxProfit;
     }
     // Permutations
     // Given a collection of numbers, return all possible permutations.
@@ -3608,37 +3646,6 @@ public:
             }
         }
         return false;
-    }
-    // Best Time to Buy and Sell Stock III
-    // Say you have an array for which the ith element is the price of a given stock on day i.
-    // Design an algorithm to find the maximum profit. You may complete at most two transactions.
-    // Note:
-    // You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
-    int maxProfitIII(vector<int> &prices) {
-        if (prices.size() < 2) {
-            return 0;
-        }
-        // leftMax[i] means the maxProfit before suffix i, while rightMax[i] means the maxProfit after suffix i.
-        vector<int> leftMax(prices.size(), 0), rightMax(prices.size(), 0);
-        int minEle = prices[0], maxEle = prices[prices.size() - 1];
-        for (int idx = 1; idx < prices.size(); ++idx) {
-            if (prices[idx] < minEle) {
-                minEle = prices[idx];
-            }
-            leftMax[idx] = max(leftMax[idx - 1], prices[idx] - minEle);
-
-            int ridx = prices.size() - 1 - idx;
-            if (prices[ridx] > maxEle) {
-                maxEle = prices[ridx];
-            }
-            rightMax[ridx] = max(rightMax[ridx + 1], maxEle - prices[ridx]);
-        }
-        // Combine the leftMax and rightMax.
-        int ret = 0;
-        for (int idx = 0; idx != leftMax.size(); ++idx) {
-            ret = max(ret, leftMax[idx] + rightMax[idx]);
-        }
-        return ret;
     }
     // First Missing Positive
     // Given an unsorted integer array, find the first missing positive integer.
@@ -6213,43 +6220,6 @@ public:
             }
         }
         return dp[0][0];
-    }
-    // Best Time to Buy and Sell Stock IV
-    // Say you have an array for which the ith element is the price of a given stock on day i.
-    // Design an algorithm to find the maximum profit. You may complete at most k transactions.
-    // Note:
-    // You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
-    int maxProfitIV(int k, vector<int> &prices) {
-        int ret = 0;
-        int N = prices.size();
-        int v = 0, p = 0;
-        vector<int> profits;
-        stack<pair<int, int> > vpPairs;
-        while (p < N) {
-            for (v = p; (v < N - 1) && prices[v] >= prices[v + 1]; ++v);
-            for (p = v + 1; (p < N) && prices[p] >= prices[p - 1]; ++p);
-            while (!vpPairs.empty() && prices[vpPairs.top().first] > prices[v]) {
-                profits.push_back(prices[vpPairs.top().second] - prices[vpPairs.top().first]);
-                vpPairs.pop();
-            }
-            while (!vpPairs.empty() && prices[vpPairs.top().second] <= prices[p - 1]) {
-                profits.push_back(prices[vpPairs.top().second] - prices[v]);
-                v = vpPairs.top().first;
-                vpPairs.pop();
-            }
-            vpPairs.push(pair<int, int>(v, p - 1));
-        }
-        while (!vpPairs.empty()) {
-            profits.push_back(prices[vpPairs.top().second] - prices[vpPairs.top().first]);
-            vpPairs.pop();
-        }
-        make_heap(profits.begin(), profits.end());
-        for (int i = 0; (i < k) && !profits.empty(); ++i) {
-            pop_heap(profits.begin(), profits.end());
-            ret += profits.back();
-            profits.pop_back();
-        }
-        return ret;
     }
     // Wildcard Matching
     // Implement wildcard pattern matching with support for '?' and '*'.

@@ -14,12 +14,14 @@ int main(){
     /**
      * Get and print the array
      */
+    /*
     cout << "Input the array size:" << endl;
     int size;
     cin >> size;
     cout << "Input the array:" << endl;
     int *arr = new int[size];
     Array::crtArr(arr, 0, size);
+    */
 
     /**
      * Get and print the vector
@@ -42,8 +44,6 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl;
     cout << traversal << endl;
     */
-
-    cout << "The single number in the array is: " << s.singleNumber_hash(arr, size) << endl;
 
 
     // Time
