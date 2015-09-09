@@ -323,14 +323,63 @@ public:
     }
 
     int maxProfitIV_improved(int k, vector<int> &prices) {
-        vector<vector<int> > states(2, vector<int>(2 * k, 0));
-        int cur = 0, next = 1;
-        for (int i = 0; i < prices.size(); ++i) {
-            for (int j = 0; j < 2 * k; j += 2) {
-            }
+        vector<int> minP, maxP;
+        int res = findMinMax(prices, minP, maxP);
+        if(maxP.size() <= k) {
+            return res;
+        }
+        else {
+            return FSM_stock(minP, maxP, k);
         }
     }
-                
+    int findMinMax(const vector<int>& prices, vector<int>& minP, vector<int>& maxP)
+    {
+        int i, len = prices.size(), res = 0;
+        for(i = 0; i < len - 1; ++i)
+        {
+            while(i < len - 1 && prices[i + 1] <= prices[i]) {
+                ++i; // detect the local minimum points
+            }
+            if(i < len - 1) {
+                minP.push_back(prices[i]);
+            }
+            else {
+                break;
+            }
+            while(i < len - 1 && prices[i + 1] >= prices[i]) {
+                ++i; // detect the local maximum points
+            }
+            maxP.push_back(prices[i]);
+            res += maxP.back() - minP.back(); // res  = sum(maxP - minP), the maximum margin we can make
+        }
+        return res;
+    }
+    int FSM_stock(vector<int>& minP, vector<int>& maxP, int k)
+    {
+        int states[2][1 + 2 * k], i, j, cur = 0, next = 1, res = 0, numMax = maxP.size();
+        fill_n(&states[0][1], 2 * k, INT_MIN / 2);
+        states[0][0] = states[1][0] = 0;
+
+        for(i = 0; i < numMax; ++i)
+        {
+            for(j = 0; j < k; ++j)  
+            { // only buy at the local minimum points
+                states[next][j * 2 + 1] = max(states[cur][j * 2 + 1], states[cur][j * 2] - minP[i]); 
+                states[next][j * 2 + 2] = states[cur][j * 2 + 2];
+            }
+            swap(cur, next);
+            for(j = 1; j <= k; ++j) 
+            { // only sell at the local maximum points
+                states[next][j * 2] = max(states[cur][j * 2], states[cur][j * 2 - 1] + maxP[i]);
+                states[next][j * 2 - 1] = states[cur][j * 2 - 1];
+            }
+            swap(cur, next);
+        }
+        for(i = 1; i <= k; ++i) {
+            res = max(res, states[cur][i * 2]);
+        }
+        return res;
+    }
     // Unique Binary Search Trees
     // Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
     // For example,
@@ -351,7 +400,7 @@ public:
 
         int ret = 0;
         for (int i = 1; i <= n; ++i) {
-            ret += numTrees(i-1) * numTrees(n-i);
+            ret += numTrees(i - 1) * numTrees(n - i);
         }
         return ret;
     }
@@ -359,12 +408,45 @@ public:
     int numtrees_dp(int n) {
         vector<int> dp(n + 1, 0);
         dp[0] = dp[1] = 1;
-        for (int idxi = 2; idxi <= n; ++idxi) {
-            for (int idxj = 1; idxj <= idxi; ++idxj) {
-                dp[idxi] += dp[idxj -1] * dp[idxi - idxj];
+        for (int i = 2; i <= n; ++i) {
+            for (int j = 1; j <= i / 2; ++j) {
+                dp[i] += dp[j - 1] * dp[i - j];
+            }
+            dp[i] *= 2;
+            if (i % 2) {
+                dp[i] += dp[i / 2] * dp[i / 2];
             }
         }
         return dp[n];
+    }
+    // Unique Binary Search Trees II
+    // Given n, generate all structurally unique BST's (binary search trees) that store values 1...n.
+    vector<TreeNode *> generateTrees(int n) {
+        return generateHelper(1, n);
+    }
+    vector<TreeNode *> generateHelper(const int &beg, const int &end) {
+        vector<TreeNode *> ret;
+        TreeNode *root = nullptr;
+        if (beg >= end) {
+            TreeNode *root = (beg == end) ? new TreeNode(beg) : nullptr;
+            ret.push_back(root);
+            return ret;
+        }
+        for (int idx = beg;  idx <= end;  ++idx) {
+            vector<TreeNode *> leftSubTree, rightSubTree;
+            leftSubTree = generateHelper(beg, idx - 1);
+            rightSubTree = generateHelper(idx + 1, end);
+
+            for (int i = 0;  i < leftSubTree.size();  ++i) {
+                for (int j = 0;  j< rightSubTree.size();  ++j) {
+                    root = new TreeNode(idx);
+                    root->left = leftSubTree[i];
+                    root->right = rightSubTree[j];
+                    ret.push_back(root);
+                }
+            }
+        }
+        return ret;
     }
     // Linked List Cycle
     // Given a linked list, determine if it has a cycle in it.
@@ -2319,35 +2401,6 @@ public:
         current = current->next;
         root->right = populateTree(n - n / 2 - 1);
         return root;
-    }
-    // Unique Binary Search Trees II
-    // Given n, generate all structurally unique BST's (binary search trees) that store values 1...n.
-    vector<TreeNode *> generateTrees(int n) {
-        return generateHelper(1, n);
-    }
-    vector<TreeNode *> generateHelper(const int &beg, const int &end) {
-        vector<TreeNode *> ret;
-        TreeNode *root = nullptr;
-        if (beg >= end) {
-            TreeNode *root = (beg == end) ? new TreeNode(beg) : nullptr;
-            ret.push_back(root);
-            return ret;
-        }
-        for (int idx = beg;  idx <= end;  ++idx) {
-            vector<TreeNode *> leftSubTree, rightSubTree;
-            leftSubTree = generateHelper(beg, idx - 1);
-            rightSubTree = generateHelper(idx + 1, end);
-
-            for (int i = 0;  i < leftSubTree.size();  ++i) {
-                for (int j = 0;  j< rightSubTree.size();  ++j) {
-                    root = new TreeNode(idx);
-                    root->left = leftSubTree[i];
-                    root->right = rightSubTree[j];
-                    ret.push_back(root);
-                }
-            }
-        }
-        return ret;
     }
     // Subsets II
     // Given a collection of integers that might contain duplicates, S, return all possible subsets.
