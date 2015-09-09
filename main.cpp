@@ -7,8 +7,8 @@ using namespace std;
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
-    clock_t startTime, finishTime;
-    startTime = clock();
+    clock_t stime, ftime;
+    stime = clock();
     Solution s;
 
     /**
@@ -20,21 +20,23 @@ int main(){
     cin >> size;
     cout << "Input the array:" << endl;
     int *array = new int[size];
-    Array::getArray(array, 0, size);
+    Array::crtArr(array, 0, size);
     cout << "The array is:" << endl;
-    // Array::printArray(array, 0, size);
+    // Array::prtArr(array, 0, size);
     cout << endl;
     */
 
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
+    */
 
     /**
      * Create and traversal the tree
@@ -46,14 +48,19 @@ int main(){
     cout << traversal << endl;
     */
 
-    vector<int> ret = s.productExceptSelf(vec);
+    vector<vector<int> > mat;
+    Matrix::crtMat(mat);
+    int target;
+    cout << "Input the target:" << endl;
+    cin >> target;
+    bool ret = s.searchMatrixII(mat, target);
     cout << "The result is :" << endl;
-    cout << ret << endl;
+    cout << (ret ? "True" : "False") << endl;
 
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
-    finishTime = clock();
-    cout << "The time cost is : " << 1000.0 * (finishTime - startTime) / CLOCKS_PER_SEC << " ms." << endl;
+    ftime = clock();
+    cout << "The time cost is : " << 1000.0 * (ftime - stime) / CLOCKS_PER_SEC << " ms." << endl;
     return 0;
 }
