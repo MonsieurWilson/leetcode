@@ -5,20 +5,20 @@ struct TreeNode{
     int val;
     TreeNode *left;
     TreeNode *right;
-    TreeNode(int x):val(x),left(nullptr),right(nullptr){}
+    TreeNode(int x): val(x), left(nullptr), right(nullptr){}
 };
 
 struct ListNode{
     int val;
     ListNode *next;
-    ListNode(int x):val(x),next(nullptr){}
+    ListNode(int x): val(x), next(nullptr){}
 };
 
 struct TreeLinkNode{
     int val;
     TreeLinkNode *next;
     TreeLinkNode *left, *right;
-    TreeLinkNode(int x):val(x),next(nullptr),left(nullptr),right(nullptr){}
+    TreeLinkNode(int x) : val(x), next(nullptr), left(nullptr), right(nullptr){}
 };
 
 struct RandomListNode{
@@ -42,12 +42,12 @@ struct Interval {
 
 /*
  * Method:
- * createTree(const vector<string> &vec)
+ * crtTree(const vector<string> &vec)
  */
 
 class Tree{
 public:
-    static TreeNode *createTree(const vector<string> &vec){
+    static TreeNode *crtTree(const vector<string> &vec){
         queue<TreeNode *> q;
         TreeNode *root = nullptr;
         if (vec.size() > 0){
@@ -77,12 +77,12 @@ public:
 
 /*
  * Method:
- * createList()
+ * crtList()
  */
 
 class List{
 public:
-    static ListNode *createList(){
+    static ListNode *crtList(){
         string val;
         ListNode *head = nullptr, *prep;
         while (cin >> val && val != string("#")){

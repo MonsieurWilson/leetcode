@@ -426,19 +426,22 @@ public:
     }
     vector<TreeNode *> generateHelper(const int &beg, const int &end) {
         vector<TreeNode *> ret;
-        TreeNode *root = nullptr;
-        if (beg >= end) {
-            TreeNode *root = (beg == end) ? new TreeNode(beg) : nullptr;
-            ret.push_back(root);
+        if (beg > end) {
+            ret.push_back(nullptr);
             return ret;
         }
-        for (int idx = beg;  idx <= end;  ++idx) {
+        else if (beg == end) {
+            ret.push_back(new TreeNode(beg));
+            return ret;
+        }
+
+        TreeNode *root = nullptr;
+        for (int idx = beg; idx <= end; ++idx) {
             vector<TreeNode *> leftSubTree, rightSubTree;
             leftSubTree = generateHelper(beg, idx - 1);
             rightSubTree = generateHelper(idx + 1, end);
-
-            for (int i = 0;  i < leftSubTree.size();  ++i) {
-                for (int j = 0;  j< rightSubTree.size();  ++j) {
+            for (int i = 0; i < leftSubTree.size(); ++i) {
+                for (int j = 0; j< rightSubTree.size(); ++j) {
                     root = new TreeNode(idx);
                     root->left = leftSubTree[i];
                     root->right = rightSubTree[j];
@@ -453,22 +456,70 @@ public:
     // Follow up:
     // Can you solve it without using extra space?
     bool hasCycle(ListNode *head) {
-        if (head == nullptr) {
-            return false;
-        }
-        ListNode *p = head, *q = p->next;
-        int count = 1;
-        while (q != nullptr) {
-            if (q == p) {
+        ListNode *p = head, *q = head;
+        while (q && q->next) {
+            if (p == q) {
                 return true;
             }
-            q = q->next;
-            if (count % 2 == 0) {
-                p = p->next;
-            }
-            ++count;
+            q = q->next->next;
+            p = p->next;
         }
         return false;
+    }
+    // Linked List Cycle II
+    // Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+    // Follow up:
+    // Can you solve it without using extra space?
+    ListNode *detectCycle(ListNode *head) {
+        if (head == nullptr) {
+            return nullptr;
+        }
+        ListNode *slow = head, *fast = slow->next;
+        long long slowVal = 0, fastVal = slowVal + 1;
+        while (fast != nullptr) {
+            if (slow == fast) {
+                break;
+            }
+            slow = slow->next;
+            fast = fast->next;
+            ++slowVal;
+            ++fastVal;
+            if (fast != nullptr) {
+                fast = fast->next;
+                ++fastVal;
+            }
+        }
+        // No loop
+        if (fast == nullptr) {
+            return nullptr;
+        }
+        long long loopSize = fastVal - slowVal;
+        slow = fast = head;
+        while (loopSize) {
+            fast = fast->next;
+            --loopSize;
+        }
+        while (slow != fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return fast;
+    }
+    ListNode *detectCycle_improved(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            slow = slow->next;
+            if (fast == slow) {
+                fast = head;
+                while (fast != slow) {
+                    fast = fast->next;
+                    slow = slow->next;
+                }
+                return slow;
+            }
+        }
+        return nullptr;
     }
     // Binary Tree Preorder Traversal
     // Given a binary tree, return the preorder traversal of its nodes' values.
@@ -480,7 +531,6 @@ public:
     //     /
     //    3
     // return [1,2,3].
-    // Note: Recursive solution is trivial, could you do it iteratively?
     vector<int> preorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
@@ -503,7 +553,6 @@ public:
         if (root == nullptr) {
             return ret;
         }
-
         stack<TreeNode *> tmpSt;
         tmpSt.push(root);
         while (!tmpSt.empty()) {
@@ -530,8 +579,6 @@ public:
     //     /
     //    3
     // return [1,3,2].
-    // Note: Recursive solution is trivial, could you do it iteratively?
-    // confused what "{1,#,2,3}" means?
     vector<int> inorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
@@ -552,13 +599,10 @@ public:
         vector<int> ret;
         stack<TreeNode *> tmpSt;
         TreeNode *ptr = root;
-        while (true) {
+        while (ptr || !tmpSt.empty()) {
             while (ptr) {
                 tmpSt.push(ptr);
                 ptr = ptr->left;
-            }
-            if (tmpSt.empty()) {
-                break;
             }
             ptr = tmpSt.top();
             tmpSt.pop();
@@ -570,18 +614,18 @@ public:
 
     vector<int> morrisInorderTraversal(TreeNode *root) {
         // Morris Traversal
-        vector<int> order;
+        vector<int> ret;
         for(TreeNode *now = root, *tmp; now;) {
             if(now->left == nullptr) {
-                order.push_back(now->val);
-                now=now->right;
+                ret.push_back(now->val);
+                now = now->right;
             }
             else {
                 for(tmp = now->left; tmp->right != nullptr && tmp->right != now;) {
                     tmp = tmp->right;
                 }
                 if(tmp->right) {
-                    order.push_back(now->val);
+                    ret.push_back(now->val);
                     tmp->right = nullptr;
                     now = now->right;
                 }
@@ -591,7 +635,7 @@ public:
                 }
             }
         }
-        return order;
+        return ret;
     }
     // Binary Tree Postorder Traversal
     // Given a binary tree, return the postorder traversal of its nodes' values.
@@ -603,24 +647,23 @@ public:
     //     /
     //    3
     // return [3,2,1].
-    // Note: Recursive solution is trivial, could you do it iteratively?
     vector<int> postorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        postorderTraversalHelper(root,ret);
+        postorderTraversalHelper(root, ret);
         return ret;
     }
     void postorderTraversalHelper(TreeNode *root,vector<int> &ret) {
         if (root != nullptr) {
-            postorderTraversalHelper(root->left,ret);
-            postorderTraversalHelper(root->right,ret);
+            postorderTraversalHelper(root->left, ret);
+            postorderTraversalHelper(root->right, ret);
             ret.push_back(root->val);
         }
     }
 
     vector<int> postorderTraversal_iteration(TreeNode *root) {
         // Iterative
-        // Save the ret of root->right->left, and return the reverse ret will get the postorderTraversal ret
+        // Save the traversal result of root->right->left, and return the reverse order
         vector<int> ret;
         if (root == nullptr) {
             return ret;
@@ -631,14 +674,14 @@ public:
             TreeNode *ptr = tmpSt.top();
             tmpSt.pop();
             ret.push_back(ptr->val);
-            if (ptr->left != nullptr) {
+            if (ptr->left) {
                 tmpSt.push(ptr->left);
             }
-            if (ptr->right != nullptr) {
+            if (ptr->right) {
                 tmpSt.push(ptr->right);
             }
         }
-        reverse(ret.begin(),ret.end());
+        reverse(ret.begin(), ret.end());
         return ret;
     }
     // Populating Next Right Pointers in Each Node
@@ -651,12 +694,12 @@ public:
             return;
         }
         // Pointer ptr indicates the first node of every level, using cur to traversal the level ptr points
-        TreeLinkNode *ptr = root, *cur = nullptr;
-        while (ptr->left != nullptr) {
+        TreeLinkNode *ptr = root, *cur;
+        while (ptr->left) {
             cur = ptr;
-            while (cur != nullptr) {
+            while (cur) {
                 cur->left->next = cur->right;
-                if (cur->next != nullptr) {
+                if (cur->next) {
                     cur->right->next = cur->next->left;
                 }
                 cur = cur->next;
@@ -671,7 +714,7 @@ public:
         // Using binary search
         int beg = 0, end = n - 1;
         while (beg <= end) {
-            int mid = (beg + end) / 2;
+            int mid = beg + (end - beg) / 2;
             if (A[mid] == target) {
                 beg = mid;
                 break;
@@ -688,9 +731,9 @@ public:
     // Remove Duplicates from Sorted List
     // Given a sorted linked list, delete all duplicates such that each element appear only once.
     ListNode *deleteDuplicates(ListNode *head) {
-        if (head != nullptr) {
+        if (head) {
             ListNode *prep = head, *ptr = head->next;
-            while (ptr != nullptr) {
+            while (ptr) {
                 if (ptr->val == prep->val) {
                     prep->next = ptr->next;
                     ptr = prep->next;
@@ -1496,61 +1539,6 @@ public:
                 matrix[r][0] = 0;
             }
         }
-    }
-    // Linked List Cycle II
-    // Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
-    // Follow up:
-    // Can you solve it without using extra space?
-    ListNode *detectCycle(ListNode *head) {
-        if (head == nullptr) {
-            return nullptr;
-        }
-        ListNode *slow = head, *fast = slow->next;
-        long long slowVal = 0, fastVal = slowVal + 1;
-        while (fast != nullptr) {
-            if (slow == fast) {
-                break;
-            }
-            slow = slow->next;
-            fast = fast->next;
-            ++slowVal;
-            ++fastVal;
-            if (fast != nullptr) {
-                fast = fast->next;
-                ++fastVal;
-            }
-        }
-        // No loop
-        if (fast == nullptr) {
-            return nullptr;
-        }
-        long long loopSize = fastVal - slowVal;
-        slow = fast = head;
-        while (loopSize) {
-            fast = fast->next;
-            --loopSize;
-        }
-        while (slow != fast) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-        return fast;
-    }
-    ListNode *detectCycle_improved(ListNode *head) {
-        ListNode *slow = head, *fast = head;
-        while (fast->next != nullptr && fast->next->next != nullptr) {
-            fast = fast->next->next;
-            slow = slow->next;
-            if (fast == slow) {
-                fast = head;
-                while (fast != slow) {
-                    fast = fast->next;
-                    slow = slow->next;
-                }
-                return slow;
-            }
-        }
-        return nullptr;
     }
     // Pascal's Triangle
     // Given numRows, generate the first numRows of Pascal's triangle.

@@ -14,14 +14,12 @@ int main(){
     /**
      * Get and print the array
      */
-    /*
     cout << "Input the array size:" << endl;
     int size;
     cin >> size;
     cout << "Input the array:" << endl;
     int *arr = new int[size];
     Array::crtArr(arr, 0, size);
-    */
 
     /**
      * Get and print the vector
@@ -39,11 +37,16 @@ int main(){
      * Create and traversal the tree
      */
     /*
-    TreeNode *root = Tree::createTree(vec);
+    TreeNode *root = Tree::crtTree(vec);
     vector<int> traversal = s.inorderTraversal(root);
-    cout << "The inorderTraversal sequence is:" << endl;
-    cout << traversal << endl;
+    cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
+
+    cout << "Input the target value: " << endl;
+    int target;
+    cin >> target;
+    int index = s.searchInsert(arr, size, target);
+    cout << "The insert index is :" << index << endl;
 
 
     // Time
