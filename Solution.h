@@ -100,6 +100,32 @@ public:
         }
         return ret;
     }
+    // Single Number II
+    // Given an array of integers, every element appears three times except for one. Find that single one.
+    // Note:
+    // Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+    int singleNumberII(int A[], int n) {
+        int ret;
+        sort(A,A+n);
+        for (int idx = 0; idx != n; ) {
+            int num1 = A[idx], num2;
+            if (idx + 2 < n) {
+                num2 = A[idx + 2];
+                if (num1 == num2) {
+                    idx += 3;
+                }
+                else {
+                    ret = num1;
+                    break;
+                }
+            }
+            else {
+                ret = num1;
+                break;
+            }
+        }
+        return ret;
+    }
     // Maximum Depth of Binary Tree
     // Given a binary tree, find its maximum depth.
     // The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
@@ -505,6 +531,7 @@ public:
         }
         return fast;
     }
+
     ListNode *detectCycle_improved(ListNode *head) {
         ListNode *slow = head, *fast = head;
         while (fast && fast->next) {
@@ -536,7 +563,6 @@ public:
         vector<int> ret;
         preorderTraversalHelper(root, ret);
         return ret;
-
     }
     void preorderTraversalHelper(TreeNode *root, vector<int> &vec) {
         // Recursive helper function
@@ -732,19 +758,65 @@ public:
     // Given a sorted linked list, delete all duplicates such that each element appear only once.
     ListNode *deleteDuplicates(ListNode *head) {
         if (head) {
-            ListNode *prep = head, *ptr = head->next;
+            ListNode *pre = head, *ptr = head->next;
             while (ptr) {
-                if (ptr->val == prep->val) {
-                    prep->next = ptr->next;
-                    ptr = prep->next;
+                if (ptr->val == pre->val) {
+                    pre->next = ptr->next;
+                    ptr = pre->next;
                 }
                 else {
-                    prep = prep->next;
+                    pre = pre->next;
                     ptr = ptr->next;
                 }
             }
         }
         return head;
+    }
+    // N-Queens
+    // Given an integer n, return all distinct solutions to the n-queens puzzle.
+    // Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+    // For example,
+    // There exist two distinct solutions to the 4-queens puzzle:
+    // [
+    //  [".Q..",  // Solution 1
+    //   "...Q",
+    //   "Q...",
+    //   "..Q."],
+    //  ["..Q.",  // Solution 2
+    //   "Q...",
+    //   "...Q",
+    //   ".Q.."]
+    // ]
+    vector<vector<string> > solveNQueens(int n) {
+        vector<vector<string> > ret;
+        vector<int> sol(n + 1, 0);
+        int idx = 1;
+        while (idx > 0) {
+            ++sol[idx];
+            while (sol[idx] <= n && !legalPosition(sol, idx)) {
+                ++sol[idx];
+            }
+            if (sol[idx] <= n) {
+                if (idx == n) {
+                    vector<string> line;
+                    for (int i = 1; i <= n; ++i) {
+                        string s(n, '.');
+                        s[sol[i] - 1] = 'Q';
+                        line.push_back(s);
+                    }
+                    ret.push_back(line);
+                }
+                else {
+                    ++idx;
+                    sol[idx] = 0;
+                }
+            }
+            else {
+                // backtracking
+                --idx;
+            }
+        }
+        return ret;
     }
     // N-Queens II
     // Follow up for N-Queens problem.
@@ -783,46 +855,18 @@ public:
         }
         return ret;
     }
-    // Single Number II
-    // Given an array of integers, every element appears three times except for one. Find that single one.
-    // Note:
-    // Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
-    int singleNumberII(int A[], int n) {
-        int ret;
-        sort(A,A+n);
-        for (int idx = 0; idx != n; ) {
-            int num1 = A[idx], num2;
-            if (idx + 2 < n) {
-                num2 = A[idx + 2];
-                if (num1 == num2) {
-                    idx += 3;
-                }
-                else {
-                    ret = num1;
-                    break;
-                }
-            }
-            else {
-                ret = num1;
-                break;
-            }
-        }
-        return ret;
-    }
     // Maximum Subarray
     // Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
     int maxSubArray(int A[], int n) {
         // Dynamic Programming
-        int tempSum, sum;
-        tempSum = sum = A[0];
-        for (int idx = 1; idx != n; ++idx) {
-            if (tempSum < 0) {
-                tempSum = 0;
+        int tmpSum, sum;
+        tmpSum = sum = A[0];
+        for (int idx = 1; idx < n; ++idx) {
+            if (tmpSum < 0) {
+                tmpSum = 0;
             }
-            tempSum += A[idx];
-            if (tempSum > sum) {
-                sum = tempSum;
-            }
+            tmpSum += A[idx];
+            sum = max(sum, tmpSum);
         }
         return sum;
     }
@@ -855,17 +899,17 @@ public:
     // Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
     TreeNode *sortedArrayToBST(vector<int> &num) {
         TreeNode *root = nullptr;
-        if (!num.empty()) {
-            int beg = 0, end = num.size();
+        if (num.size()) {
+            int beg = 0, end = num.size() - 1;
             root = sortHelper(num, beg, end);
         }
         return root;
     }
     TreeNode *sortHelper(vector<int> &num, const int &beg, const int &end) {
-        if (beg < end) {
-            int mid = (beg + end - 1) / 2;
+        if (beg <= end) {
+            int mid = beg + (end - beg) / 2;
             TreeNode *root = new TreeNode(num[mid]);
-            root->left = sortHelper(num, beg, mid);
+            root->left = sortHelper(num, beg, mid - 1);
             root->right = sortHelper(num, mid + 1, end);
             return root;
         }
@@ -2980,52 +3024,6 @@ public:
         else {
             return false;
         }
-    }
-    // N-Queens
-    // Given an integer n, return all distinct solutions to the n-queens puzzle.
-    // Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
-    // For example,
-    // There exist two distinct solutions to the 4-queens puzzle:
-    // [
-    //  [".Q..",  // Solution 1
-    //   "...Q",
-    //   "Q...",
-    //   "..Q."],
-    //  ["..Q.",  // Solution 2
-    //   "Q...",
-    //   "...Q",
-    //   ".Q.."]
-    // ]
-    vector<vector<string> > solveNQueens(int n) {
-        vector<vector<string> > ret;
-        vector<int> sol(n + 1, 0);
-        int idx = 1;
-        while (idx > 0) {
-            ++sol[idx];
-            while (sol[idx] <= n && legalPosition(sol, idx) == false) {
-                ++sol[idx];
-            }
-            if (sol[idx] <= n) {
-                if (idx == n) {
-                    vector<string> line;
-                    for (int i = 1; i <= n; ++i) {
-                        string s(sol[i] - 1, '.');
-                        s.append("Q");
-                        s.append(n - sol[i], '.');
-                        line.push_back(s);
-                    }
-                    ret.push_back(line);
-                }
-                else {
-                    ++idx;
-                    sol[idx] = 0;
-                }
-            }
-            else {
-                --idx;
-            }
-        }
-        return ret;
     }
     // Gas Station
     // There are N gas stations along a circular route, where the amount of gas at station i is gas[i].

@@ -14,12 +14,14 @@ int main(){
     /**
      * Get and print the array
      */
+    /*
     cout << "Input the array size:" << endl;
     int size;
     cin >> size;
     cout << "Input the array:" << endl;
     int *arr = new int[size];
     Array::crtArr(arr, 0, size);
+    */
 
     /**
      * Get and print the vector
@@ -42,11 +44,7 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    cout << "Input the target value: " << endl;
-    int target;
-    cin >> target;
-    int index = s.searchInsert(arr, size, target);
-    cout << "The insert index is :" << index << endl;
+    cout << sizeof(test) << endl;
 
 
     // Time
