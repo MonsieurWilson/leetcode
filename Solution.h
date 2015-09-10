@@ -2149,16 +2149,13 @@ public:
     // Given an integer n, return the number of trailing zeroes in n!.
     // Note: Your solution should be in logarithmic time complexity.
     int trailingZeros(int n) {
-        int zeros = 0, num = n;
-        if (num <= 0) {
-            return 0;
-        }
+        int zeroes = 0, num = n;
         while (num > 0) {
             int times = num / 5;
-            zeros += times;
+            zeroes += times;
             num = times;
         }
-        return zeros;
+        return zeroes;
     }
     // Longest Consecutive Sequence
     // Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
