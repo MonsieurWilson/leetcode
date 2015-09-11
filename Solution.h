@@ -1029,14 +1029,12 @@ public:
         if (head && head->next) {
             ListNode *tmp = new ListNode(0);
             tmp->next = head;
-            // Using two pointers to swap nodes
             ListNode *pointer1 = head, *pointer2 = head->next, *ptr = tmp;
             while (pointer1 && pointer2) {
                 ptr->next = pointer2;
                 pointer1->next = pointer2->next;
                 pointer2->next = pointer1;
 
-                //reset the ptr、pointer1、pointer2
                 ptr = pointer1;
                 pointer1 = pointer1->next;
                 if (pointer1) {
@@ -1051,40 +1049,26 @@ public:
     // Given a binary tree, determine if it is height-balanced.
     // For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
     bool isBalanced(TreeNode *root) {
-        if (root == nullptr) {
-            return true;
-        }
-        else {
-            int leftDepth = maxDepth(root->left), rightDepth = maxDepth(root->right);
-            if (abs(leftDepth - rightDepth) < 2) {
-                return isBalanced(root->left) && isBalanced(root->right);
-            }
-            return false;
-        }
-    }
-
-    static const int UNBALANCE = -1;
-    bool isBalancedImproved(TreeNode *root) {
         // Pruning
         if (root == nullptr) {
             return true;
         }
-        int ret = isBalancedImprovedHelper(root);
-        return (isBalancedImprovedHelper(root) == UNBALANCE) ? false : true;
+        int ret = isBalancedHelper(root);
+        return isBalancedHelper(root) == -1 ? false : true;
     }
-    int isBalancedImprovedHelper(TreeNode *root) {
+    int isBalancedHelper(TreeNode *root) {
         if (root == nullptr) {
             return 0;
         }
-        int leftDepth = isBalancedImprovedHelper(root->left), rightDepth = isBalancedImprovedHelper(root->right);
-        if (leftDepth == UNBALANCE || rightDepth == UNBALANCE) {
-            return UNBALANCE;
+        int leftDepth = isBalancedHelper(root->left), rightDepth = isBalancedHelper(root->right);
+        if (leftDepth == -1 || rightDepth == -1) {
+            return -1;
         }
         if (abs(leftDepth - rightDepth) < 2) {
-            return max(leftDepth,rightDepth) + 1;
+            return max(leftDepth, rightDepth) + 1;
         }
         else {
-            return UNBALANCE;
+            return -1;
         }
     }
     // Sort Colors
