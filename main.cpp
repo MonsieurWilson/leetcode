@@ -26,14 +26,12 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
-    */
 
     /**
      * Create and traversal the tree
@@ -44,8 +42,7 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    cout << sizeof(test) << endl;
-
+    cout << "The peak element's index is: " << s.findPeakElement(vec) << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

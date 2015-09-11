@@ -189,6 +189,48 @@ public:
         }
         return candidate;
     }
+    // Majority Element II
+    // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
+    vector<int> majorityElementII(vector<int>& nums) {
+        vector<int> ret;
+        int cnt1 = 0, cnt2 = 0, candidate1 = 0, candidate2 = 0;
+        int lens = nums.size();
+        if (lens == 0) {
+            return ret;
+        }
+        // Moore voting algorithm
+        for (int idx = 0; idx < lens; ++idx) {
+            if (!cnt1 || nums[idx] == candidate1) {
+                ++cnt1;
+                candidate1 = nums[idx];
+            }
+            else if (!cnt2 || nums[idx] == candidate2) {
+                ++cnt2;
+                candidate2 = nums[idx];
+            }
+            else {
+                --cnt1;
+                --cnt2;
+            }
+        }
+        // check whether two candidates are real majority elements
+        cnt1 = cnt2 = 0;
+        for (int idx = 0; idx < lens; ++idx) {
+            if (nums[idx] == candidate1) {
+                ++cnt1;
+            }
+            else if (nums[idx] == candidate2) {
+                ++cnt2;
+            }
+        }
+        if (cnt1 > lens / 3) {
+            ret.push_back(candidate1);
+        }
+        if (cnt2 > lens / 3) {
+            ret.push_back(candidate2);
+        }
+        return ret;
+    }
     // Same Tree
     // Given two binary trees, write a function to check if they are equal or not.
     // Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
@@ -921,8 +963,8 @@ public:
         ListNode *head = new ListNode(0);
         ListNode *ptr = head;
         ListNode *pointer1 = l1, *pointer2 = l2;
-        while (pointer1 != nullptr || pointer2 != nullptr) {
-            if (pointer2 == nullptr || ((pointer1 != nullptr) && (pointer1->val < pointer2->val))) {
+        while (pointer1 || pointer2) {
+            if (pointer2 == nullptr || (pointer1 && pointer1->val < pointer2->val)) {
                 ptr->next = pointer1;
                 ptr = ptr->next;
                 pointer1 = pointer1->next;
@@ -939,64 +981,57 @@ public:
     // Given an array and a value, remove all instances of that value in place and return the new length.
     // The order of elements can be changed. It doesn't matter what you leave beyond the new length.
     int removeElement(int A[], int n, int elem) {
-        int count = 0;
-        for (int idx = 0; idx !=n; ++idx) {
+        int counter = 0;
+        for (int idx = 0; idx < n; ++idx) {
             if (A[idx] == elem) {
-                ++count;
+                ++counter;
             }
             else {
-                A[idx - count] = A[idx];
+                A[idx - counter] = A[idx];
             }
         }
-        return n - count;
+        return n - counter;
     }
     // Find Peak Element
     // A peak element is an element that is greater than its neighbors.
-    // Given an input array where num[i] ≠ num[i+1], find a peak element and return its index.
+    // Given an input array where num[i] =/= num[i+1], find a peak element and return its index.
     // The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
-    // You may imagine that num[-1] = num[n] = -∞.
+    // You may imagine that num[-1] = num[n] = -inf
     // Note:
     // Your solution should be in logarithmic complexity.
-    int findPeakElement(const vector<int> &num) {
-        int first = 0, last = num.size() - 1, mid;
-        while (first < last) {
-            mid = first + (last - first) / 2;
-            int left, right;
-            if (mid == 0) {
-                left = INT_MIN;
-                right = num[mid + 1];
-            }
-            else if (mid == num.size() - 1) {
-                left = num[mid - 1];
-                right = INT_MIN;
-            }
-            else {
-                left = num[mid - 1];
-                right = num[mid + 1];
-            }
-            // Noticing about the case:[INT_MIN,INT_MIN + 1], '>=' but not '>'
-            if (num[mid] >= left && num[mid] >= right) {
+    int findPeakElement(const vector<int> &nums) {
+        int beg = 0, end = nums.size() - 1, mid;
+        if (nums[beg] > INT_MIN && nums[beg] > nums[beg + 1]) {
+            return beg;
+        }
+        if (nums[end] > INT_MIN && nums[end] > nums[end - 1]) {
+            return end;
+        }
+        while (beg < end) {
+            mid = beg + (end - beg) / 2;
+            int left = nums[mid - 1], right = nums[mid + 1];
+            if (nums[mid] > left && nums[mid] > right) {
                 return mid;
             }
-            else if (num[mid] >= left && num[mid] <= right) {
-                first = mid + 1;
+            else if (nums[mid] > left && nums[mid] < right) {
+                beg = mid + 1;
             }
             else {
-                last = mid - 1;
+                end = mid - 1;
             }
         }
-        return first;
+        return beg;
     }
     // Swap Nodes in Pairs
     // Given a linked list, swap every two adjacent nodes and return its head.
     // Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.
     ListNode *swapPairs(ListNode *head) {
-        if (head != nullptr && head->next != nullptr) {
-            ListNode *temp = new ListNode(0);
-            temp->next = head;
+        if (head && head->next) {
+            ListNode *tmp = new ListNode(0);
+            tmp->next = head;
             // Using two pointers to swap nodes
-            ListNode *pointer1 = head, *pointer2 = head->next, *ptr = temp;
-            while (pointer1 != nullptr && pointer2 != nullptr) {
+            ListNode *pointer1 = head, *pointer2 = head->next, *ptr = tmp;
+            while (pointer1 && pointer2) {
                 ptr->next = pointer2;
                 pointer1->next = pointer2->next;
                 pointer2->next = pointer1;
@@ -1004,11 +1039,11 @@ public:
                 //reset the ptr、pointer1、pointer2
                 ptr = pointer1;
                 pointer1 = pointer1->next;
-                if (pointer1 != nullptr) {
+                if (pointer1) {
                     pointer2 = pointer1->next;
                 }
             }
-            head = temp->next;
+            head = tmp->next;
         }
         return head;
     }
@@ -7505,48 +7540,6 @@ public:
         }
         return result + cur_res;
     }
-    // Majority Element II
-    // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
-    vector<int> majorityElementII(vector<int>& nums) {
-        vector<int> ret;
-        int cnt1 = 0, cnt2 = 0, candidate1 = 0, candidate2 = 0;
-        int lens = nums.size();
-        if (lens == 0) {
-            return ret;
-        }
-        // Moore voting algorithm
-        for (int idx = 0; idx < lens; ++idx) {
-            if (!cnt1 || nums[idx] == candidate1) {
-                ++cnt1;
-                candidate1 = nums[idx];
-            }
-            else if (!cnt2 || nums[idx] == candidate2) {
-                ++cnt2;
-                candidate2 = nums[idx];
-            }
-            else {
-                --cnt1;
-                --cnt2;
-            }
-        }
-        // check whether two candidates are real majority elements
-        cnt1 = cnt2 = 0;
-        for (int idx = 0; idx < lens; ++idx) {
-            if (nums[idx] == candidate1) {
-                ++cnt1;
-            }
-            else if (nums[idx] == candidate2) {
-                ++cnt2;
-            }
-        }
-        if (cnt1 > lens / 3) {
-            ret.push_back(candidate1);
-        }
-        if (cnt2 > lens / 3) {
-            ret.push_back(candidate2);
-        }
-        return ret;
-    }
     // Kth Smallest Element in a BST
     // Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
     // Note:
@@ -7604,6 +7597,11 @@ public:
         else {
             return highBits + n / highBits * countDigitOne(highBits - 1) + countDigitOne(n % highBits);
         }
+    }
+
+    int countDigitOne_improved(int n) {
+        int iCount = 0, iFactor = 1;
+        int iLowerNum = 0, iCurrNum = 0, iHigherNum = 0;
     }
 
     // Follow up, the number of k
