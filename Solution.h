@@ -7583,11 +7583,6 @@ public:
         }
     }
 
-    int countDigitOne_improved(int n) {
-        int iCount = 0, iFactor = 1;
-        int iLowerNum = 0, iCurrNum = 0, iHigherNum = 0;
-    }
-
     // Follow up, the number of k
     int countDigitK(int n, int k) {
         long long base = 1;
@@ -7606,6 +7601,27 @@ public:
             base *= 10;
         }
         return ret;
+    }
+    int countDigitK_improved(int n, int k) {
+        int iCount = 0, iFactor = 1;
+        int iLowerNum = 0, iCurrNum = 0, iHigherNum = 0;
+        while (n / iFactor) {
+            iLowerNum = n % iFactor;
+            iCurrNum = n / iFactor % 10;
+            iHigherNum = n / iFactor / 10;
+            if (iCurrNum < k) {
+                iCount += iHigherNum * iFactor;
+            }
+            else if (iCurrNum == k) {
+                iCount += iHigherNum * iFactor + iLowerNum + 1;
+            }
+            else {
+                iCount += (iHigherNum + 1) * iFactor;
+            }
+            iFactor *= 10;
+        }
+
+        return iCount;
     }
     // Product of Array Except Self
     // Given an array of n integers where n > 1, nums, return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
