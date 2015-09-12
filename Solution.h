@@ -172,18 +172,18 @@ public:
     // Solution: Sorting, Hash table, Divide and conquer, Bit manipulation, Moore voting algorithm
     int majorityElement(vector<int> &num) {
         // Moore voting algorithm
-        int candidate = 0, counter = 0;
+        int candidate = 0, cnt = 0;
         for (int idx = 0; idx < num.size(); ++idx) {
-            if (counter == 0) {
+            if (cnt == 0) {
                 candidate = num[idx];
-                ++counter;
+                ++cnt;
             }
             else {
                 if (candidate == num[idx]) {
-                    ++counter;
+                    ++cnt;
                 }
                 else {
-                    --counter;
+                    --cnt;
                 }
             }
         }
@@ -981,16 +981,16 @@ public:
     // Given an array and a value, remove all instances of that value in place and return the new length.
     // The order of elements can be changed. It doesn't matter what you leave beyond the new length.
     int removeElement(int A[], int n, int elem) {
-        int counter = 0;
+        int cnt = 0;
         for (int idx = 0; idx < n; ++idx) {
             if (A[idx] == elem) {
-                ++counter;
+                ++cnt;
             }
             else {
-                A[idx - counter] = A[idx];
+                A[idx - cnt] = A[idx];
             }
         }
-        return n - counter;
+        return n - cnt;
     }
     // Find Peak Element
     // A peak element is an element that is greater than its neighbors.
@@ -1080,10 +1080,10 @@ public:
         int zero = 0, two = n - 1;
         for (int idx = 0; idx <= two; ++idx) {
             while (A[idx] == 2 && idx < two) {
-                swap(A[idx],A[two--]);
+                swap(A[idx], A[two--]);
             }
             while (A[idx] == 0 && idx > zero) {
-                swap(A[idx],A[zero++]);
+                swap(A[idx], A[zero++]);
             }
         }
     }
@@ -1104,18 +1104,18 @@ public:
     // Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
     // Do not allocate extra space for another array, you must do this in place with constant memory.
     int removeDuplicates(int A[], int n) {
-        int count = 0;
+        int cnt = 0;
         for (int idx = 0; idx != n; ++idx) {
             if (idx != n - 1 && A[idx] == A[idx + 1]) {
-                ++count;
+                ++cnt;
             }
             else {
-                if (count > 0) {
-                    A[idx - count] = A[idx];
+                if (cnt > 0) {
+                    A[idx - cnt] = A[idx];
                 }
             }
         }
-        return n - count;
+        return n - cnt;
     }
     // Unique Paths
     // A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
@@ -1711,16 +1711,16 @@ public:
     // Given sorted array A = [1,1,1,2,2,3],
     // Your function should return length = 5, and A is now [1,1,2,2,3].
     int removeDuplicatesII(int A[], int n) {
-        int count = 0;
+        int cnt = 0;
         for (int idx = 0; idx != n; ++idx) {
             if (idx < n - 2 && A[idx] == A[idx + 2]) {
-                ++count;
+                ++cnt;
             }
-            else if (count > 0) {
-                A[idx - count] = A[idx];
+            else if (cnt > 0) {
+                A[idx - cnt] = A[idx];
             }
         }
-        return n - count;
+        return n - cnt;
     }
 
     int removeDuplicatesII_improved(int A[], int n) {
@@ -1852,14 +1852,14 @@ public:
             return temp;
         }
         int prep = 0, cur = prep + 2,mov = cur;
-        int count;
+        int cnt;
         // Start at 3 Pascal's Triangle
         for (int num = 3; num <= length; ++num) {
-            count = 1;
-            while (count <= num) {
+            cnt = 1;
+            while (cnt <= num) {
                 int prepNext = (prep + 1) % length;
                 int movNext = (mov + 1) % length;
-                if (count == 1 || count == num) {
+                if (cnt == 1 || cnt == num) {
                     temp[mov] = 1;
                 }
                 else {
@@ -1867,17 +1867,17 @@ public:
                     prep = prepNext;
                 }
                 mov = movNext;
-                ++count;
+                ++cnt;
             }
             prep = cur;
             cur = mov;
         }
         vector<int> ret;
-        count = 1;
-        while (count <= length) {
+        cnt = 1;
+        while (cnt <= length) {
             ret.push_back(temp[prep]);
             prep = (prep + 1) % length;
-            ++count;
+            ++cnt;
         }
         return ret;
     }
@@ -2971,28 +2971,28 @@ public:
         if (head == nullptr) {
             return head;
         }
-        int count = 1;
+        int cnt = 1;
         ListNode *reverseHead = head, *breakpoint = head;
         // Find the breakpoint node and the reverseHead node which points to the begining of the reverse range.
         if (m == 1) {
             breakpoint = nullptr;
         }
         else {
-            while (count < m - 1) {
-                ++count;
+            while (cnt < m - 1) {
+                ++cnt;
                 breakpoint = breakpoint->next;
             }
             reverseHead = breakpoint->next;
-            ++count;
+            ++cnt;
         }
         ListNode *reverseTail = reverseHead, *remainHead = reverseHead->next;
-        while (count < n) {
+        while (cnt < n) {
             ListNode *tmp = remainHead->next;
             remainHead->next = reverseTail;
 
             reverseTail = remainHead;
             remainHead = tmp;
-            ++count;
+            ++cnt;
         }
         (breakpoint == nullptr) ? (head = reverseTail) : (breakpoint->next = reverseTail);
         reverseHead->next = remainHead;
@@ -3109,19 +3109,19 @@ public:
             ret = "";
             // Initialize the tmp to be first char of the s.
             tmp = s.front();
-            int count = 1;
+            int cnt = 1;
             for (int idx = 1; idx < s.size(); ++idx) {
                 if (tmp != s[idx]) {
-                    char num = '1' + count - 1;
+                    char num = '1' + cnt - 1;
                     ret = ret + num + tmp;
                     tmp = s[idx];
-                    count = 1;
+                    cnt = 1;
                 }
                 else {
-                    ++count;
+                    ++cnt;
                 }
             }
-            char num = '1' + count - 1;
+            char num = '1' + cnt - 1;
             ret = ret + num + tmp;
             s = ret;
         }
@@ -3249,13 +3249,13 @@ public:
     }
 
     ListNode *reverseKGroup_improved(ListNode *head, int k) {
-        ListNode *count = head;
-        int length = 0;
-        while (count != nullptr) {
-            count = count->next;
-            ++length;
+        ListNode *tmp = head;
+        int lens = 0;
+        while (tmp) {
+            tmp = tmp->next;
+            ++lens;
         }
-        if (length == 0 || k <= 1) {
+        if (lens == 0 || k <= 1) {
             return head;
         }
         //    reverseHead  reverseTail
@@ -3265,15 +3265,15 @@ public:
         // ...-> x ->) a -> b -> c -> d ->( y ->...
         // ...-> x ->) a <- b <- c <- d   ( y ->...
         ListNode *reverseHead = head, *breakpoint = head, *reverseTail = reverseHead, *remainHead = reverseHead->next;
-        for (int idx = k; idx <= length; idx += k) {
-            int count = 1;
+        for (int idx = k; idx <= lens; idx += k) {
+            int cnt = 1;
             // Reverse the list.
-            while (count < k) {
+            while (cnt < k) {
                 ListNode *tmp = remainHead->next;
                 remainHead->next = reverseTail;
                 reverseTail = remainHead;
                 remainHead = tmp;
-                ++count;
+                ++cnt;
             }
             (breakpoint == head) ? (head = reverseTail) : (breakpoint->next = reverseTail);
             reverseHead->next = remainHead;
@@ -4156,7 +4156,7 @@ public:
         }
         ptr->next = head;
         // Find the pivot node's prev node.
-        for(int count = 1; count <= len - k % len; ++count) {
+        for(int i = 1; i <= len - k % len; ++i) {
             ptr = ptr->next;
         }
         // Rotate
@@ -4647,8 +4647,8 @@ public:
         restoreIpAddresses(s, 0, 1, ip, ret);
         return ret;
     }
-    void restoreIpAddresses(string s, const int &idx, const int& count, string ip, vector<string> &ret) {
-        if (count > 4 || idx >= s.size()) {
+    void restoreIpAddresses(string s, const int &idx, const int& cnt, string ip, vector<string> &ret) {
+        if (cnt > 4 || idx >= s.size()) {
             return;
         }
         for (int len = 1; len <= 3; ++len) {
@@ -4656,14 +4656,14 @@ public:
             if (isLegalIp(i) == false) {
                 return;
             }
-            if (count == 1) {
-                restoreIpAddresses(s, idx + len, count + 1, i, ret);
+            if (cnt == 1) {
+                restoreIpAddresses(s, idx + len, cnt + 1, i, ret);
             }
-            else if (count == 4 && idx + len == s.size()) {
+            else if (cnt == 4 && idx + len == s.size()) {
                 ret.push_back(ip + '.' + i);
             }
             else {
-                restoreIpAddresses(s, idx + len, count + 1, ip + '.' + i, ret);
+                restoreIpAddresses(s, idx + len, cnt + 1, ip + '.' + i, ret);
             }
         }
     }
@@ -5144,25 +5144,25 @@ public:
                 ++idx;
             }
             // Count the number of '.'
-            int count = 0;
+            int cnt = 0;
             while (idx < path.size() && path[idx] == '.') {
                 ++idx;
-                ++count;
+                ++cnt;
             }
             // Combine the '.' and the words except '/'
-            string ele(count, '.');
+            string ele(cnt, '.');
             while (idx < path.size() && path[idx] != '/') {
                 ele += path[idx++];
             }
             // Only '.'s between two '/'
-            if (count == ele.size()) {
-                if (count == 2) {
+            if (cnt == ele.size()) {
+                if (cnt == 2) {
                     if (!pathStack.empty()) {
                         pathStack.pop();
                     }
                     continue;
                 }
-                else if (count == 1) {
+                else if (cnt == 1) {
                     continue;
                 }
             }
@@ -5684,7 +5684,7 @@ public:
         }
         k %= n;
         // Keep rotating until we have rotated n elements.
-        for (int idx = 0, count = 0; count < n; ++idx) {
+        for (int idx = 0, cnt = 0; cnt < n; ++idx) {
             int cur = idx;
             int temp, next = nums[cur];
             do {
@@ -5692,7 +5692,7 @@ public:
                 nums[(cur + k) % n] = next;
                 next = temp;
                 cur = (cur + k) % n;
-                ++count;
+                ++cnt;
             } while (cur != idx);
         }
     }
@@ -5868,19 +5868,19 @@ public:
             while (idx >= 0 && s[idx] == ' ') {
                 --idx;
             }
-            int count = 0;
+            int cnt = 0;
             while (idx >= 0 && s[idx] != ' ') {
-                ++count;
+                ++cnt;
                 --idx;
             }
-            if (count == 0) {
+            if (cnt == 0) {
                 break;
             }
             else if (ret == "") {
-                ret = s.substr(idx + 1, count);
+                ret = s.substr(idx + 1, cnt);
             }
             else {
-                ret += ' ' + s.substr(idx + 1, count);
+                ret += ' ' + s.substr(idx + 1, cnt);
             }
         }
         s = ret;
@@ -6327,8 +6327,8 @@ public:
             {"", "M", "MM", "MMM"}
         };
         string ret;
-        for (int count = 0; num > 0; ++count) {
-            ret = table[count][num % 10] + ret;
+        for (int i = 0; num > 0; ++i) {
+            ret = table[i][num % 10] + ret;
             num /= 10;
         }
         return ret;
@@ -6474,7 +6474,7 @@ public:
         while (idx < len && s[len - 1] == ' ') {
             --len;
         }
-        int count = 0;
+        int cnt = 0;
         bool preNum = false;
         for (; idx < len; ++idx) {
             while (idx < len && validNumber(s[idx])) {
@@ -6484,8 +6484,8 @@ public:
             if (idx >= len) {
                 break;
             }
-            if (count == 0 && preNum && (s[idx] == '/' || s[idx] == 'e')) {
-                ++count;
+            if (cnt == 0 && preNum && (s[idx] == '/' || s[idx] == 'e')) {
+                ++cnt;
             }
             else if (s[idx] == '.') {
                 continue;
