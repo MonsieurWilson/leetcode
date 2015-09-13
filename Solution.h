@@ -1123,7 +1123,7 @@ public:
     // How many possible unique paths are there?
     int uniquePaths(int m, int n) {
         // Combination
-        return combination(m + n -2, n - 1);
+        return combination(m + n - 2, n - 1);
     }
     int combination(int m, int n) {
         if (n > m / 2) {
@@ -1134,19 +1134,19 @@ public:
             ret *= m - n + idx;
             ret /= idx;
         }
-        return static_cast<int>(ret);
+        return ret;
     }
 
     int uniquePaths_dp(int m, int n) {
         // Dynamic Programming
         vector<int> dp(n, 0);
-        for (int idxi = 0; idxi < m; ++idxi) {
-            for (int idxj = 0; idxj < n; ++idxj) {
-                if (idxi == 0 || idxj == 0) {
-                    dp[idxj] = 1;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || j == 0) {
+                    dp[j] = 1;
                 }
                 else {
-                    dp[idxj] += dp[idxj - 1];
+                    dp[j] += dp[j - 1];
                 }
             }
         }
