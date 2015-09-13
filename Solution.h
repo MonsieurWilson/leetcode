@@ -1156,24 +1156,54 @@ public:
     // Suppose a sorted array is rotated at some pivot unknown to you beforehand.
     // Find the minimum element.
     // You may assume no duplicate exists in the array.
-    int findMin(vector<int> &num) {
+    int findMin(vector<int> &nums) {
         // Binary Search
-        int beg = 0, end = num.size();
-        int mid;
-        while (beg < end) {
-            mid = (beg + end - 1) / 2;
-            if (num[mid] < num[(mid - 1 + end) % end] && num[mid] < num[(mid + 1) % end]) {
+        int lens = nums.size() - 1;
+        int beg = 0, end = nums.size(), mid;
+        while (beg <= end) {
+            mid = beg + (end - beg) / 2;
+            if (nums[mid] < nums[(mid - 1 + lens) % lens] && nums[mid] < nums[(mid + 1) % lens]) {
                 break;
             }
-            if (num[mid] > num[end - 1]) {
+            if (nums[mid] > nums[end]) {
                 // Pivot is in the right half
                 beg = mid + 1;
             }
             else {
-                end = mid;
+                end = mid - 1;
             }
         }
-        return num[mid];
+        return nums[mid];
+    }
+    // Find Minimum in Rotated Sorted Array II
+    // Follow up for "Find Minimum in Rotated Sorted Array":
+    // What if duplicates are allowed?
+    // Would this affect the run-time complexity? How and why?
+    int findMinII(vector<int> &nums) {
+        int beg = 0, end = nums.size() - 1;
+        int pos;
+        while (beg <= end) {
+            int mid = beg + (end - beg) / 2;
+            if (nums[beg] < nums[end]) {
+                // Already sorted, return the first value
+                pos = beg;
+                break;
+            }
+            else if (nums[beg] == nums[end]) {
+                // handle the duplicates
+                --end;
+            }
+            else {
+                if (nums[mid] >= nums[beg]) {
+                    beg = mid + 1;
+                }
+                else if (nums[mid] < nums[beg]) {
+                    end = mid;
+                }
+            }
+            pos = beg;
+        }
+        return nums[pos];
     }
     // Generate Parentheses
     // Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
@@ -1880,36 +1910,6 @@ public:
             ++cnt;
         }
         return ret;
-    }
-    // Find Minimum in Rotated Sorted Array II
-    // Follow up for "Find Minimum in Rotated Sorted Array":
-    // What if duplicates are allowed?
-    // Would this affect the run-time complexity? How and why?
-    int findMinII(vector<int> &num) {
-        int beg = 0, end = num.size();
-        int pos;
-        while (beg < end) {
-            int mid = (beg + end - 1) / 2;
-            if (num[beg] < num[end - 1]) {
-                // Already sorted, return the beg.
-                pos = beg;
-                break;
-            }
-            else if (num[beg] == num[end - 1]) {
-                // handle the duplicates
-                --end;
-            }
-            else {
-                if (num[mid] >= num[beg]) {
-                    beg = mid + 1;
-                }
-                else if (num[mid] < num[beg]) {
-                    end = mid + 1;
-                }
-            }
-            pos = beg;
-        }
-        return num[pos];
     }
     // Trapping Rain Water
     // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.

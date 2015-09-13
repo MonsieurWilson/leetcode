@@ -44,12 +44,6 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    cout << "Input the number n and k: " << endl;
-    int n, k;
-    while (cin >> n >> k) {
-        cout << "The result is:" << endl;
-        cout << s.countDigitK(n, k) << endl << s.countDigitOne_improved(n, k) << endl;
-    }
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
