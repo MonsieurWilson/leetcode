@@ -26,14 +26,12 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
-    */
 
     /**
      * Create and traversal the tree
@@ -44,6 +42,7 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
+    cout << "The minimum element is: " << s.findMinII_another(vec) << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

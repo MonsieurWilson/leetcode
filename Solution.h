@@ -1157,9 +1157,22 @@ public:
     // Find the minimum element.
     // You may assume no duplicate exists in the array.
     int findMin(vector<int> &nums) {
+        int beg = 0, end = nums.size() - 1, mid;
+        while (beg < end) {
+            mid = beg + (end - beg) / 2;
+            if (nums[mid] > nums[end]) {
+                beg = mid + 1;
+            }
+            else {
+                end = mid;
+            }
+        }
+        return nums[end];
+    }
+    int findMin_improved(vector<int> &nums) {
         // Binary Search
-        int lens = nums.size() - 1;
-        int beg = 0, end = nums.size(), mid;
+        int lens = nums.size();
+        int beg = 0, end = nums.size() - 1, mid;
         while (beg <= end) {
             mid = beg + (end - beg) / 2;
             if (nums[mid] < nums[(mid - 1 + lens) % lens] && nums[mid] < nums[(mid + 1) % lens]) {
@@ -1180,30 +1193,41 @@ public:
     // What if duplicates are allowed?
     // Would this affect the run-time complexity? How and why?
     int findMinII(vector<int> &nums) {
-        int beg = 0, end = nums.size() - 1;
-        int pos;
-        while (beg <= end) {
+        return findMinII(nums, 0, nums.size() - 1);
+    }
+    int findMinII(vector<int> &nums, int beg, int end) {
+        while (beg < end) {
             int mid = beg + (end - beg) / 2;
-            if (nums[beg] < nums[end]) {
-                // Already sorted, return the first value
-                pos = beg;
-                break;
+            if (nums[mid] > nums[end]) {
+                beg = mid + 1;
             }
-            else if (nums[beg] == nums[end]) {
-                // handle the duplicates
-                --end;
+            else if (nums[mid] < nums[end]) {
+                end = mid;
             }
             else {
-                if (nums[mid] >= nums[beg]) {
-                    beg = mid + 1;
-                }
-                else if (nums[mid] < nums[beg]) {
-                    end = mid;
-                }
+                return min(findMinII(nums, beg, mid), findMinII(nums, mid + 1, end));
             }
-            pos = beg;
         }
-        return nums[pos];
+        return nums[end];
+    }
+
+    int findMinII_another(vector<int> &num) {
+        int beg = 0, end = num.size() - 1;
+        // Keeping the min element's suffix
+        while (beg <= end){
+            int mid = beg + (end - beg) / 2;
+            if (num[mid] == num[end]){
+                // Handling the duplicates
+                --end;
+            }
+            else if (num[mid] > num[end]){
+                beg = mid + 1;
+            }
+            else {
+                end = mid;
+            }
+        }
+        return num[beg];
     }
     // Generate Parentheses
     // Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
