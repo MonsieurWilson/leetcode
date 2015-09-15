@@ -1240,7 +1240,7 @@ public:
         left = right = n;
         int *array = new int[2 * n + 1];
         vector<string> ret;
-        gpHelper(1,ret,array);
+        gpHelper(1, ret, array);
         return ret;
     }
     void gpHelper(const int &k, vector<string> &ret, int *array) {
@@ -1273,15 +1273,15 @@ public:
         }
     }
 
-    vector<string> generateParenthesis2(int n) {
+    vector<string> generateParenthesis_another(int n) {
         vector<string> ret;
         if (n >= 1) {
             string parens;
-            gp_recursionHelper(ret, parens, n, n);
+            gp_anotherHelper(ret, parens, n, n);
         }
         return ret;
     }
-    void gp_recursionHelper(vector<string> &ret, string &parens, const int &left, const int &right) {
+    void gp_anotherHelper(vector<string> &ret, string &parens, const int &left, const int &right) {
         if (left > right || left < 0) {
             return;
         }
@@ -1290,10 +1290,10 @@ public:
             return;
         }
         parens.append("(");
-        gp_recursionHelper(ret,parens,left - 1,right);
+        gp_recursionHelper(ret, parens, left - 1, right);
         parens.erase(parens.end() - 1);
         parens.append(")");
-        gp_recursionHelper(ret,parens,left,right - 1);
+        gp_recursionHelper(ret, parens, left, right - 1);
         parens.erase(parens.end() - 1);
     }
     // Container With Most Water
