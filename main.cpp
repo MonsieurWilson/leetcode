@@ -26,14 +26,12 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
-    */
 
     /**
      * Create and traversal the tree
@@ -44,11 +42,8 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    int n;
-    cout << "Input the value of n:" << endl;
-    while (cin >> n) {
-        cout << s.generateParenthesis_another(n) << endl;
-    }
+    vector<vector<int> > ret = s.permute(vec);
+    cout << ret << endl;
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

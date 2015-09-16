@@ -85,4 +85,11 @@ public:
         cout << "]";
     }
 };
+
+template <typename T>
+ostream &operator << (ostream &o, const vector<vector<T> > &vec) {
+    Matrix::prtMat(vec);
+    return o;
+}
+
 #endif

@@ -2853,15 +2853,17 @@ public:
     // Implement pow(x, n).
     double pow(double x, int n) {
         // O(logN)
-        // x ^ 9 = x ((x^2)^2)^2
-        // x ^ 6 = x^2 (x^2)^2
+        // x ^ n = x ^ (a[k] * 2 ^ k + a[k-1] * 2 ^ k-1 + ... a[0])
+        bool sign = n > 0 ? true : false;
+        n = abs(n);
         double ret = 1.0;
-        for (int i = n; i != 0; i /= 2, x *= x) {
-            if (i % 2 != 0) {
+        for (; n; n >>= 1) {
+            if (n & 1) {
                 ret *= x;
             }
+            x *= x;
         }
-        return n < 0 ? 1.0 / ret : ret;
+        return sign ? ret : 1.0 / ret;
     }
 
     double pow_recursion(double x, int n) {
@@ -2875,7 +2877,7 @@ public:
         }
         // handle the case 1.0, INT_MIN
         else if (abs(x) == 1) {
-            return n % 2 == 0 ? 1 : x;
+            return n & 1 ? x : 1;
         }
         if (n < 0) {
             return pow_recursion(1.0 / x, -n);
