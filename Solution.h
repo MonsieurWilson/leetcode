@@ -1256,7 +1256,7 @@ public:
             }
             ret.push_back(s);
         }
-        // The left parentheses left shouldn't be more than right ones.
+        // The left "(" shouldn't be more than ")"
         if (left > 0 && left <= right) {
             --left;
             array[k] = 1;
@@ -1276,12 +1276,12 @@ public:
     vector<string> generateParenthesis_another(int n) {
         vector<string> ret;
         if (n >= 1) {
-            string parens;
-            gp_anotherHelper(ret, parens, n, n);
+            string parens(2 * n, '(');
+            gp_anotherHelper(ret, parens, 0, n, n);
         }
         return ret;
     }
-    void gp_anotherHelper(vector<string> &ret, string &parens, const int &left, const int &right) {
+    void gp_anotherHelper(vector<string> &ret, string &parens, const int &idx, const int &left, const int &right) {
         if (left > right || left < 0) {
             return;
         }
@@ -1289,21 +1289,19 @@ public:
             ret.push_back(parens);
             return;
         }
-        parens.append("(");
-        gp_recursionHelper(ret, parens, left - 1, right);
-        parens.erase(parens.end() - 1);
-        parens.append(")");
-        gp_recursionHelper(ret, parens, left, right - 1);
-        parens.erase(parens.end() - 1);
+        parens[idx] = '(';
+        gp_anotherHelper(ret, parens, idx + 1, left - 1, right);
+        parens[idx] = ')';
+        gp_anotherHelper(ret, parens, idx + 1, left, right - 1);
     }
     // Container With Most Water
     // Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
     int maxArea(vector<int> &height) {
-        int beg = 0, end = height.size();
+        int beg = 0, end = height.size() - 1;
         int ret = 0;
-        while (beg < end) {
-            ret = max(ret, min(height[beg], height[end - 1]) * (end - beg - 1));
-            if (height[beg] < height[end - 1]) {
+        while (beg <= end) {
+            ret = max(ret, min(height[beg], height[end]) * (end - beg));
+            if (height[beg] < height[end]) {
                 ++beg;
             }
             else {
@@ -1335,50 +1333,38 @@ public:
     // [1,2,3] have the following permutations:
     // [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], and [3,2,1].
     vector<vector<int> > permute(vector<int> &num) {
-        // Backtracking
-        int size = num.size();
         vector<vector<int> > ret;
-        vector<int> tmp(size,0);
-        permuteBackTrack(0, size, ret, tmp, num);
-        return ret;
-    }
-    void permuteBackTrack(int k, int size, vector<vector<int> > &ret, vector<int> &tmp, vector<int> &num) {
-        if (k == size) {
-            ret.push_back(tmp);
-            return;
-        }
-        for (int idx = 0; idx != size; ++idx) {
-            tmp[k] = num[idx];
-            if (legalPermutation(k, tmp)) {
-                permuteBackTrack(k + 1, size , ret, tmp, num);
-            }
-        }
-    }
-    bool legalPermutation(int k, vector<int> tmp) {
-        for (int idx = 0; idx < k; ++idx) {
-            if (tmp[k] == tmp[idx]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    vector<vector<int> > permute_improved(vector<int> &num) {
-        vector<vector<int> > ret;
-        if (!num.empty()) {
-            permute_improved(0, num, ret);
+        if (num.size()) {
+            permuteHelper(0, num, ret);
         }
         return ret;
     }
-    void permute_improved(int idx, vector<int> line, vector<vector<int> > &ret) {
+    void permuteHelper(const int &idx, vector<int> line, vector<vector<int> > &ret) {
         ret.push_back(line);
         for (int i = idx; i < line.size(); ++i) {
             for (int j = i + 1; j < line.size(); ++j) {
                 swap(line[i], line[j]);
-                permute_improved(i + 1, line, ret);
+                permuteHelper(i + 1, line, ret);
                 swap(line[i], line[j]);
             }
         }
+    }
+    // Permutations II
+    // Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+    // For example,
+    // [1,1,2] have the following unique permutations:
+    // [1,1,2], [1,2,1], and [2,1,1].
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        vector<vector<int> > ret;
+        if (num.size() == 0) {
+            return ret;
+        }
+        sort(num.begin(), num.end());
+        ret.push_back(num);
+        while (next_permutation(num.begin(), num.end())) {
+            ret.push_back(num);
+        }
+        return ret;
     }
     // Merge Sorted Array
     // Given two sorted integer arrays A and B, merge B into A as one sorted array.
@@ -3232,23 +3218,6 @@ public:
             swap(num[idx], num[num.size() - 1 + start - idx]);
         }
         //reverse(num.begin() + start - 1, num.end());
-    }
-    // Permutations II
-    // Given a collection of numbers that might contain duplicates, return all possible unique permutations.
-    // For example,
-    // [1,1,2] have the following unique permutations:
-    // [1,1,2], [1,2,1], and [2,1,1].
-    vector<vector<int> > permuteUnique(vector<int> &num) {
-        vector<vector<int> > ret;
-        if (num.size() == 0) {
-            return ret;
-        }
-        sort(num.begin(), num.end());
-        ret.push_back(num);
-        while (next_permutation(num.begin(), num.end())) {
-            ret.push_back(num);
-        }
-        return ret;
     }
     // Reverse Nodes in k-Group
     // Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
