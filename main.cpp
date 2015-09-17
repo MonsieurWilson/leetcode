@@ -42,7 +42,8 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    vector<vector<int> > ret = s.permute(vec);
+    vector<vector<int> > ret = s.permuteUnique(vec);
+    cout << "PermuteUnique:" << endl;
     cout << ret << endl;
 
     // Time

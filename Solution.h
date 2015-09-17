@@ -1281,7 +1281,7 @@ public:
         }
         return ret;
     }
-    void gp_anotherHelper(vector<string> &ret, string &parens, const int &idx, const int &left, const int &right) {
+    void gp_anotherHelper(vector<string> &ret, string &parens, const int &index, const int &left, const int &right) {
         if (left > right || left < 0) {
             return;
         }
@@ -1289,10 +1289,10 @@ public:
             ret.push_back(parens);
             return;
         }
-        parens[idx] = '(';
-        gp_anotherHelper(ret, parens, idx + 1, left - 1, right);
-        parens[idx] = ')';
-        gp_anotherHelper(ret, parens, idx + 1, left, right - 1);
+        parens[index] = '(';
+        gp_anotherHelper(ret, parens, index + 1, left - 1, right);
+        parens[index] = ')';
+        gp_anotherHelper(ret, parens, index + 1, left, right - 1);
     }
     // Container With Most Water
     // Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -1317,13 +1317,13 @@ public:
     // Could you do this in-place?
     void rotate(vector<vector<int> > &matrix) {
         int size = matrix.size();
-        for (int idxj = 0; idxj < size / 2; ++idxj) {
-            for (int idxi = idxj; idxi < size - 1 - idxj; ++idxi) {
-                int temp = matrix[idxi][idxj];
-                matrix[idxi][idxj] = matrix[size - 1 - idxj][idxi];
-                matrix[size - 1 - idxj][idxi] = matrix[size - 1 - idxi][size - 1 - idxj];
-                matrix[size - 1 - idxi][size - 1 - idxj] = matrix[idxj][size - 1 - idxi];
-                matrix[idxj][size - 1 - idxi] = temp;
+        for (int j = 0; j < size / 2; ++j) {
+            for (int i = j; i < size - 1 - j; ++i) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[size - 1 - j][i];
+                matrix[size - 1 - j][i] = matrix[size - 1 - i][size - 1 - j];
+                matrix[size - 1 - i][size - 1 - j] = matrix[j][size - 1 - i];
+                matrix[j][size - 1 - i] = temp;
             }
         }
     }
@@ -1339,9 +1339,9 @@ public:
         }
         return ret;
     }
-    void permuteHelper(const int &idx, vector<int> line, vector<vector<int> > &ret) {
+    void permuteHelper(const int &index, vector<int> line, vector<vector<int> > &ret) {
         ret.push_back(line);
-        for (int i = idx; i < line.size(); ++i) {
+        for (int i = index; i < line.size(); ++i) {
             for (int j = i + 1; j < line.size(); ++j) {
                 swap(line[i], line[j]);
                 permuteHelper(i + 1, line, ret);
