@@ -4243,17 +4243,17 @@ public:
         return ret;
     }
     int maximalRectangleHelper(vector<int> &height) {
-        stack<int> idxStack;
+        stack<int> idxSt;
         int maxArea = 0;
         height.push_back(0);
-        for (int idx = 0; idx < height.size(); ++idx) {
-            while (!idxStack.empty() && height[idxStack.top()] >= height[idx]) {
-                int h = height[idxStack.top()];
-                idxStack.pop();
-                int beg = idxStack.empty() ? -1 : idxStack.top();
-                maxArea = max(maxArea, h * (idx - beg - 1));
+        for (int i = 0; i < height.size(); ++i) {
+            while (!idxSt.empty() && height[idxSt.top()] >= height[i]) {
+                int h = height[idxSt.top()];
+                idxSt.pop();
+                int beg = idxSt.empty() ? -1 : idxSt.top();
+                maxArea = max(maxArea, h * (i - beg - 1));
             }
-            idxStack.push(idx);
+            idxSt.push(i);
         }
         return maxArea;
     }
@@ -4265,12 +4265,12 @@ public:
     vector<Interval> merge(vector<Interval> &intervals) {
         sort(intervals.begin(), intervals.end(), mySortFunction);
         vector<Interval> ret;
-        for (int idx = 0; idx < intervals.size(); ++idx) {
-            if (ret.size() == 0 || ret.back().end < intervals[idx].start) {
-                ret.push_back(intervals[idx]);
+        for (int i = 0; i < intervals.size(); ++i) {
+            if (ret.size() == 0 || ret.back().end < intervals[i].start) {
+                ret.push_back(intervals[i]);
             }
             else {
-                ret.back().end = max(ret.back().end, intervals[idx].end);
+                ret.back().end = max(ret.back().end, intervals[i].end);
             }
         }
         return ret;
