@@ -26,12 +26,14 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
+    */
 
     /**
      * Create and traversal the tree
@@ -42,8 +44,17 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-        s.nextPermutation(vec);
-        cout << vec << endl;
+
+    vector<vector<int> > mat;
+    Matrix::crtMat(mat);
+    cout << "Input the searching number:" << endl;
+    int target;
+    while (cin >> target) {
+        bool ret = s.searchMatrix_another(mat, target);
+        cout << (ret ? "True" : "False") << endl;
+    }
+
+
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
