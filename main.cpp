@@ -26,12 +26,14 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
+    */
 
     /**
      * Create and traversal the tree
@@ -42,9 +44,11 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    vector<vector<int> > ret = s.permuteUnique(vec);
-    cout << "PermuteUnique:" << endl;
-    cout << ret << endl;
+    cout << "Input the value of n:" << endl;
+    int n;
+    while (cin >> n) {
+        cout << s.grayCode(n) << endl;
+    }
 
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 

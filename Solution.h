@@ -899,15 +899,15 @@ public:
     }
     // Maximum Subarray
     // Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
-    int maxSubArray(int A[], int n) {
+    int maxSubArray(vector<int>& nums) {
         // Dynamic Programming
         int tmpSum, sum;
-        tmpSum = sum = A[0];
-        for (int idx = 1; idx < n; ++idx) {
+        tmpSum = sum = nums[0];
+        for (int i = 1; i < nums.size(); ++i) {
             if (tmpSum < 0) {
                 tmpSum = 0;
             }
-            tmpSum += A[idx];
+            tmpSum += nums[i];
             sum = max(sum, tmpSum);
         }
         return sum;
@@ -1054,7 +1054,7 @@ public:
             return true;
         }
         int ret = isBalancedHelper(root);
-        return isBalancedHelper(root) == -1 ? false : true;
+        return ret == -1 ? false : true;
     }
     int isBalancedHelper(TreeNode *root) {
         if (root == nullptr) {
@@ -1092,10 +1092,10 @@ public:
     vector<int> grayCode(int n) {
         vector<int> ret;
         ret.push_back(0);
-        for (int idx = 0; idx != n; ++idx) {
-            int temp = 1 << idx;
-            for (int idx2 = ret.size() - 1; idx2 >= 0; --idx2) {
-                ret.push_back(ret[idx2] + temp);
+        for (int i = 0; i != n; ++i) {
+            int temp = 1 << i;
+            for (int j = ret.size() - 1; j >= 0; --j) {
+                ret.push_back(ret[j] + temp);
             }
         }
         return ret;
