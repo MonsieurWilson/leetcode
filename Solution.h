@@ -5733,30 +5733,30 @@ public:
     // For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4].
     // Note:
     // Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem.
-    void rotate(int nums[], int n, int k) {
-        if (n <= 1 || k % n == 0) {
+    void rotate(vector<int>& nums, int k) {
+        int lens = nums.size();
+        if (lens <= 1 || (k %= lens) == 0) {
             return;
         }
-        k %= n;
-        // Keep rotating until we have rotated n elements.
-        for (int idx = 0, cnt = 0; cnt < n; ++idx) {
-            int cur = idx;
-            int temp, next = nums[cur];
+        // Keep rotating until we have rotated lens elements.
+        for (int i = 0, cnt = 0; cnt < lens; ++i) {
+            int cur = i;
+            int tmp, next = nums[cur];
             do {
-                temp = nums[(cur + k) % n];
-                nums[(cur + k) % n] = next;
-                next = temp;
-                cur = (cur + k) % n;
+                tmp = nums[(cur + k) % lens];
+                nums[(cur + k) % lens] = next;
+                next = tmp;
                 ++cnt;
-            } while (cur != idx);
+                cur = (cur + k) % lens;
+            } while (cur != i);
         }
     }
 
-    void rotate2(int nums[], int n, int k) {
-        k %= n;
-        reverse(nums, nums + n - k);
-        reverse(nums + n - k, nums + n);
-        reverse(nums, nums + n);
+    void rotate_another(vector<int>& nums, int k) {
+        k %= nums.size();
+        reverse(nums.begin(), nums.end() - k);
+        reverse(nums.end()- k, nums.end());
+        reverse(nums.begin(), nums.end());
     }
     // 3Sum
     // Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
