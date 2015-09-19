@@ -42,12 +42,8 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    int k;
-    while (cin >> k) {
-        s.rotate_another(vec, k);
-        cout << vec << endl;
-    }
-
+    s.moveZeroes(vec);
+    cout << vec << endl;
 
 
     // Time

@@ -430,14 +430,14 @@ public:
 
         for(i = 0; i < numMax; ++i)
         {
-            for(j = 0; j < k; ++j)  
-            { // only buy at the local minimum points
-                states[next][j * 2 + 1] = max(states[cur][j * 2 + 1], states[cur][j * 2] - minP[i]); 
+            for(j = 0; j < k; ++j) {
+                // only buy at the local minimum points
+                states[next][j * 2 + 1] = max(states[cur][j * 2 + 1], states[cur][j * 2] - minP[i]);
                 states[next][j * 2 + 2] = states[cur][j * 2 + 2];
             }
             swap(cur, next);
-            for(j = 1; j <= k; ++j) 
-            { // only sell at the local maximum points
+            for(j = 1; j <= k; ++j) {
+                // only sell at the local maximum points
                 states[next][j * 2] = max(states[cur][j * 2], states[cur][j * 2 - 1] + maxP[i]);
                 states[next][j * 2 - 1] = states[cur][j * 2 - 1];
             }
@@ -1373,14 +1373,14 @@ public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         for (int i = m + n - 1; i >= 0; --i) {
             if (m <= 0) {
-                nums1[i] = nums2[--n]; 
-            } 
+                nums1[i] = nums2[--n];
+            }
             else if (n <= 0) {
                 break;
-            } 
+            }
             else if (nums1[m - 1] < nums2[n - 1]) {
                 nums1[i] = nums2[--n];
-            } 
+            }
             else {
                 nums1[i] = nums1[--m];
             }
@@ -7546,7 +7546,7 @@ public:
         }
         return RPN;
     }
-    // Basic Calculator II 
+    // Basic Calculator II
     // Implement a basic calculator to evaluate a simple expression string.
     // The expression string contains only non-negative integers, +, -, *, / operators and empty spaces . The integer division should truncate toward zero.
     // You may assume that the given expression is always valid.
@@ -7697,6 +7697,21 @@ public:
             ret[idx] *= nums[idx - 1];
         }
         return ret;
+    }
+    // Move Zeroes
+    // Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+    // For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums should be [1, 3, 12, 0, 0].
+    void moveZeroes(vector<int>& nums) {
+        int lens = nums.size();
+        int pos = 0;
+        for (int i = 0; i < lens; ++i) {
+            if (nums[i]) {
+                nums[pos++] = nums[i];
+            }
+        }
+        for (int i = pos; i < lens; ++i) {
+            nums[i] = 0;
+        }
     }
 };
 #endif
