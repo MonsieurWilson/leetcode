@@ -1367,21 +1367,22 @@ public:
         return ret;
     }
     // Merge Sorted Array
-    // Given two sorted integer arrays A and B, merge B into A as one sorted array.
-    void merge(int A[], int m, int B[], int n) {
-        for (int idx = m + n - 1; idx >= 0; --idx) {
-            int ptrA = m - 1, ptrB = n - 1;
-            if (ptrB < 0) {
-                return;
-            }
-            else if (ptrA < 0) {
-                A[idx] = B[ptrB--];
-            }
-            else if (A[ptrA] < B[ptrB]) {
-                A[idx] = B[ptrB--];
-            }
+    // Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+    // Note:
+    // You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        for (int i = m + n - 1; i >= 0; --i) {
+            if (m <= 0) {
+                nums1[i] = nums2[--n]; 
+            } 
+            else if (n <= 0) {
+                break;
+            } 
+            else if (nums1[m - 1] < nums2[n - 1]) {
+                nums1[i] = nums2[--n];
+            } 
             else {
-                A[idx] = A[ptrA--];
+                nums1[i] = nums1[--m];
             }
         }
     }
@@ -3204,22 +3205,23 @@ public:
     // 3,2,1 → 1,2,3
     // 1,1,5 → 1,5,1
     void nextPermutation(vector<int> &num) {
-        int start = num.size() - 1;
-        while (start > 0 && num[start - 1] >= num[start]) {
-            --start;
+        int lens = num.size();
+        int pos = lens - 1;
+        while (pos > 0 && num[pos - 1] >= num[pos]) {
+            --pos;
         }
-        if (start > 0) {
-            int idx = num.size() - 1;
-            while (num[idx] <= num[start - 1]) {
+        if (pos > 0) {
+            int idx = lens - 1;
+            while (num[idx] <= num[pos - 1]) {
                 --idx;
             }
-            swap(num[idx], num[start - 1]);
+            swap(num[idx], num[pos - 1]);
         }
-        // Noticing about the edge to pass the case when start = num.size() - 2.
-        for (int idx = start; idx < (start + num.size()) / 2; ++idx) {
-            swap(num[idx], num[num.size() - 1 + start - idx]);
+        // Noticing about the edge to pass the case when pos = num.size() - 2.
+        for (int idx = pos; idx < (pos + lens) / 2; ++idx) {
+            swap(num[idx], num[lens - 1 + pos - idx]);
         }
-        //reverse(num.begin() + start - 1, num.end());
+        //reverse(num.begin() + pos - 1, num.end());
     }
     // Reverse Nodes in k-Group
     // Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
