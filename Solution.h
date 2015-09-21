@@ -3149,21 +3149,21 @@ public:
         if (len2 == 0) {
             return len1;
         }
-        // bucket[i][j] represents the dist from word1.substr(0, i) to word2.substr(0, j).
-        vector<vector<int> >bucket = vector<vector<int> >(len1 + 1, vector<int>(len2 + 1, 0));
-        for (int idx = 0; idx <= len1; ++idx) {
-            bucket[idx][0] = idx;
+        // dp[i][j] represents the dist from word1.substr(0, i) to word2.substr(0, j).
+        vector<vector<int> >dp(vector<vector<int> >(len1 + 1, vector<int>(len2 + 1, 0)));
+        for (int r = 0; r <= len1; ++r) {
+            dp[r][0] = r;
         }
-        for (int idx = 0; idx <= len2; ++idx) {
-            bucket[0][idx] = idx;
+        for (int c = 0; c <= len2; ++c) {
+            dp[0][c] = c;
         }
         for (int curA = 1; curA <= len1; ++curA) {
             for (int curB = 1; curB <= len2; ++curB) {
-                int cost = (word1[curA - 1] == word2[curB - 1] ? 0 : 1);
-                bucket[curA][curB] = min(min(bucket[curA][curB - 1] + 1, bucket[curA - 1][curB] + 1), bucket[curA - 1][curB - 1] + cost);
+                int cost = word1[curA - 1] == word2[curB - 1] ? 0 : 1;
+                dp[curA][curB] = min(min(dp[curA][curB - 1] + 1, dp[curA - 1][curB] + 1), dp[curA - 1][curB - 1] + cost);
             }
         }
-        return bucket[len1][len2];
+        return dp[len1][len2];
     }
     // Count and Say
     // The count-and-say sequence is the sequence of integers beginning as follows:
