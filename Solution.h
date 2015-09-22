@@ -1783,6 +1783,32 @@ public:
         }
         return ret;
     }
+
+    vector<vector<int> > levelOrder_another(TreeNode *root) {
+        vector<vector<int> > ret;
+        if (root == nullptr) {
+            return ret;
+        }
+        vector<TreeNode *> nodes;
+        nodes.push_back(root);
+        int cur = 0, last;
+        while (cur < nodes.size()) {
+            last = nodes.size();
+            vector<int> line;
+            while (cur < last) {
+                line.push_back(nodes[cur]->val);
+                if (nodes[cur]->left) {
+                    nodes.push_back(nodes[cur]->left);
+                }
+                if (nodes[cur]->right) {
+                    nodes.push_back(nodes[cur]->right);
+                }
+                ++cur;
+            }
+            ret.push_back(line);
+        }
+        return ret;
+    }
     // Binary Tree Level Order Traversal II
     // Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
     vector<vector<int> > levelOrderBottom(TreeNode *root) {
