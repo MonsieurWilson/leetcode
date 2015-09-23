@@ -492,7 +492,7 @@ public:
     vector<TreeNode *> generateTrees(int n) {
         return generateHelper(1, n);
     }
-    vector<TreeNode *> generateHelper(const int &beg, const int &end) {
+    vector<TreeNode *> generateHelper(const int beg, const int end) {
         vector<TreeNode *> ret;
         if (beg > end) {
             ret.push_back(nullptr);
@@ -947,7 +947,7 @@ public:
         }
         return root;
     }
-    TreeNode *sortHelper(vector<int> &num, const int &beg, const int &end) {
+    TreeNode *sortHelper(vector<int> &num, const int beg, const int end) {
         if (beg <= end) {
             int mid = beg + (end - beg) / 2;
             TreeNode *root = new TreeNode(num[mid]);
@@ -1243,7 +1243,7 @@ public:
         gpHelper(1, ret, array);
         return ret;
     }
-    void gpHelper(const int &k, vector<string> &ret, int *array) {
+    void gpHelper(const int k, vector<string> &ret, int *array) {
         if (k > 2 * n) {
             string s;
             for (int i = 1; i <= 2 * n; ++i) {
@@ -1281,7 +1281,7 @@ public:
         }
         return ret;
     }
-    void gp_anotherHelper(vector<string> &ret, string &parens, const int &index, const int &left, const int &right) {
+    void gp_anotherHelper(vector<string> &ret, string &parens, const int index, const int left, const int right) {
         if (left > right || left < 0) {
             return;
         }
@@ -1339,7 +1339,7 @@ public:
         }
         return ret;
     }
-    void permuteHelper(const int &index, vector<int> line, vector<vector<int> > &ret) {
+    void permuteHelper(const int index, vector<int> line, vector<vector<int> > &ret) {
         ret.push_back(line);
         for (int i = index; i < line.size(); ++i) {
             for (int j = i + 1; j < line.size(); ++j) {
@@ -2637,7 +2637,7 @@ public:
         combinationSumHelper(candidates, target, solution, ret, 0, 0);
         return ret;
     }
-    void combinationSumHelper(vector<int> &candidates, const int &target, vector<int> &solution, vector<vector<int> > &ret, int idx, int localSum){
+    void combinationSumHelper(vector<int> &candidates, const int target, vector<int> &solution, vector<vector<int> > &ret, int idx, int localSum){
         if (idx >= candidates.size() || localSum > target) {
             return;
         }
@@ -2853,7 +2853,7 @@ public:
         pathSumHelper(root, route, ret, curSum, sum);
         return ret;
     }
-    void pathSumHelper(TreeNode *root, vector<int> route, vector<vector<int> > &ret, int curSum, const int &sum) {
+    void pathSumHelper(TreeNode *root, vector<int> route, vector<vector<int> > &ret, int curSum, const int sum) {
         if (root == nullptr) {
             return;
         }
@@ -2872,7 +2872,7 @@ public:
     TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
         return buildTreeHelper(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);
     }
-    TreeNode *buildTreeHelper(vector<int> &inorder, const int &inBeg, const int &inEnd, vector<int> &postorder, const int &postBeg, const int &postEnd) {
+    TreeNode *buildTreeHelper(vector<int> &inorder, const int inBeg, const int inEnd, vector<int> &postorder, const int postBeg, const int postEnd) {
         TreeNode *root = nullptr;
         if (inBeg <= inEnd) {
             root = new TreeNode(postorder[postEnd]);
@@ -2893,7 +2893,7 @@ public:
     TreeNode *buildTreeII(vector<int> &preorder, vector<int> &inorder) {
         return buildTreeIIHelper(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);
     }
-    TreeNode *buildTreeIIHelper(vector<int> &preorder, const int &preBeg, const int &preEnd, vector<int> &inorder, const int &inBeg, const int &inEnd) {
+    TreeNode *buildTreeIIHelper(vector<int> &preorder, const int preBeg, const int preEnd, vector<int> &inorder, const int inBeg, const int inEnd) {
         TreeNode *root = nullptr;
         if (inBeg <= inEnd) {
             root = new TreeNode(preorder[preBeg]);
@@ -2993,7 +2993,7 @@ public:
         letterCombinationsHelper(0, digits, numToLetterMap, letters, ret);
         return ret;
     }
-    void letterCombinationsHelper(const int &pos, const string &digits, const vector<string> &numToLetterMap, string letters, vector<string> &ret) {
+    void letterCombinationsHelper(const int pos, const string &digits, const vector<string> &numToLetterMap, string letters, vector<string> &ret) {
         if (pos >= digits.length()) {
             ret.push_back(letters);
             return;
@@ -3968,7 +3968,7 @@ public:
         // case : 3 5 5 2 5 5 6 6 4 4 1 1 2 5 5 6 6 4 1 3
         return largestRectangleArea(height, 0, height.size() - 1);
     }
-    int largestRectangleArea(const vector<int> &height, const int &beg, const int &end) {
+    int largestRectangleArea(const vector<int> &height, const int beg, const int end) {
         if (beg > end) {
             return 0;
         }
@@ -3987,7 +3987,7 @@ public:
             return max(max(leftMax, rightMax), midMax);
         }
     }
-    int largestRectangleMidArea(const vector<int> &height, const int &beg, const int &mid, const int &end) {
+    int largestRectangleMidArea(const vector<int> &height, const int beg, const int mid, const int end) {
         int left = mid, right = mid + 1;
         int minVal = INT_MAX;
         int area = 0;
@@ -4562,7 +4562,7 @@ public:
     ListNode *mergeKLists(vector<ListNode *> &lists) {
         return mergeKLists(lists, 0, lists.size() - 1);
     }
-    ListNode *mergeKLists(vector<ListNode *> &lists, const int &beg, const int &end) {
+    ListNode *mergeKLists(vector<ListNode *> &lists, const int beg, const int end) {
         if (beg > end) {
             return nullptr;
         }
@@ -4728,7 +4728,7 @@ public:
         restoreIpAddresses(s, 0, 1, ip, ret);
         return ret;
     }
-    void restoreIpAddresses(string s, const int &idx, const int& cnt, string ip, vector<string> &ret) {
+    void restoreIpAddresses(string s, const int idx, const int& cnt, string ip, vector<string> &ret) {
         if (cnt > 4 || idx >= s.size()) {
             return;
         }
@@ -4858,7 +4858,7 @@ public:
         }
         return ret;
     }
-    string longestPalindrome(const string &s, const int &beg, const int &end) {
+    string longestPalindrome(const string &s, const int beg, const int end) {
         int l = beg, r = end;
         while (l >= 0 && r < s.length() && s[l] == s[r]) {
             --l;
@@ -5058,7 +5058,7 @@ public:
         }
         return store.top();
     }
-    int doOperation(const int &op1, const int &op2, const char &op) {
+    int doOperation(const int op1, const int op2, const char &op) {
         switch (op) {
             case '*' : return op1 * op2;
             case '-' : return op1 - op2;
@@ -5329,7 +5329,7 @@ public:
         }
         return found;
     }
-    bool exist(const vector<vector<char> > &board, vector<vector<bool> > &visited, const int &r, const int &c, const string &word) {
+    bool exist(const vector<vector<char> > &board, vector<vector<bool> > &visited, const int r, const int c, const string &word) {
         // DFS.
         if (board[r][c] != word[0] || visited[r][c]) {
             return false;
@@ -5981,7 +5981,7 @@ public:
         }
         return ret;
     }
-    static bool mySort(const int &a, const int &b) {
+    static bool mySort(const int a, const int b) {
         string num1 = to_string(a) + to_string(b), num2 = to_string(b) + to_string(a);
         return num1 > num2;
     }
@@ -6068,7 +6068,7 @@ public:
             }
         }
     }
-    void BFS(vector<vector<char> > &board, const int &r, const int &c) {
+    void BFS(vector<vector<char> > &board, const int r, const int c) {
         queue<pair<int, int> > q;
         q.push(pair<int, int>(r, c));
         while (!q.empty()) {
@@ -6511,7 +6511,7 @@ public:
         }
         return ret;
     }
-    bool numIslands(const int &r, const int &c, vector<vector<char> > &grid, vector<vector<bool> > &visit) {
+    bool numIslands(const int r, const int c, vector<vector<char> > &grid, vector<vector<bool> > &visit) {
         bool left, right, up ,down;
         left = right = up = down = true;
         int rowNum = grid.size(), colNum = grid[0].size();
@@ -6896,7 +6896,7 @@ public:
         }
         return nums[pivot];
     }
-    int part(vector<int> &nums, const int &beg, const int &end) {
+    int part(vector<int> &nums, const int beg, const int end) {
         int pivotVal = nums[end], i = beg - 1;
         for (int j = beg; j <= end; ++j) {
             if (nums[j] < pivotVal) {
@@ -6972,7 +6972,7 @@ public:
         combinationSum3Helper(1, k, n, line, ret);
         return ret;
     }
-    void combinationSum3Helper(const int beg, const int &k, const int &n, vector<int> &line, vector<vector<int> > &ret) {
+    void combinationSum3Helper(const int beg, const int k, const int n, vector<int> &line, vector<vector<int> > &ret) {
         if (beg > 9) {
             return;
         }
@@ -7489,7 +7489,7 @@ public:
         }
         return (1 << (depth - 1)) + lastNum - 1;
     }
-    TreeNode *inorderLeft(TreeNode *root, int cur, const int &dst) {
+    TreeNode *inorderLeft(TreeNode *root, int cur, const int dst) {
         if (cur < dst) {
             root = root->left;
             ++cur;
