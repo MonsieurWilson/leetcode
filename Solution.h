@@ -495,12 +495,10 @@ public:
     vector<TreeNode *> generateHelper(const int beg, const int end) {
         vector<TreeNode *> ret;
         if (beg > end) {
-            ret.push_back(nullptr);
-            return ret;
+            return {nullptr};
         }
         else if (beg == end) {
-            ret.push_back(new TreeNode(beg));
-            return ret;
+            return {new TreeNode(beg)};
         }
 
         TreeNode *root = nullptr;
@@ -617,10 +615,10 @@ public:
 
     vector<int> preorderTraversal_iteration(TreeNode *root) {
         // Iterative
-        vector<int> ret;
         if (root == nullptr) {
-            return ret;
+            return {};
         }
+        vector<int> ret;
         stack<TreeNode *> tmpSt;
         tmpSt.push(root);
         while (!tmpSt.empty()) {
@@ -732,10 +730,10 @@ public:
     vector<int> postorderTraversal_iteration(TreeNode *root) {
         // Iterative
         // Save the traversal result of root->right->left, and return the reverse order
-        vector<int> ret;
         if (root == nullptr) {
-            return ret;
+            return {};
         }
+        vector<int> ret;
         stack<TreeNode *> tmpSt;
         tmpSt.push(root);
         while (!tmpSt.empty()) {
@@ -1972,7 +1970,7 @@ public:
     // Could you optimize your algorithm to use only O(k) extra space?
     vector<int> getRow(int rowIndex) {
         int length = rowIndex + 1;
-        vector<int> temp(length,1);
+        vector<int> temp(length, 1);
         if (length <= 2) {
             return temp;
         }
@@ -2089,6 +2087,7 @@ public:
             }
         }
     }
+
     int minDepth_iteration(TreeNode *root) {
         // Iterative
         // Two queues
@@ -2119,7 +2118,8 @@ public:
         }
         return depth;
     }
-    int minDepth_iteration2(TreeNode *root) {
+
+    int minDepth_iterationII(TreeNode *root) {
         // Iterative
         // One queue
         if (root == nullptr) {
@@ -2450,8 +2450,7 @@ public:
         vector<int> ret;
         if (n <= 0 || (A[end] != target && A[beg] != target)) {
             // Not found
-            vector<int> ret(2, -1);
-            return ret;
+            return {-1, -1};
         }
         else if (A[end] == target) {
             lastIdx = end;
@@ -2470,10 +2469,7 @@ public:
     vector<int> searchRange_improved(int A[], int n, int target) {
         // A always O(logN) algorithm
         int firstIdx = searchRangeLeft(A, n, target), lastIdx = searchRangeRight(A, n, target);
-        vector<int> ret;
-        ret.push_back(firstIdx);
-        ret.push_back(lastIdx);
-        return ret;
+        return {firstIdx, lastIdx};
     }
     int searchRangeLeft(int A[], int n, int target) {
         int beg = 0, end = n - 1;

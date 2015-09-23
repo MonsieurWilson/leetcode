@@ -1,4 +1,4 @@
-EXE = solve
+EXE = run
 OBJ = main.o
 CFLAGS = -std=c++11
 COMPILERS = g++ $(CFLAGS)
