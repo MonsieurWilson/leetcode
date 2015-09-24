@@ -43,9 +43,6 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-    using LL = long long;
-    LL num = 0;
-    cout << (~num >> 1) << endl;
 
 
     // Time
