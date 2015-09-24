@@ -2,12 +2,14 @@ using namespace std;
 
 #include "Solution.h"
 
+void prtTimeCost(const clock_t stime, const clock_t ftime) {
+    cout << "The time cost is : " << 1000.0 * (ftime - stime) / CLOCKS_PER_SEC << " ms.";
+}
 
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
     clock_t stime, ftime;
-    stime = clock();
     Solution s;
 
     /**
@@ -43,11 +45,18 @@ int main(){
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
     */
 
-
-
+    /*
     // Time
     cout << "-------------------Time Cost-----------------------" << endl; 
+    */
+    stime = clock();
+
+
+
+
+
     ftime = clock();
-    cout << "The time cost is : " << 1000.0 * (ftime - stime) / CLOCKS_PER_SEC << " ms." << endl;
+    prtTimeCost(stime, ftime);
+
     return 0;
 }
