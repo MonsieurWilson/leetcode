@@ -5575,16 +5575,16 @@ public:
     // ["AAAAACCCCC", "CCCCCAAAAA"].
     vector<string> findRepeatedDnaSequences(string s) {
         vector<string> ret;
-        unordered_set<int> map;
+        unordered_set<int> hashMap;
         int len = s.length();
         for (int idx = 0; idx <= len - 10; ++idx) {
             string tmp = s.substr(idx, 10);
             int hashValue = getHash(tmp);
-            if (map.count(hashValue) > 0 && find(ret.begin(), ret.end(), tmp) == ret.end()) {
+            if (hashMap.count(hashValue) > 0 && find(ret.begin(), ret.end(), tmp) == ret.end()) {
                 ret.push_back(tmp);
             }
             else {
-                map.insert(hashValue);
+                hashMap.insert(hashValue);
             }
         }
         return ret;
@@ -5602,6 +5602,7 @@ public:
             case 'C' : return 1;
             case 'G' : return 2;
             case 'T' : return 3;
+            default  : return 0;
         }
         // Handle the warning.
         return 0;
@@ -5609,17 +5610,17 @@ public:
 
     vector<string> findRepeatedDnaSequences_improved(string s) {
         vector<string> ret;
-        unordered_map<int ,bool> m;
+        unordered_map<int ,bool> hashMap;
         for (int tmp = 0, idx = 0; idx <= s.size() - 10; ++idx) {
             tmp = tmp << 3 & (0x3FFFFFFF | (s[idx] & 7));
-            if (m.find(tmp) != m.end()) {
-                if (m[tmp]) {
+            if (hashMap.find(tmp) != hashMap.end()) {
+                if (hashMap[tmp]) {
                     ret.push_back(s.substr(idx, 10));
-                    m[tmp] = false;
+                    hashMap[tmp] = false;
                 }
             }
             else {
-                m[tmp] = true;
+                hashMap[tmp] = true;
             }
         }
         return ret;
