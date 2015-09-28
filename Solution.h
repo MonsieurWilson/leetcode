@@ -2329,8 +2329,7 @@ public:
     int uniquePathsWithObstacles(vector<vector<int> > &obstacleGrid) {
         // Dynamic Programming
         int col = obstacleGrid[0].size(), row = obstacleGrid.size();
-        vector<int> line(col, 0);
-        vector<vector<int> > dp(row, line);
+        vector<vector<int> > dp(row, vector<int>(col, 0));
 
         for (int idx = 0; idx != col; ++idx) {
             if (obstacleGrid[0][idx] == 1) {
@@ -2349,10 +2348,10 @@ public:
             }
         }
 
-        for (int idxi = 1; idxi < row; ++idxi) {
-            for (int idxj = 1; idxj < col; ++idxj) {
-                if (obstacleGrid[idxi][idxj] != 1) {
-                       dp[idxi][idxj] = dp[idxi - 1][idxj] + dp[idxi][idxj - 1];
+        for (int i = 1; i < row; ++i) {
+            for (int j = 1; j < col; ++j) {
+                if (obstacleGrid[i][j] != 1) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
                 }
             }
         }
