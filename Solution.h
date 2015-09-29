@@ -4088,26 +4088,25 @@ public:
 
     int KMPstrStr(const char *haystack, const char *needle) {
         // KMP algorithm.
-        int n = strlen(haystack);
-        int m = strlen(needle);
+        int n = strlen(haystack), m = strlen(needle);
         if (m == 0) return 0;
         // Counting prefix function for needle.
         vector<int> prefix(m, 0);
-        for (int i = 1; i < m; i++) {
+        for (int i = 1; i < m; ++i) {
             prefix[i] = prefix[i - 1];
             while (prefix[i] > 0 && needle[prefix[i]] != needle[i]) {
                 prefix[i] = prefix[prefix[i] - 1];
             }
             if (needle[prefix[i]] == needle[i]) {
-                prefix[i]++;
+                ++prefix[i];
             }
         }
-        for (int i = 0, pre = 0; i < n; i++) {
+        for (int i = 0, pre = 0; i < n; ++i) {
             while (pre > 0 && needle[pre] != haystack[i]) {
                 pre = prefix[pre - 1];
             }
             if (needle[pre] == haystack[i]) {
-                pre++;
+                ++pre;
             }
             // Having reached the tail of the needle, return the start index.
             if (pre == m) {

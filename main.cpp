@@ -51,12 +51,27 @@ int main(){
     */
     stime = clock();
 
-
-
+    char hay[20], need[20];
+    cout << "Input the haystack string:" << endl;
+    char ch;
+    int i = 0;
+    while ((ch = getchar()) != '\n') {
+        hay[i++] = ch;
+    }
+    hay[i] = '\0';
+    i = 0;
+    cout << "Input the needle string:" << endl;
+    while ((ch = getchar()) != '\n') {
+        need[i++] = ch;
+    }
+    need[i] = '\0';
+    int ret = s.KMPstrStr(hay, need);
+    cout << "The result is: " << ret << endl;
 
 
     ftime = clock();
     prtTimeCost(stime, ftime);
+    cout << endl;
 
     return 0;
 }
