@@ -7506,65 +7506,47 @@ public:
     vector<string> convertToRPN(const string &s) {
         vector<string> RPN;
         stack<char> opSt;
-        int lens = s.size();
-        int idx = 0;
-        while (idx < lens) {
-            // omit the spaces
-            while (idx < lens && s[idx] == ' ') {
-                ++idx;
-            }
-            // parse number or operation
-            if (idx >= lens) {
-                break;
-            }
-            else if (s[idx] >= '0' && s[idx] <= '9') {
-                int numStart = idx;
-                while (idx < lens && s[idx] >= '0' && s[idx] <= '9') {
-                    ++idx;
-                }
-                RPN.push_back(s.substr(numStart, idx - numStart));
-            }
-            else {
-                char topOp;
-                string topOp_str = "";
-                if (s[idx] == '(') {
-                    opSt.push(s[idx]);
-                }
-                else if (s[idx] == ')') {
-                    while ((topOp = opSt.top()) != '(') {
-                        opSt.pop();
-                        RPN.push_back(topOp + topOp_str);
-                    }
-                    opSt.pop();
-                }
-                else if (s[idx] == '*' || s[idx] == '/') {
+        for (int i = 0; i < s.size(); ++i) {
+            char topV;
+            switch (s[i]) {
+                case ' ':
+                    break;
+                case '(':
+                    opSt.push(s[i]);
+                    break;
+                case ')':
                     while (!opSt.empty()) {
-                        topOp = opSt.top();
-                        if (topOp == '*' || topOp == '/') {
-                            opSt.pop();
-                            RPN.push_back(topOp + topOp_str);
-                        }
-                        else {
+                        topV = opSt.top();
+                        opSt.pop();
+                        RPN.push_back(string() + opSt.top());
+                    }
+                    break;
+                case '+': case '-': case '*': case '/': case '%':
+                    while (true) {
+                        if (opSt.empty() || (topV = opSt.top()) == '(' || (s[i] == '*' || s[i] == '/' || s[i]== '%') && (topV == '+' || topV == '-')) {
+                            opSt.push(s[i]);
                             break;
                         }
+                        else {
+                            RPN.push_back(string() + topV);
+                            opSt.pop();
+                        }
                     }
-                    opSt.push(s[idx]);
-                }
-                else {
-                    while (!opSt.empty() && (topOp = opSt.top()) != '(') {
-                        opSt.pop();
-                        RPN.push_back(topOp + topOp_str);
+                    break;
+                default:
+                    RPN.push_back(string());
+                    for (; i < s.size() && isdigit(s[i]); ++i) {
+                        RPN.back() += s[i];
                     }
-                    opSt.push(s[idx]);
-                }
-                ++idx;
+                    --i;
+                    break;
             }
         }
         while (!opSt.empty()) {
-            string tmp = "";
-            RPN.push_back(opSt.top() + tmp);
+            RPN.push_back(string() + opSt.top());
             opSt.pop();
         }
+
         return RPN;
     }
     // Basic Calculator II
