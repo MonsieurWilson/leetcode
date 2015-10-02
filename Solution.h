@@ -215,11 +215,11 @@ public:
         }
         // check whether two candidates are real majority elements
         cnt1 = cnt2 = 0;
-        for (int idx = 0; idx < lens; ++idx) {
-            if (nums[idx] == candidate1) {
+        for (int i = 0; i < lens; ++i) {
+            if (nums[i] == candidate1) {
                 ++cnt1;
             }
-            else if (nums[idx] == candidate2) {
+            else if (nums[i] == candidate2) {
                 ++cnt2;
             }
         }
@@ -999,23 +999,13 @@ public:
     // Your solution should be in logarithmic complexity.
     int findPeakElement(const vector<int> &nums) {
         int beg = 0, end = nums.size() - 1, mid;
-        if (nums[beg] > INT_MIN && nums[beg] > nums[beg + 1]) {
-            return beg;
-        }
-        if (nums[end] > INT_MIN && nums[end] > nums[end - 1]) {
-            return end;
-        }
         while (beg < end) {
             mid = beg + (end - beg) / 2;
-            int left = nums[mid - 1], right = nums[mid + 1];
-            if (nums[mid] > left && nums[mid] > right) {
-                return mid;
-            }
-            else if (nums[mid] > left && nums[mid] < right) {
+            if (nums[mid] < nums[mid + 1]) {
                 beg = mid + 1;
             }
             else {
-                end = mid - 1;
+                end = mid;
             }
         }
         return beg;
@@ -1091,9 +1081,9 @@ public:
         vector<int> ret;
         ret.push_back(0);
         for (int i = 0; i != n; ++i) {
-            int temp = 1 << i;
+            int tmp = 1 << i;
             for (int j = ret.size() - 1; j >= 0; --j) {
-                ret.push_back(ret[j] + temp);
+                ret.push_back(ret[j] + tmp);
             }
         }
         return ret;
@@ -1298,7 +1288,7 @@ public:
     int maxArea(vector<int> &height) {
         int beg = 0, end = height.size() - 1;
         int ret = 0;
-        while (beg <= end) {
+        while (beg < end) {
             ret = max(ret, min(height[beg], height[end]) * (end - beg));
             if (height[beg] < height[end]) {
                 ++beg;
