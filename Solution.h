@@ -146,7 +146,7 @@ public:
             return 0;
         }
         int depth = 0;
-        stack<pair<TreeNode *, int> > tmpSt;
+        stack<pair<TreeNode *, int>> tmpSt;
         tmpSt.push(make_pair(root, 1));
         while(!tmpSt.empty()) {
             TreeNode *tmpNode = tmpSt.top().first;
@@ -249,7 +249,7 @@ public:
         }
     }
     bool isSameTree_iteration(TreeNode *p, TreeNode *q) {
-        stack<pair<TreeNode *, TreeNode *> > nodeSt;
+        stack<pair<TreeNode *, TreeNode *>> nodeSt;
         nodeSt.push(make_pair(p, q));
         while (!nodeSt.empty()) {
             TreeNode *tmpP = nodeSt.top().first, *tmpQ = nodeSt.top().second;
@@ -362,7 +362,7 @@ public:
         int N = prices.size();
         int v = 0, p = 0;
         vector<int> profits;
-        stack<pair<int, int> > vpPairs;
+        stack<pair<int, int>> vpPairs;
         while (p < N) {
             for (v = p; (v < N - 1) && prices[v] >= prices[v + 1]; ++v);
             for (p = v + 1; (p < N) && prices[p] >= prices[p - 1]; ++p);
@@ -750,29 +750,6 @@ public:
         reverse(ret.begin(), ret.end());
         return ret;
     }
-    // Populating Next Right Pointers in Each Node
-    // Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to nullptr.
-    // Note:
-    // 1)You may only use constant extra space.
-    // 2)You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
-    void connect(TreeLinkNode *root) {
-        if (root == nullptr) {
-            return;
-        }
-        // Pointer ptr indicates the first node of every level, using cur to traversal the level ptr points
-        TreeLinkNode *ptr = root, *cur;
-        while (ptr->left) {
-            cur = ptr;
-            while (cur) {
-                cur->left->next = cur->right;
-                if (cur->next) {
-                    cur->right->next = cur->next->left;
-                }
-                cur = cur->next;
-            }
-            ptr = ptr->left;
-        }
-    }
     // Search Insert Position
     // Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
     // You may assume no duplicates in the array.
@@ -827,8 +804,8 @@ public:
     //   "...Q",
     //   ".Q.."]
     // ]
-    vector<vector<string> > solveNQueens(int n) {
-        vector<vector<string> > ret;
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ret;
         vector<int> sol(n + 1, 0);
         int idx = 1;
         while (idx > 0) {
@@ -1304,7 +1281,7 @@ public:
     // Rotate the image by 90 degrees (clockwise).
     // Follow up:
     // Could you do this in-place?
-    void rotate(vector<vector<int> > &matrix) {
+    void rotate(vector<vector<int>> &matrix) {
         int size = matrix.size();
         for (int j = 0; j < size / 2; ++j) {
             for (int i = j; i < size - 1 - j; ++i) {
@@ -1321,14 +1298,14 @@ public:
     // For example,
     // [1,2,3] have the following permutations:
     // [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], and [3,2,1].
-    vector<vector<int> > permute(vector<int> &num) {
-        vector<vector<int> > ret;
+    vector<vector<int>> permute(vector<int> &num) {
+        vector<vector<int>> ret;
         if (num.size()) {
             permuteHelper(0, num, ret);
         }
         return ret;
     }
-    void permuteHelper(const int index, vector<int> line, vector<vector<int> > &ret) {
+    void permuteHelper(const int index, vector<int> line, vector<vector<int>> &ret) {
         ret.push_back(line);
         for (int i = index; i < line.size(); ++i) {
             for (int j = i + 1; j < line.size(); ++j) {
@@ -1343,8 +1320,8 @@ public:
     // For example,
     // [1,1,2] have the following unique permutations:
     // [1,1,2], [1,2,1], and [2,1,1].
-    vector<vector<int> > permuteUnique(vector<int> &num) {
-        vector<vector<int> > ret;
+    vector<vector<int>> permuteUnique(vector<int> &num) {
+        vector<vector<int>> ret;
         if (num.size() == 0) {
             return ret;
         }
@@ -1377,9 +1354,9 @@ public:
     }
     // Search a 2D Matrix
     // Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
-    // 1)Integers in each row are sorted from left to right.
-    // 2)The first integer of each row is greater than the last integer of the previous row.
-    bool searchMatrix(vector<vector<int> > &matrix, int target) {
+    // 1) Integers in each row are sorted from left to right.
+    // 2) The first integer of each row is greater than the last integer of the previous row.
+    bool searchMatrix(vector<vector<int>> &matrix, int target) {
         // Binary Search in 2D
         int rowNum = matrix.size();
         if (rowNum <= 0) {
@@ -1418,7 +1395,7 @@ public:
         return false;
     }
 
-    bool searchMatrix_another(vector<vector<int> > &matrix, int target) {
+    bool searchMatrix_another(vector<vector<int>> &matrix, int target) {
         int row = matrix.size();
         if (row < 0) {
             return false;
@@ -1442,8 +1419,8 @@ public:
     }
     // Search a 2D Matrix II
     // Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
-    // 1)Integers in each row are sorted in ascending from left to right.
-    // 2)Integers in each column are sorted in ascending from top to bottom.
+    // 1) Integers in each row are sorted in ascending from left to right.
+    // 2) Integers in each column are sorted in ascending from top to bottom.
     // For example,
     // Consider the following matrix:
     // [
@@ -1480,59 +1457,58 @@ public:
     // You are given a target value to search. If found in the array return its index, otherwise return -1.
     // What if duplicates are allowed?
     // Would this affect the run-time complexity? How and why?
-    int search(int A[], int n, int target) {
-        if (n <= 0) {
+    int search(vector<int>& nums, int target) {
+        int lens = nums.size();
+        if (lens <= 0) {
             return -1;
         }
-        int first = 0, last = n - 1, pos = -1;
-        while (first <= last) {
-            int mid = first + (last - first) / 2;
+        int beg = 0, end = lens - 1, pos = -1;
+        while (beg <= end) {
+            int mid = beg + (end - beg) / 2;
             if (A[mid] == target) {
                 pos = mid;
                 break;
             }
-            if (A[mid] > A[first]) {
-                if (A[first] <= target && target < A[mid]) {
-                    last = mid - 1;
+            if (A[mid] > A[beg]) {
+                if (A[beg] <= target && target < A[mid]) {
+                    end = mid - 1;
                 }
                 else {
-                    first = mid + 1;
+                    beg = mid + 1;
                 }
             }
-            else if (A[mid] < A[first]) {
-                if (A[mid] <= target && target < A[first]) {
-                    first = mid + 1;
+            else if (A[mid] < A[beg]) {
+                if (A[mid] < target && target <= A[end]) {
+                    beg = mid + 1;
                 }
                 else {
-                    last = mid - 1;
+                    end = mid - 1;
                 }
             }
             else {
-                // If A[mid] == A[first], let first increase itself to handle the duplicate situation
-                ++first;
+                // If A[mid] == A[beg], let beg increase itself to handle the duplicate situation
+                ++beg;
             }
         }
         return pos;
     }
     // Minimum Path Sum
     // Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
-    int minPathSum(vector<vector<int> > &grid) {
+    int minPathSum(vector<vector<int>> &grid) {
         // Dynamic Programming
-        int rowNum = grid.size(), colNum = grid[0].size();
-        vector<int> dp(colNum,0);
+        int row = grid.size(), col = grid[0].size();
+        vector<int> dp(col,0);
         dp[0] = grid[0][0];
-        for (int idx = 1; idx != colNum; ++idx) {
-            dp[idx] = grid[0][idx] + dp[idx - 1];
+        for (int c = 1; c != col; ++c) {
+            dp[c] = grid[0][c] + dp[c - 1];
         }
-        for (int r = 1; r != rowNum; ++r) {
+        for (int r = 1; r != row; ++r) {
             dp[0] += grid[r][0];
-            for (int c = 1; c != colNum; ++c) {
-                int val1 = grid[r][c] + dp[c];
-                int val2 = grid[r][c] + dp[c - 1];
-                dp[c] = val1 < val2 ? val1 : val2;
+            for (int c = 1; c != col; ++c) {
+                dp[c] = min(dp[c], dp[c - 1]) + grid[r][c];
             }
         }
-        return dp[colNum - 1];
+        return dp[col - 1];
     }
     // Plus One
     // Given a non-negative number represented as an array of digits, plus one to the number.
@@ -1548,7 +1524,7 @@ public:
                 carry = 1;
             }
         }
-        if (carry == 1) {
+        if (carry) {
             digits.push_back(0);
             for (vector<int>::reverse_iterator it = digits.rbegin(); it != digits.rend() - 1; ++it) {
                 *it = *(it - 1);
@@ -1556,6 +1532,29 @@ public:
             digits[0] = 1;
         }
         return digits;
+    }
+    // Populating Next Right Pointers in Each Node
+    // Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to nullptr.
+    // Note:
+    // 1) You may only use constant extra space.
+    // 2) You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
+    void connect(TreeLinkNode *root) {
+        if (root == nullptr) {
+            return;
+        }
+        // Pointer ptr indicates the first node of every level, using cur to traversal the level ptr points
+        TreeLinkNode *ptr = root, *cur;
+        while (ptr->left) {
+            cur = ptr;
+            while (cur) {
+                cur->left->next = cur->right;
+                if (cur->next) {
+                    cur->right->next = cur->next->left;
+                }
+                cur = cur->next;
+            }
+            ptr = ptr->left;
+        }
     }
     // Populating Next Right Pointers in Each Node II
     // Follow up for problem "Populating Next Right Pointers in Each Node".
@@ -1647,7 +1646,7 @@ public:
     }
     // Set Matrix Zeros
     // Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
-    void setZeroes(vector<vector<int> > &matrix) {
+    void setZeroes(vector<vector<int>> &matrix) {
         int rowNum = matrix.size(), colNum = matrix[0].size();
         if (rowNum == 0 || colNum == 0) {
             return;
@@ -1702,8 +1701,8 @@ public:
     //    [1,3,3,1],
     //   [1,4,6,4,1]
     // ]
-    vector<vector<int> > generate(int numRows) {
-        vector<vector<int> > table;
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> table;
         if (numRows > 0) {
             for (int idx = 1; idx <= numRows; ++idx) {
                 table.push_back(vector<int>(idx, 1));
@@ -1718,12 +1717,12 @@ public:
     }
     // Binary Tree Level Order Traversal
     // Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
-    vector<vector<int> > levelOrder(TreeNode *root) {
-        vector<vector<int> > ret;
+    vector<vector<int>> levelOrder(TreeNode *root) {
+        vector<vector<int>> ret;
         levelOrderHelper(root, 0, ret);
         return ret;
     }
-    void levelOrderHelper(TreeNode *root, int level, vector<vector<int> > &ret) {
+    void levelOrderHelper(TreeNode *root, int level, vector<vector<int>> &ret) {
         if (root == nullptr) {
             return;
         }
@@ -1736,10 +1735,10 @@ public:
         levelOrderHelper(root->right, level + 1, ret);
     }
 
-    vector<vector<int> > levelOrder_iteration(TreeNode *root) {
+    vector<vector<int>> levelOrder_iteration(TreeNode *root) {
         // Iteration
         queue<TreeNode *> nodeQueue;
-        vector<vector<int> > ret;
+        vector<vector<int>> ret;
         if (root == nullptr) {
             return ret;
         }
@@ -1773,8 +1772,8 @@ public:
         return ret;
     }
 
-    vector<vector<int> > levelOrder_another(TreeNode *root) {
-        vector<vector<int> > ret;
+    vector<vector<int>> levelOrder_another(TreeNode *root) {
+        vector<vector<int>> ret;
         if (root == nullptr) {
             return ret;
         }
@@ -1800,13 +1799,13 @@ public:
     }
     // Binary Tree Level Order Traversal II
     // Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
-    vector<vector<int> > levelOrderBottom(TreeNode *root) {
-        vector<vector<int> > inverse;
+    vector<vector<int>> levelOrderBottom(TreeNode *root) {
+        vector<vector<int>> inverse;
         levelOrderBottomHelper(root, 0, inverse);
-        vector<vector<int> > ret(inverse.rbegin(), inverse.rend());
+        vector<vector<int>> ret(inverse.rbegin(), inverse.rend());
         return ret;
     }
-    void levelOrderBottomHelper(TreeNode *root, int level, vector<vector<int> > &inverse) {
+    void levelOrderBottomHelper(TreeNode *root, int level, vector<vector<int>> &inverse) {
         if (root == nullptr) {
             return;
         }
@@ -1849,8 +1848,8 @@ public:
     }
     // Combinations
     // Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
-    vector<vector<int> > combine(int n, int k) {
-        vector<vector<int> > ret;
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ret;
         if (n < 1 || n < k || k < 1) {
             return ret;
         }
@@ -1877,8 +1876,8 @@ public:
         return ret;
     }
 
-    vector<vector<int> > combine_fast(int n, int k) {
-        vector<vector<int> > ret;
+    vector<vector<int>> combine_fast(int n, int k) {
+        vector<vector<int>> ret;
         if (n < 1 || k > n || k < 1) {
             return ret;
         }
@@ -2317,10 +2316,10 @@ public:
     // Now consider if some obstacles are added to the grids. How many unique paths would there be?
     // An obstacle and empty space is marked as 1 and 0 respectively in the grid.
     // Note: m and n will be at most 100.
-    int uniquePathsWithObstacles(vector<vector<int> > &obstacleGrid) {
+    int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid) {
         // Dynamic Programming
         int col = obstacleGrid[0].size(), row = obstacleGrid.size();
-        vector<vector<int> > dp(row, vector<int>(col, 0));
+        vector<vector<int>> dp(row, vector<int>(col, 0));
 
         for (int idx = 0; idx != col; ++idx) {
             if (obstacleGrid[0][idx] == 1) {
@@ -2387,14 +2386,14 @@ public:
     //   [1,2],
     //   []
     // ]
-    vector<vector<int> > subsets(vector<int> &S) {
+    vector<vector<int>> subsets(vector<int> &S) {
         sort(S.begin(), S.end());
-        vector<vector<int> > ret;
+        vector<vector<int>> ret;
         vector<int> subSet;
         subsetsHelper(S, 0, subSet, ret);
         return ret;
     }
-    void subsetsHelper(const vector<int> &S, int idx, vector<int> &subSet, vector<vector<int> > &ret) {
+    void subsetsHelper(const vector<int> &S, int idx, vector<int> &subSet, vector<vector<int>> &ret) {
         if (idx == S.size()) {
             ret.push_back(subSet);
             return;
@@ -2405,9 +2404,9 @@ public:
         subsetsHelper(S, idx + 1, subSet, ret);
     }
 
-    vector<vector<int> > subsets_iteration(vector<int> &S) {
+    vector<vector<int>> subsets_iteration(vector<int> &S) {
         sort(S.begin(), S.end());
-        vector<vector<int> > ret(1, vector<int>());
+        vector<vector<int>> ret(1, vector<int>());
         for (int idx = 0; idx < S.size(); ++idx) {
             int N = ret.size();
             for (int j = 0; j < N; ++j) {
@@ -2546,14 +2545,14 @@ public:
     //     [1,2],
     //     [],
     // ]
-    vector<vector<int> > subsetsWithDup(vector<int> &S) {
-        vector<vector<int> > ret;
+    vector<vector<int>> subsetsWithDup(vector<int> &S) {
+        vector<vector<int>> ret;
         vector<int> subSet;
         sort(S.begin(), S.end());
         subsetsWithDupHelper(S, 0, subSet, ret);
         return ret;
     }
-    void subsetsWithDupHelper(vector<int> &S, int idx, vector<int> &subSet, vector<vector<int> > &ret) {
+    void subsetsWithDupHelper(vector<int> &S, int idx, vector<int> &subSet, vector<vector<int>> &ret) {
         if (idx >= S.size()) {
             ret.push_back(subSet);
             return;
@@ -2616,14 +2615,14 @@ public:
     // A solution set is:
     // [7]
     // [2, 2, 3]
-    vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
-        vector<vector<int> > ret;
+    vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+        vector<vector<int>> ret;
         vector<int> solution;
         sort(candidates.begin(), candidates.end());
         combinationSumHelper(candidates, target, solution, ret, 0, 0);
         return ret;
     }
-    void combinationSumHelper(vector<int> &candidates, const int target, vector<int> &solution, vector<vector<int> > &ret, int idx, int localSum){
+    void combinationSumHelper(vector<int> &candidates, const int target, vector<int> &solution, vector<vector<int>> &ret, int idx, int localSum){
         if (idx >= candidates.size() || localSum > target) {
             return;
         }
@@ -2645,16 +2644,16 @@ public:
         combinationSumHelper(candidates, target, solution, ret, idx, localSum);
     }
 
-    vector<vector<int> > combinationSum_improved(vector<int> &candidates, int target) {
+    vector<vector<int>> combinationSum_improved(vector<int> &candidates, int target) {
         // Another easy understanding method.
-        vector<vector<int> > ret;
+        vector<vector<int>> ret;
         vector<int> output;
         sort(candidates.begin(), candidates.end());
         combinationSum_improvedHelper(candidates.begin(), candidates.end(), target, output, ret);
         return ret;
     }
 
-    void combinationSum_improvedHelper(vector<int>::iterator begin, vector<int>::iterator end, int target, vector<int> &output, vector<vector<int> > &ret) {
+    void combinationSum_improvedHelper(vector<int>::iterator begin, vector<int>::iterator end, int target, vector<int> &output, vector<vector<int>> &ret) {
         if (target == 0) {
             ret.push_back(output);
             return;
@@ -2673,10 +2672,10 @@ public:
     // Valid Sudoku
     // Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
     // The Sudoku board could be partially filled, where empty cells are filled with the character '.'.
-    bool isValidSudoku(vector<vector<char> > &board) {
-        vector<vector<int> > bucket;
+    bool isValidSudoku(vector<vector<char>> &board) {
+        vector<vector<int>> bucket;
         for (int i = 0; i < 9; ++i) {
-            bucket = vector<vector<int> >(3, vector<int>(9, 0));
+            bucket = vector<vector<int>>(3, vector<int>(9, 0));
             for (int j = 0; j < 9; ++j) {
                 if (board[i][j] != '.' && ++bucket[0][board[i][j] - '1'] > 1) {
                     return false;
@@ -2792,7 +2791,7 @@ public:
     //   [4,1,8,3]
     // ]
     // The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
-    int minimumTotal(vector<vector<int> > &triangle) {
+    int minimumTotal(vector<vector<int>> &triangle) {
         int N = triangle.size();
         // Initialize the O(N) extra space.
         vector<int> tempVector(N, 0);
@@ -2832,14 +2831,14 @@ public:
     //     [5,4,11,2],
     //     [5,8,4,5]
     // ]
-    vector<vector<int> > pathSum(TreeNode *root, int sum) {
-        vector<vector<int> > ret;
+    vector<vector<int>> pathSum(TreeNode *root, int sum) {
+        vector<vector<int>> ret;
         vector<int> route;
         int curSum = 0;
         pathSumHelper(root, route, ret, curSum, sum);
         return ret;
     }
-    void pathSumHelper(TreeNode *root, vector<int> route, vector<vector<int> > &ret, int curSum, const int sum) {
+    void pathSumHelper(TreeNode *root, vector<int> route, vector<vector<int>> &ret, int curSum, const int sum) {
         if (root == nullptr) {
             return;
         }
@@ -3003,8 +3002,8 @@ public:
     //   [20,9],
     //   [15,7]
     // ]
-    vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
-        vector<vector<int> > ret;
+    vector<vector<int>> zigzagLevelOrder(TreeNode *root) {
+        vector<vector<int>> ret;
         queue<TreeNode *> nodeQueue;
         if (root == nullptr) {
             return ret;
@@ -3090,13 +3089,13 @@ public:
     //   ["aa","b"],
     //   ["a","a","b"]
     // ]
-    vector<vector<string> > partition(string s) {
-        vector<vector<string> > ret;
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> ret;
         vector<string> line;
         partitionHelper(s, 0, line, ret);
         return ret;
     }
-    void partitionHelper(const string &s, int idx, vector<string> line, vector<vector<string> > &ret) {
+    void partitionHelper(const string &s, int idx, vector<string> line, vector<vector<string>> &ret) {
         if (idx > s.size() - 1) {
             ret.push_back(line);
             return;
@@ -3162,7 +3161,7 @@ public:
             return len1;
         }
         // dp[i][j] represents the dist from word1.substr(0, i) to word2.substr(0, j).
-        vector<vector<int> >dp(vector<vector<int> >(len1 + 1, vector<int>(len2 + 1, 0)));
+        vector<vector<int>>dp(vector<vector<int>>(len1 + 1, vector<int>(len2 + 1, 0)));
         for (int r = 0; r <= len1; ++r) {
             dp[r][0] = r;
         }
@@ -3248,7 +3247,7 @@ public:
     // Return 3.
     int numDistinct(string S, string T) {
         int lenS = S.size(), lenT = T.size();
-        vector<vector<int> > bucket = vector<vector<int> >(lenS + 1, vector<int>(lenT + 1, 0));
+        vector<vector<int>> bucket = vector<vector<int>>(lenS + 1, vector<int>(lenT + 1, 0));
         for (int curS = 1; curS <= lenS; ++curS) {
             for (int curT = 1; curT <= min(lenT, curS); ++curT) {
                 if (S[curS - 1] == T[curT - 1]) {
@@ -3420,14 +3419,14 @@ public:
     // [1, 2, 5]
     // [2, 6]
     // [1, 1, 6]
-    vector<vector<int> > combinationSum2(vector<int> &num, int target) {
-        vector<vector<int> > ret;
+    vector<vector<int>> combinationSum2(vector<int> &num, int target) {
+        vector<vector<int>> ret;
         vector<int> line;
         sort(num.begin(), num.end());
         combinationSum2Helper(0, line, ret, num, target);
         return ret;
     }
-    void combinationSum2Helper(int idx, vector<int> &line, vector<vector<int> > &ret, const vector<int> &num, int target) {
+    void combinationSum2Helper(int idx, vector<int> &line, vector<vector<int>> &ret, const vector<int> &num, int target) {
         if (target == 0) {
             ret.push_back(line);
             return;
@@ -4015,7 +4014,7 @@ public:
     // dict = ["leet", "code"].
     // Return true because "leetcode" can be segmented as "leet code".
     bool wordBreak(string s, unordered_set<string> &dict) {
-        vector<vector<bool> > dp = vector<vector<bool> >(s.size(), vector<bool>(s.size(), false));
+        vector<vector<bool>> dp = vector<vector<bool>>(s.size(), vector<bool>(s.size(), false));
         for (int step = 1; step <= s.size(); ++step) {
             for (int idx = 0; idx <= s.size() - step; ++idx) {
                 if (dict.find(s.substr(idx, step)) != dict.end()) {
@@ -4233,7 +4232,7 @@ public:
     }
     // Maximal Rectangle
     // Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing all ones and return its area.
-    int maximalRectangle(vector<vector<char> > &matrix) {
+    int maximalRectangle(vector<vector<char>> &matrix) {
         if (matrix.size() == 0) {
             return 0;
         }
@@ -4299,9 +4298,9 @@ public:
     //    (-1,  0, 0, 1)
     //    (-2, -1, 1, 2)
     //    (-2,  0, 0, 2)
-    vector<vector<int> > fourSum(vector<int> &num, int target) {
+    vector<vector<int>> fourSum(vector<int> &num, int target) {
         sort(num.begin(), num.end());
-        vector<vector<int> > ret;
+        vector<vector<int>> ret;
         for (int fst = 0; fst < num.size(); ++fst) {
             for (int snd = fst + 1; snd < num.size(); ++snd) {
                 int thd = snd + 1, fth = num.size() - 1;
@@ -4340,10 +4339,10 @@ public:
     // Write a program to solve a Sudoku puzzle by filling the empty cells.
     // Empty cells are indicated by the character '.'.
     // You may assume that there will be only one unique solution.
-    void solveSudoku(vector<vector<char> > &board) {
-        vector<vector<int> > rowMap, colMap, squareMap;
+    void solveSudoku(vector<vector<char>> &board) {
+        vector<vector<int>> rowMap, colMap, squareMap;
         bool canBreak = false;
-        rowMap = colMap = squareMap = vector<vector<int> >(9, vector<int>(9, 0));
+        rowMap = colMap = squareMap = vector<vector<int>>(9, vector<int>(9, 0));
         for (int r = 0; r < 9; ++r) {
             for (int c = 0; c < 9; ++c) {
                 if (board[r][c] != '.') ++rowMap[r][board[r][c] - '1'];
@@ -4354,7 +4353,7 @@ public:
         }
         solveSudoku(0, 0, board, rowMap, colMap, squareMap, canBreak);
     }
-    void solveSudoku(int r, int c, vector<vector<char> > &board, vector<vector<int> > &rowMap, vector<vector<int> > &colMap, vector<vector<int> > &squareMap, bool &canBreak) {
+    void solveSudoku(int r, int c, vector<vector<char>> &board, vector<vector<int>> &rowMap, vector<vector<int>> &colMap, vector<vector<int>> &squareMap, bool &canBreak) {
         if (r >= 9) {
             canBreak = true;
             return;
@@ -4755,7 +4754,7 @@ public:
     //   [ 7, 8, 9 ]
     // ]
     // You should return [1,2,3,6,9,8,7,4,5].
-    vector<int> spiralOrder(vector<vector<int> > &matrix) {
+    vector<int> spiralOrder(vector<vector<int>> &matrix) {
         vector<int> ret;
         int rowNum = matrix.size();
         if (rowNum != 0 ) {
@@ -4794,7 +4793,7 @@ public:
     //   [ 8, 9, 4 ],
     //   [ 7, 6, 5 ]
     // ]
-    vector<vector<int> > generateMatrix(int n) {
+    vector<vector<int>> generateMatrix(int n) {
         // Main idea:
         // ->->->->
         // | ->-> |
@@ -4805,7 +4804,7 @@ public:
         // %     $
         // %     $
         // & & & $
-        vector<vector<int> > matrix(n, vector<int>(n, 0));
+        vector<vector<int>> matrix(n, vector<int>(n, 0));
         int level = n / 2;
         int num = 1;
         for (int r = 0; r <= level; ++r) {
@@ -4947,7 +4946,7 @@ public:
     bool isMatch_dp(const char *s, const char *p) {
         // DP
         int lens = strlen(s), lenp = strlen(p);
-        vector<vector<bool> > dp = vector<vector<bool> >(lens + 1, vector<bool>(lenp + 1, false));
+        vector<vector<bool>> dp = vector<vector<bool>>(lens + 1, vector<bool>(lenp + 1, false));
         // Base case.
         bool valid = false;
         dp[0][0] = true;
@@ -5153,7 +5152,7 @@ public:
         if (s1.size() + s2.size() != s3.size()) {
             return false;
         }
-        vector<vector<bool> > dp(s1.size() + 1, vector<bool>(s2.size() + 1, false));
+        vector<vector<bool>> dp(s1.size() + 1, vector<bool>(s2.size() + 1, false));
         dp[0][0] = true;
         for (int idx = 1; idx <= s1.size(); ++idx) {
             if (dp[idx - 1][0] == true) {
@@ -5302,9 +5301,9 @@ public:
     // word = "ABCCED", -> returns true,
     // word = "SEE", -> returns true,
     // word = "ABCB", -> returns false.
-    bool exist(vector<vector<char> > &board, string word) {
+    bool exist(vector<vector<char>> &board, string word) {
         bool found = false;
-        vector<vector<bool> > visited(board.size(), vector<bool>(board[0].size(), false));
+        vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(), false));
         for (int r = 0; r < board.size(); ++r) {
             for (int c = 0; c < board[0].size(); ++c) {
                 if (exist(board, visited, r, c, word)) {
@@ -5314,7 +5313,7 @@ public:
         }
         return found;
     }
-    bool exist(const vector<vector<char> > &board, vector<vector<bool> > &visited, const int r, const int c, const string &word) {
+    bool exist(const vector<vector<char>> &board, vector<vector<bool>> &visited, const int r, const int c, const string &word) {
         // DFS.
         if (board[r][c] != word[0] || visited[r][c]) {
             return false;
@@ -5346,7 +5345,7 @@ public:
     int minCut_fault(string s) {
         // TLE
         int N = s.size();
-        vector<vector<bool> > palindrome(N, vector<bool>(N, false));
+        vector<vector<bool>> palindrome(N, vector<bool>(N, false));
         for (int idx = 0; idx < N; ++idx) {
             palindrome[idx][idx] = true;
         }
@@ -5378,7 +5377,7 @@ public:
         if (N == 0) {
             return 0;
         }
-        vector<vector<bool> > palindrome(N, vector<bool>(N, false));
+        vector<vector<bool>> palindrome(N, vector<bool>(N, false));
         vector<int> cut(N, 0);
         for (int start = N - 1; start >= 0; --start) {
             cut[start] = N - start - 1;
@@ -5779,8 +5778,8 @@ public:
     // A solution set is:
     //   (-1, 0, 1)
     //   (-1, -1, 2)
-    vector<vector<int> > threeSum(vector<int> &num) {
-        vector<vector<int> > ret;
+    vector<vector<int>> threeSum(vector<int> &num) {
+        vector<vector<int>> ret;
         if (num.size() < 3) {
             return ret;
         }
@@ -6017,7 +6016,7 @@ public:
     // X X X X
     // X X X X
     // X O X X
-    void solve(vector<vector<char> > &board) {
+    void solve(vector<vector<char>> &board) {
         if (board.size() < 3 || board[0].size() < 3) {
             return;
         }
@@ -6054,8 +6053,8 @@ public:
             }
         }
     }
-    void BFS(vector<vector<char> > &board, const int r, const int c) {
-        queue<pair<int, int> > q;
+    void BFS(vector<vector<char>> &board, const int r, const int c) {
+        queue<pair<int, int>> q;
         q.push(pair<int, int>(r, c));
         while (!q.empty()) {
             int row = q.front().first, col = q.front().second;
@@ -6219,7 +6218,7 @@ public:
     double findMedianSortedArrays_twoheap(int A[], int m, int B[], int n) {
         // create a min heap and a max heap
         priority_queue<int> maxheap;
-        priority_queue<int, vector<int>, greater<int> > minheap;
+        priority_queue<int, vector<int>, greater<int>> minheap;
         int pA, pB;
         pA = pB = 0;
         if (m > 0 && n > 0) {
@@ -6318,11 +6317,11 @@ public:
     // | -5     |  -10 |   1    |
     // | 10     |  30  |  -5 (P)|
     // _________________________
-    int calculateMinimumHP(vector<vector<int> > &dungeon) {
+    int calculateMinimumHP(vector<vector<int>> &dungeon) {
         if (dungeon.size() == 0) {
             return 0;
         }
-        vector<vector<int> > dp(dungeon.size(), vector<int>(dungeon[0].size(), INT_MAX));
+        vector<vector<int>> dp(dungeon.size(), vector<int>(dungeon[0].size(), INT_MAX));
         int rowNum = dungeon.size(), colNum = dungeon[0].size();
         for (int r = rowNum - 1; r >= 0; --r) {
             for (int c = colNum - 1; c >= 0; --c) {
@@ -6480,13 +6479,13 @@ public:
     // 00100
     // 00011
     // Answer: 3
-    int numIslands(vector<vector<char> > &grid) {
+    int numIslands(vector<vector<char>> &grid) {
         int ret = 0;
         if (grid.size() == 0) {
             return ret;
         }
         int rowNum = grid.size(), colNum = grid[0].size();
-        vector<vector<bool> > visit(rowNum, vector<bool>(colNum, false));
+        vector<vector<bool>> visit(rowNum, vector<bool>(colNum, false));
         for (int r = 0; r < rowNum; ++r) {
             for (int c = 0; c < colNum; ++c) {
                 if (grid[r][c] == '1' && !visit[r][c]) {
@@ -6497,7 +6496,7 @@ public:
         }
         return ret;
     }
-    bool numIslands(const int r, const int c, vector<vector<char> > &grid, vector<vector<bool> > &visit) {
+    bool numIslands(const int r, const int c, vector<vector<char>> &grid, vector<vector<bool>> &visit) {
         bool left, right, up ,down;
         left = right = up = down = true;
         int rowNum = grid.size(), colNum = grid[0].size();
@@ -6770,7 +6769,7 @@ public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         // Kahn
         vector<int> indegree(numCourses, 0);
-        vector<vector<int> > edges(numCourses, vector<int>());
+        vector<vector<int>> edges(numCourses, vector<int>());
         int edgeNum = prerequisites.size();
         if (!edgeNum) {
             return true;
@@ -6814,7 +6813,7 @@ public:
     // There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
     vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
         vector<int> ret, indegree(numCourses, 0);
-        vector<vector<int> > edges(numCourses, vector<int>());
+        vector<vector<int>> edges(numCourses, vector<int>());
         int edgeNum = prerequisites.size();
         for (int idx = 0; idx < edgeNum; ++idx) {
             int to = prerequisites[idx].first, from = prerequisites[idx].second;
@@ -6953,12 +6952,12 @@ public:
     // Output:
     // [[1,2,6], [1,3,5], [2,3,4]]
     vector<vector<int>> combinationSum3(int k, int n) {
-        vector<vector<int> > ret;
+        vector<vector<int>> ret;
         vector<int> line;
         combinationSum3Helper(1, k, n, line, ret);
         return ret;
     }
-    void combinationSum3Helper(const int beg, const int k, const int n, vector<int> &line, vector<vector<int> > &ret) {
+    void combinationSum3Helper(const int beg, const int k, const int n, vector<int> &line, vector<vector<int>> &ret) {
         if (beg > 9) {
             return;
         }
@@ -7036,7 +7035,7 @@ public:
     // All root-to-leaf paths are:
     // ["1->2->5", "1->3"]
     vector<string> binaryTreePaths(TreeNode* root) {
-        vector<vector<string> > paths;
+        vector<vector<string>> paths;
         if (root) {
             binaryTreePaths(root, vector<string>(), paths);
         }
@@ -7053,7 +7052,7 @@ public:
         }
         return ret;
     }
-    void binaryTreePaths(TreeNode *root, vector<string> path, vector<vector<string> > &paths) {
+    void binaryTreePaths(TreeNode *root, vector<string> path, vector<vector<string>> &paths) {
         path.push_back(to_string(root->val));
 
         if (root->left == nullptr && root->right == nullptr && path.size() != 0) {
@@ -7404,7 +7403,7 @@ public:
             return 0;
         }
         int col = matrix[0].size(), maxSq = 0;
-        vector<vector<int> > dp(row, vector<int>(col, 0));
+        vector<vector<int>> dp(row, vector<int>(col, 0));
 
         for (int c = 0; c < col; ++c) {
             if (matrix[0][c] == '1') {
