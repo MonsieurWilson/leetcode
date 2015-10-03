@@ -1704,6 +1704,48 @@ public:
         }
         return table;
     }
+    // Pascal's Triangle II
+    // Given an index k, return the kth row of the Pascal's triangle.
+    // For example, given k = 3,
+    // Return [1,3,3,1].
+    // Note:
+    // Could you optimize your algorithm to use only O(k) extra space?
+    vector<int> getRow(int rowIndex) {
+        int index = rowIndex + 1;
+        vector<int> tmp(index, 1);
+        if (index <= 2) {
+            return tmp;
+        }
+        int prep = 0, cur = prep + 2, mov = cur;
+        int cnt;
+        // Start at 3 Pascal's Triangle
+        for (int num = 3; num <= index; ++num) {
+            cnt = 1;
+            while (cnt <= num) {
+                int prepNext = (prep + 1) % index;
+                int movNext = (mov + 1) % index;
+                if (cnt == 1 || cnt == num) {
+                    tmp[mov] = 1;
+                }
+                else {
+                    tmp[mov] = tmp[prep] + tmp[prepNext];
+                    prep = prepNext;
+                }
+                mov = movNext;
+                ++cnt;
+            }
+            prep = cur;
+            cur = mov;
+        }
+        vector<int> ret;
+        cnt = 1;
+        while (cnt <= index) {
+            ret.push_back(tmp[prep]);
+            prep = (prep + 1) % index;
+            ++cnt;
+        }
+        return ret;
+    }
     // Binary Tree Level Order Traversal
     // Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
     vector<vector<int>> levelOrder(TreeNode *root) {
@@ -1747,10 +1789,10 @@ public:
             }
             else {
                 ret[ret.size() - 1].push_back(tmp->val);
-                if (tmp->left != nullptr) {
+                if (tmp->left) {
                     nodeQueue.push(tmp->left);
                 }
-                if (tmp->right != nullptr) {
+                if (tmp->right) {
                     nodeQueue.push(tmp->right);
                 }
                 if (nodeQueue.front() == nullptr) {
@@ -1810,62 +1852,36 @@ public:
     // Follow up for "Remove Duplicates":
     // What if duplicates are allowed at most twice?
     // For example,
-    // Given sorted array A = [1,1,1,2,2,3],
-    // Your function should return length = 5, and A is now [1,1,2,2,3].
-    int removeDuplicatesII(int A[], int n) {
-        int cnt = 0;
-        for (int idx = 0; idx != n; ++idx) {
-            if (idx < n - 2 && A[idx] == A[idx + 2]) {
+    // Given sorted array nums = [1,1,1,2,2,3],
+    // Your function should return length = 5, and nums is now [1,1,2,2,3].
+    int removeDuplicatesII(vector<int>& nums) {
+        int cnt = 0, lens = nums.size();
+        for (int i = 0; i != lens; ++i) {
+            if (i < lens - 2 && nums[i] == nums[i + 2]) {
                 ++cnt;
             }
             else if (cnt > 0) {
-                A[idx - cnt] = A[idx];
+                nums[i - cnt] = nums[i];
             }
         }
-        return n - cnt;
+        return lens - cnt;
     }
 
-    int removeDuplicatesII_improved(int A[], int n) {
-        if (n <= 2) return n;
-        int lens = 1;
-        for (int idx = 2; idx < n; ++idx) {
-            if (A[idx] != A[lens - 1]) {
-                A[++lens] = A[idx];
+    int removeDuplicatesII_improved(vector<int>& nums) {
+        int ret = 1, lens = nums.size();
+        if (lens <= 2) {
+            return lens;
+        }
+        for (int i = 2; i < lens; ++i) {
+            if (nums[i] != nums[ret - 1]) {
+                nums[++ret] = nums[i];
             }
         }
-        return ++lens;
+        return ++ret;
     }
     // Combinations
     // Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
     vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> ret;
-        if (n < 1 || n < k || k < 1) {
-            return ret;
-        }
-        vector<int> line;
-        line.push_back(1);
-        bool needPop = false;
-        while (!line.empty() && line.front() <= n - k + 1) {
-            if (line.size() == k) {
-                ret.push_back(line);
-            }
-            int last = line.back();
-            if (last < n) {
-                if (line.size() == k || needPop == true ) {
-                    line.pop_back();
-                }
-                needPop = false;
-                line.push_back(last + 1);
-            }
-            else {
-                line.pop_back();
-                needPop = true;
-            }
-        }
-        return ret;
-    }
-
-    vector<vector<int>> combine_fast(int n, int k) {
         vector<vector<int>> ret;
         if (n < 1 || k > n || k < 1) {
             return ret;
@@ -1879,7 +1895,7 @@ public:
             }
             int lastEle = line[idx];
             if (lastEle < n) {
-                if (idx == k - 1 || needBack == true) {
+                if (idx == k - 1 || needBack) {
                     --idx;
                 }
                 needBack = false;
@@ -1904,7 +1920,6 @@ public:
         return totalSum;
     }
     void sumNumbersHelper(TreeNode *root, int curSum, int &totalSum) {
-        // Here, curSum should not be reference.
         if (root == nullptr) {
             return;
         }
@@ -1919,69 +1934,16 @@ public:
     // Path Sum
     // Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
     bool hasPathSum(TreeNode *root, int sum) {
-        // Recursive
-        bool found = false;
-        int curSum = 0;
-        hasPathSumHelper(root, sum, found, curSum);
-        return found;
-    }
-    void hasPathSumHelper(TreeNode *root, int sum, bool &found, int curSum) {
         if (root == nullptr) {
-            return;
+            return false;
         }
-        curSum += root->val;
-        if (found == true) {
-            // Prunning
-            return;
+        sum -= root->val;
+        if (root->left == nullptr && root->right == nullptr) {
+            return sum == 0;
         }
-        if (root->left == nullptr && root->right == nullptr && curSum == sum) {
-            found = true;
-            return;
+        else {
+            return hasPathSum(root->left, sum) || hasPathSum(root->right, sum);
         }
-        hasPathSumHelper(root->left, sum, found, curSum);
-        hasPathSumHelper(root->right, sum, found, curSum);
-    }
-    // Pascal's Triangle II
-    // Given an index k, return the kth row of the Pascal's triangle.
-    // For example, given k = 3,
-    // Return [1,3,3,1].
-    // Note:
-    // Could you optimize your algorithm to use only O(k) extra space?
-    vector<int> getRow(int rowIndex) {
-        int length = rowIndex + 1;
-        vector<int> temp(length, 1);
-        if (length <= 2) {
-            return temp;
-        }
-        int prep = 0, cur = prep + 2,mov = cur;
-        int cnt;
-        // Start at 3 Pascal's Triangle
-        for (int num = 3; num <= length; ++num) {
-            cnt = 1;
-            while (cnt <= num) {
-                int prepNext = (prep + 1) % length;
-                int movNext = (mov + 1) % length;
-                if (cnt == 1 || cnt == num) {
-                    temp[mov] = 1;
-                }
-                else {
-                    temp[mov] = temp[prep] + temp[prepNext];
-                    prep = prepNext;
-                }
-                mov = movNext;
-                ++cnt;
-            }
-            prep = cur;
-            cur = mov;
-        }
-        vector<int> ret;
-        cnt = 1;
-        while (cnt <= length) {
-            ret.push_back(temp[prep]);
-            prep = (prep + 1) % length;
-            ++cnt;
-        }
-        return ret;
     }
     // Trapping Rain Water
     // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
@@ -2013,27 +1975,28 @@ public:
         }
         return ret;
     }
-    int trap_iteration(int A[], int n) {
+
+    int trap_iteration(vector<int>& height) {
         // Iterative
-        int left = 0, right = n - 1;
+        int left = 0, right = height.size() - 1;
         int area = 0;
-        int maxLeft = A[left], maxRight = A[right];
+        int maxLeft = height[left], maxRight = height[right];
         while (left < right) {
-            if (A[left] <= A[right]) {
-                if (A[left] >= maxLeft) {
-                    maxLeft = A[left];
+            if (height[left] <= height[right]) {
+                if (height[left] >= maxLeft) {
+                    maxLeft = height[left];
                 }
                 else {
-                    area += maxLeft - A[left];
+                    area += maxLeft - height[left];
                 }
                 ++left;
             }
             else {
-                if (A[right] >= maxRight) {
-                    maxRight = A[right];
+                if (height[right] >= maxRight) {
+                    maxRight = height[right];
                 }
                 else {
-                    area += maxRight - A[right];
+                    area += maxRight - height[right];
                 }
                 --right;
             }

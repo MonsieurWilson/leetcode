@@ -50,10 +50,31 @@ int main(){
     */
     stime = clock();
 
-    string eq;
-    cout << "Input the equation: " << endl;
-    getline(cin, eq);
-    cout << "The result is: " << endl << s.calculate(eq) << endl;
+    class A {
+    public:
+        A(const int n = 5): num(n) {}
+        void write(const int n) {
+            num = n;
+        }
+        int get() {
+            return num;
+        }
+        friend ostream &operator << (ostream &o, const A &a);
+    private:
+        int num;
+    };
+
+    ostream &operator << (ostream &o, const A &a) {
+        o << a.num;
+    }
+
+    A a;
+    a = 37;
+    cout << a << endl;
+
+    
+
+
 
     ftime = clock();
     prtTimeCost(stime, ftime);
