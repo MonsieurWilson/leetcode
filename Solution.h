@@ -1465,20 +1465,20 @@ public:
         int beg = 0, end = lens - 1, pos = -1;
         while (beg <= end) {
             int mid = beg + (end - beg) / 2;
-            if (A[mid] == target) {
+            if (nums[mid] == target) {
                 pos = mid;
                 break;
             }
-            if (A[mid] > A[beg]) {
-                if (A[beg] <= target && target < A[mid]) {
+            if (nums[mid] > nums[beg]) {
+                if (nums[beg] <= target && target < nums[mid]) {
                     end = mid - 1;
                 }
                 else {
                     beg = mid + 1;
                 }
             }
-            else if (A[mid] < A[beg]) {
-                if (A[mid] < target && target <= A[end]) {
+            else if (nums[mid] < nums[beg]) {
+                if (nums[mid] < target && target <= nums[end]) {
                     beg = mid + 1;
                 }
                 else {
@@ -1486,7 +1486,7 @@ public:
                 }
             }
             else {
-                // If A[mid] == A[beg], let beg increase itself to handle the duplicate situation
+                // If nums[mid] == nums[beg], let beg increase itself to handle the duplicate situation
                 ++beg;
             }
         }
@@ -1561,31 +1561,25 @@ public:
     // What if the given tree could be any binary tree? Would your previous solution still work?
     // Note: You may only use constant extra space.
     void connectII(TreeLinkNode *root) {
-        if (root == nullptr) {
-            return;
-        }
         TreeLinkNode *head = root;
-        // A helper pointer to help build every node's next pointer
-        TreeLinkNode *helper = new TreeLinkNode(0);
-        // Store the next head's position
-        TreeLinkNode *nextHead = helper;
-        while (head != nullptr) {
+        TreeLinkNode *nextHead = new TreeLinkNode(0);
+        TreeLinkNode *cur = nextHead;
+        while (head) {
             TreeLinkNode *mov = head;
-            while (mov != nullptr) {
-                if (mov->left != nullptr) {
-                    helper->next = mov->left;
-                    helper = helper->next;
+            while (mov) {
+                if (mov->left) {
+                    cur->next = mov->left;
+                    cur = cur->next;
                 }
-                if (mov->right != nullptr) {
-                    helper->next = mov->right;
-                    helper = helper->next;
+                if (mov->right) {
+                    cur->next = mov->right;
+                    cur = cur->next;
                 }
                 mov = mov->next;
             }
             head = nextHead->next;
-            // Reset the helper node and its next pointer
-            helper = nextHead;
-            helper->next = nullptr;
+            nextHead->next = nullptr;
+            cur = nextHead;
         }
     }
     // Symmetric Tree
@@ -1605,12 +1599,7 @@ public:
             return false;
         }
         else {
-            if (pLeft->val != pRight->val) {
-                return false;
-            }
-            else {
-                return isSymmetricHelper(pLeft->left,pRight->right) && isSymmetricHelper(pLeft->right,pRight->left);
-            }
+            return pLeft->val == pRight->val && isSymmetricHelper(pLeft->left,pRight->right) && isSymmetricHelper(pLeft->right,pRight->left);
         }
     }
 
@@ -1647,45 +1636,45 @@ public:
     // Set Matrix Zeros
     // Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
     void setZeroes(vector<vector<int>> &matrix) {
-        int rowNum = matrix.size(), colNum = matrix[0].size();
-        if (rowNum == 0 || colNum == 0) {
+        int row = matrix.size(), col = matrix[0].size();
+        if (row == 0 || col == 0) {
             return;
         }
         bool hasZeroFirstRow = false, hasZeroFirstCol = false;
-        for (int c = 0; c != colNum; ++c) {
+        for (int c = 0; c != col; ++c) {
             if (matrix[0][c] == 0) {
                 hasZeroFirstRow = true;
                 break;
             }
         }
-        for (int r = 0; r != rowNum; ++r) {
+        for (int r = 0; r != row; ++r) {
             if (matrix[r][0] == 0) {
                 hasZeroFirstCol = true;
                 break;
             }
         }
-        for (int r = 1; r != rowNum; ++r) {
-            for (int c = 1; c != colNum; ++c) {
+        for (int r = 1; r != row; ++r) {
+            for (int c = 1; c != col; ++c) {
                 if (matrix[r][c] == 0) {
                     matrix[0][c] = 0;
                     matrix[r][0] = 0;
                 }
             }
         }
-        for (int r = 1; r != rowNum; ++r) {
-            for (int c = 1; c != colNum; ++c) {
+        for (int r = 1; r != row; ++r) {
+            for (int c = 1; c != col; ++c) {
                 if (matrix[0][c] == 0 || matrix[r][0] == 0) {
                     matrix[r][c] = 0;
                 }
             }
         }
         if (hasZeroFirstRow) {
-            for (int c = 0; c != colNum; ++c) {
+            for (int c = 0; c != col; ++c) {
                 matrix[0][c] = 0;
             }
         }
         if (hasZeroFirstCol) {
-            for (int r = 0; r != rowNum; ++r) {
+            for (int r = 0; r != row; ++r) {
                 matrix[r][0] = 0;
             }
         }
