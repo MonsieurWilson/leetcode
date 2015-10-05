@@ -1949,28 +1949,28 @@ public:
     // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
     // For example,
     // Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
-    int trap(int A[], int n) {
+    int trap(vector<int>& height) {
         // Recursive
         if (n < 2) {
             return 0;
         }
         int beg = 0, end = n - 1;
-        int height = min(A[beg], A[end]);
-        int max = -1, index = 0;
+        int h = min(height[beg], height[end]);
+        int maxHeight = -1, index = 0;
         for (int idx = beg + 1; idx < end; ++idx) {
-            if (A[idx] > max) {
-                max = A[idx];
+            if (height[idx] > maxHeight) {
+                maxHeight = height[idx];
                 index = idx;
             }
         }
-        if (height < max) {
+        if (h < maxHeight) {
             // Ensure the edge height to hold the water
-            return trap(A, index + 1) + trap(A + index, n - index);
+            return trap(vector<int>(height.begin(), height.begin() + index + 1)) + trap(vector<int>(height.begin() + index + 1, height.end()));
         }
         int ret = 0;
         for (int idx = beg + 1; idx < end; ++idx) {
-            if (height > A[idx]) {
-                ret += height - A[idx];
+            if (h > height[idx]) {
+                ret += h - height[idx];
             }
         }
         return ret;
@@ -1978,30 +1978,32 @@ public:
 
     int trap_iteration(vector<int>& height) {
         // Iterative
-        int left = 0, right = height.size() - 1;
-        int area = 0;
-        int maxLeft = height[left], maxRight = height[right];
-        while (left < right) {
-            if (height[left] <= height[right]) {
-                if (height[left] >= maxLeft) {
-                    maxLeft = height[left];
+        if (height.size() <= 2) {
+            return 0;
+        }
+        int beg = 0, end = height.size() - 1;
+        int maxLeft = height[beg], maxRight = height[end], ret = 0;
+        while (beg < end) {
+            if (height[beg] <= height[end]) {
+                if (height[beg] < maxLeft) {
+                    ret += maxLeft - height[beg];
                 }
                 else {
-                    area += maxLeft - height[left];
+                    maxLeft = height[beg];
                 }
-                ++left;
+                ++beg;
             }
             else {
-                if (height[right] >= maxRight) {
-                    maxRight = height[right];
+                if (height[end] < maxRight) {
+                    ret += maxRight - height[end];
                 }
                 else {
-                    area += maxRight - height[right];
+                    maxRight = height[end];
                 }
-                --right;
+                --end;
             }
         }
-        return area;
+        return ret;
     }
     // Minimum Depth of Binary Tree
     // Given a binary tree, find its minimum depth.
@@ -4335,7 +4337,7 @@ public:
         }
     }
     // Sort List
-    // Sort a linked list in O(n log n) time using constant space complexity.
+    // Sort a linked list in O(NlogN) time using constant space complexity.
     ListNode *sortList_quickSort(ListNode *head) {
         // Quick Sort.
         int length = 0;
@@ -4411,8 +4413,8 @@ public:
     ListNode *merge_mergeSort(ListNode *l1, ListNode *l2) {
         ListNode *head = nullptr, *ptr = head;
         ListNode *pointer1 = l1, *pointer2 = l2;
-        while (pointer1 != nullptr || pointer2 != nullptr) {
-            if (pointer2 == nullptr || ((pointer1 != nullptr) && (pointer1->val < pointer2->val))) {
+        while (pointer1 || pointer2) {
+            if (pointer2 == nullptr || pointer1 && pointer1->val < pointer2->val) {
                 if (ptr == nullptr) {
                     head = pointer1;
                     ptr = head;
@@ -4444,13 +4446,13 @@ public:
         tmp->next = head;
         ListNode *cur = head;
         int lens = 0;
-        while (cur != nullptr) {
+        while (cur) {
             cur = cur->next;
             ++lens;
         }
         for (int l = 2; l < 2 * lens; l *= 2) {
             cur = tmp;
-            while (cur != nullptr && cur->next != nullptr) {
+            while (cur && cur->next) {
                 cur = sortList_iteration(cur, l);
             }
         }
@@ -4479,8 +4481,8 @@ public:
         tail = end2->next;
         end2->next = nullptr;
         cur = beg;
-        while (beg1 != nullptr || beg2 != nullptr) {
-            if (beg2 == nullptr || (beg1 != nullptr && beg1->val < beg2->val)) {
+        while (beg1 || beg2) {
+            if (beg2 == nullptr || beg1 && beg1->val < beg2->val) {
                 cur->next = beg1;
                 beg1 = beg1->next;
             }

@@ -6,6 +6,7 @@ void prtTimeCost(const clock_t stime, const clock_t ftime) {
     cout << "The time cost is : " << 1000.0 * (ftime - stime) / CLOCKS_PER_SEC << " ms.";
 }
 
+
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
@@ -50,27 +51,7 @@ int main(){
     */
     stime = clock();
 
-    class A {
-    public:
-        A(const int n = 5): num(n) {}
-        void write(const int n) {
-            num = n;
-        }
-        int get() {
-            return num;
-        }
-        friend ostream &operator << (ostream &o, const A &a);
-    private:
-        int num;
-    };
 
-    ostream &operator << (ostream &o, const A &a) {
-        o << a.num;
-    }
-
-    A a;
-    a = 37;
-    cout << a << endl;
 
     
 
