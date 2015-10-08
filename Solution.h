@@ -1135,6 +1135,7 @@ public:
         }
         return nums[end];
     }
+
     int findMin_improved(vector<int> &nums) {
         // Binary Search
         int lens = nums.size();
@@ -1949,6 +1950,7 @@ public:
     // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
     // For example,
     // Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+    /*
     int trap(vector<int>& height) {
         // Recursive
         if (n < 2) {
@@ -1975,6 +1977,7 @@ public:
         }
         return ret;
     }
+    */
 
     int trap_iteration(vector<int>& height) {
         // Iterative
@@ -7604,6 +7607,7 @@ public:
         }
         return ret;
     }
+
     int countDigitK_improved(int n, int k) {
         int iCount = 0, iFactor = 1;
         int iLowerNum = 0, iCurrNum = 0, iHigherNum = 0;

@@ -51,7 +51,12 @@ int main(){
     */
     stime = clock();
 
-
+    int i = 0x80000000;
+    int cnt = 0;
+    while (cnt < 64) {
+        cout << (i >>= 1) << endl;
+        ++cnt;
+    }
 
     
 
