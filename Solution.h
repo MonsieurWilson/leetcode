@@ -1946,6 +1946,41 @@ public:
             return hasPathSum(root->left, sum) || hasPathSum(root->right, sum);
         }
     }
+    // Path Sum II
+    // Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+    // For example:
+    // Given the below binary tree and sum = 22,
+    //            5
+    //           / \
+    //          4   8
+    //         /   / \
+    //        11  13  4
+    //       /  \    / \
+    //      7    2  5   1
+    // return
+    // [
+    //     [5,4,11,2],
+    //     [5,8,4,5]
+    // ]
+    vector<vector<int>> pathSum(TreeNode *root, int sum) {
+        vector<vector<int>> ret;
+        vector<int> route;
+        int curSum = 0;
+        pathSumHelper(root, route, ret, curSum, sum);
+        return ret;
+    }
+    void pathSumHelper(TreeNode *root, vector<int> route, vector<vector<int>> &ret, int curSum, const int sum) {
+        if (root == nullptr) {
+            return;
+        }
+        curSum += root->val;
+        route.push_back(root->val);
+        if (root->left == nullptr && root->right == nullptr && curSum == sum) {
+            ret.push_back(route);
+        }
+        pathSumHelper(root->left, route, ret, curSum, sum);
+        pathSumHelper(root->right, route, ret, curSum, sum);
+    }
     // Trapping Rain Water
     // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
     // For example,
@@ -2772,41 +2807,6 @@ public:
         }
         return ret;
     }
-    // Path Sum II
-    // Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
-    // For example:
-    // Given the below binary tree and sum = 22,
-    //            5
-    //           / \
-    //          4   8
-    //         /   / \
-    //        11  13  4
-    //       /  \    / \
-    //      7    2  5   1
-    // return
-    // [
-    //     [5,4,11,2],
-    //     [5,8,4,5]
-    // ]
-    vector<vector<int>> pathSum(TreeNode *root, int sum) {
-        vector<vector<int>> ret;
-        vector<int> route;
-        int curSum = 0;
-        pathSumHelper(root, route, ret, curSum, sum);
-        return ret;
-    }
-    void pathSumHelper(TreeNode *root, vector<int> route, vector<vector<int>> &ret, int curSum, const int sum) {
-        if (root == nullptr) {
-            return;
-        }
-        curSum += root->val;
-        route.push_back(root->val);
-        if (root->left == nullptr && root->right == nullptr && curSum == sum) {
-            ret.push_back(route);
-        }
-        pathSumHelper(root->left, route, ret, curSum, sum);
-        pathSumHelper(root->right, route, ret, curSum, sum);
-    }
     // Construct Binary Tree from Inorder and Postorder Traversal
     // Given inorder and postorder traversal of a tree, construct the binary tree.
     // Note:
@@ -3458,7 +3458,7 @@ public:
         RandomListNode *curCopy = copy, *curOld = head;
         unordered_map<RandomListNode *, RandomListNode *> randomPointer;
         // Copy nodes.
-        while (curOld != nullptr) {
+        while (curOld) {
             RandomListNode *node = new RandomListNode(curOld->label);
             curCopy->next = node;
             randomPointer[curOld] = node;
@@ -3469,40 +3469,43 @@ public:
         // Copy nodes' random pointers.
         curCopy = copy->next;
         curOld = head;
-        while (curCopy != nullptr) {
-            (curOld->random != nullptr) ? (curCopy->random = randomPointer[curOld->random]) : NULL;
+        while (curCopy) {
+            if (curOld->random) {
+                curCopy->random = randomPointer[curOld->random];
+            }
             curCopy = curCopy->next;
             curOld = curOld->next;
         }
 
         return copy->next;
     }
+
     RandomListNode *copyRandomList_improved(RandomListNode *head) {
         // A constant space method.
         RandomListNode *cur = head, *next;
         // Scanning the List and make a copy for each node.
-        while (cur != nullptr) {
+        while (cur) {
             next = cur->next;
             RandomListNode *dupNode = new RandomListNode(cur->label);
             cur->next = dupNode;
             dupNode->next = next;
-
             cur = next;
         }
         cur = head;
         // Assigning random pointers for each copy nodes.
-        while (cur != nullptr) {
-            (cur->random != nullptr) ? (cur->next->random = cur->random->next) : NULL;
+        while (cur) {
+            if (cur->random) {
+                cur->next->random = cur->random->next;
+            }
             cur = cur->next->next;
         }
-        // Extract the copy list.
+        // Extracting the copy list.
         RandomListNode *copy = new RandomListNode(0), *curCopy = copy;
         cur = head;
-        while (cur != nullptr) {
+        while (cur) {
             curCopy->next = cur->next;
             // Restore the original list.
             cur->next = cur->next->next;
-
             curCopy = curCopy->next;
             cur = cur->next;
         }
