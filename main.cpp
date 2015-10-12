@@ -28,14 +28,12 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
-    vector<string> vec;
+    vector<int> vec;
     Vector::crtVec(vec, size);
-    */
 
     /**
      * Create and traversal the tree
@@ -51,12 +49,7 @@ int main(){
     */
     stime = clock();
 
-    int i = 0x80000000;
-    int cnt = 0;
-    while (cnt < 64) {
-        cout << (i >>= 1) << endl;
-        ++cnt;
-    }
+    cout << s.subsetsWithDup_iteration(vec) << endl;
 
     
 

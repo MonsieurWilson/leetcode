@@ -2408,6 +2408,61 @@ public:
         }
         return ret;
     }
+    // Subsets II
+    // Given a collection of integers that might contain duplicates, S, return all possible subsets.
+    // Note:
+    // 1.Elements in a subset must be in non-descending order.
+    // 2.The solution set must not contain duplicate subsets.
+    // For example,
+    // If S = [1,2,2], a solution is:
+    // [
+    //     [2],
+    //     [1],
+    //     [1,2,2],
+    //     [2,2],
+    //     [1,2],
+    //     [],
+    // ]
+    vector<vector<int>> subsetsWithDup(vector<int> &S) {
+        vector<vector<int>> ret;
+        vector<int> subSet;
+        sort(S.begin(), S.end());
+        subsetsWithDupHelper(S, 0, subSet, ret);
+        return ret;
+    }
+    void subsetsWithDupHelper(vector<int> &S, int idx, vector<int> &subSet, vector<vector<int>> &ret) {
+        if (idx >= S.size()) {
+            ret.push_back(subSet);
+            return;
+        }
+        int ele = S[idx];
+        subSet.push_back(ele);
+        subsetsWithDupHelper(S, idx + 1, subSet, ret);
+        subSet.pop_back();
+        while (idx != S.size() && S[idx] == ele) {
+            ++idx;
+        }
+        subsetsWithDupHelper(S, idx, subSet, ret);
+    }
+
+    vector<vector<int>> subsetsWithDup_iteration(vector<int> &S) {
+        sort(S.begin(), S.end());
+        vector<vector<int>> ret(1, vector<int>());
+        int idx = 0, N = S.size();
+        while (idx < N) {
+            while (idx > 0 && idx < N && S[idx] == S[idx - 1]) ++idx;
+            if (idx >= N) {
+                break;
+            }
+            int M = ret.size();
+            for (int j = 0; j < M; ++j) {
+                ret.push_back(ret[j]);
+                ret.back().push_back(S[idx]);
+            }
+            ++idx;
+        }
+        return ret;
+    }
     // Search for a Range
     // Given a sorted array of integers, find the starting and ending position of a given target value.
     // Your algorithm's runtime complexity must be in the order of O(log n).
@@ -2521,42 +2576,6 @@ public:
         current = current->next;
         root->right = populateTree(n - n / 2 - 1);
         return root;
-    }
-    // Subsets II
-    // Given a collection of integers that might contain duplicates, S, return all possible subsets.
-    // Note:
-    // 1.Elements in a subset must be in non-descending order.
-    // 2.The solution set must not contain duplicate subsets.
-    // For example,
-    // If S = [1,2,2], a solution is:
-    // [
-    //     [2],
-    //     [1],
-    //     [1,2,2],
-    //     [2,2],
-    //     [1,2],
-    //     [],
-    // ]
-    vector<vector<int>> subsetsWithDup(vector<int> &S) {
-        vector<vector<int>> ret;
-        vector<int> subSet;
-        sort(S.begin(), S.end());
-        subsetsWithDupHelper(S, 0, subSet, ret);
-        return ret;
-    }
-    void subsetsWithDupHelper(vector<int> &S, int idx, vector<int> &subSet, vector<vector<int>> &ret) {
-        if (idx >= S.size()) {
-            ret.push_back(subSet);
-            return;
-        }
-        int ele = S[idx];
-        subSet.push_back(ele);
-        subsetsWithDupHelper(S, idx + 1, subSet, ret);
-        subSet.pop_back();
-        while (idx != S.size() && S[idx] == ele) {
-            ++idx;
-        }
-        subsetsWithDupHelper(S, idx, subSet, ret);
     }
     // Partition List
     // Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
@@ -7201,10 +7220,17 @@ public:
         if (n < 1) {
             return false;
         }
-        while (n % 2 == 0) {
-            n /= 2;
+        while (n & 1 == 0) {
+            n >>= 1;
         }
         return n == 1 ? true : false;
+    }
+
+    bool isPowerOfTwo_improved(int n) {
+        if (n < 1) {
+            return false;
+        }
+        return (n & (n - 1)) == 0;
     }
     // Palindrome Linked List
     // Given a singly linked list, determine if it is a palindrome.
