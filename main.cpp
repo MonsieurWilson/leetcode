@@ -28,12 +28,14 @@ int main(){
     /**
      * Get and print the vector
      */
+    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<int> vec;
     Vector::crtVec(vec, size);
+    */
 
     /**
      * Create and traversal the tree
@@ -49,7 +51,6 @@ int main(){
     */
     stime = clock();
 
-    cout << s.subsetsWithDup_iteration(vec) << endl;
 
     
 

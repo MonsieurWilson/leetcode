@@ -156,10 +156,10 @@ public:
                 depth = max(tmpDepth, depth);
             }
             else {
-                if (tmpNode->left != nullptr) {
+                if (tmpNode->left) {
                     tmpSt.push(make_pair(tmpNode->left, tmpDepth + 1));
                 }
-                if (tmpNode->right != nullptr) {
+                if (tmpNode->right) {
                     tmpSt.push(make_pair(tmpNode->right, tmpDepth + 1));
                 }
             }
@@ -542,7 +542,7 @@ public:
         }
         ListNode *slow = head, *fast = slow->next;
         long long slowVal = 0, fastVal = slowVal + 1;
-        while (fast != nullptr) {
+        while (fast) {
             if (slow == fast) {
                 break;
             }
@@ -550,7 +550,7 @@ public:
             fast = fast->next;
             ++slowVal;
             ++fastVal;
-            if (fast != nullptr) {
+            if (fast) {
                 fast = fast->next;
                 ++fastVal;
             }
@@ -606,7 +606,7 @@ public:
     }
     void preorderTraversalHelper(TreeNode *root, vector<int> &vec) {
         // Recursive helper function
-        if (root != nullptr) {
+        if (root) {
             vec.push_back(root->val);
             preorderTraversalHelper(root->left, vec);
             preorderTraversalHelper(root->right, vec);
@@ -625,10 +625,10 @@ public:
             TreeNode *ptr = tmpSt.top();
             tmpSt.pop();
             ret.push_back(ptr->val);
-            if (ptr->right != nullptr) {
+            if (ptr->right) {
                 tmpSt.push(ptr->right);
             }
-            if (ptr->left != nullptr) {
+            if (ptr->left) {
                 tmpSt.push(ptr->left);
             }
         }
@@ -653,7 +653,7 @@ public:
     }
     void inorderTraversalHelper(TreeNode *root, vector<int> &vec) {
         // Auxiliary function
-        if (root != nullptr) {
+        if (root) {
             inorderTraversalHelper(root->left,vec);
             vec.push_back(root->val);
             inorderTraversalHelper(root->right,vec);
@@ -687,7 +687,7 @@ public:
                 now = now->right;
             }
             else {
-                for(tmp = now->left; tmp->right != nullptr && tmp->right != now;) {
+                for(tmp = now->left; tmp->right && tmp->right != now;) {
                     tmp = tmp->right;
                 }
                 if(tmp->right) {
@@ -720,7 +720,7 @@ public:
         return ret;
     }
     void postorderTraversalHelper(TreeNode *root,vector<int> &ret) {
-        if (root != nullptr) {
+        if (root) {
             postorderTraversalHelper(root->left, ret);
             postorderTraversalHelper(root->right, ret);
             ret.push_back(root->val);
@@ -2056,12 +2056,12 @@ public:
             // Leaf node
             return 1;
         }
-        else if (root->left != nullptr && root->right != nullptr) {
+        else if (root->left && root->right) {
             int leftDepth = 1 + minDepth(root->left), rightDepth = 1 + minDepth(root->right);
             return leftDepth <= rightDepth ? leftDepth : rightDepth;
         }
         else {
-            if (root->left != nullptr) {
+            if (root->left) {
                 return minDepth(root->left) + 1;
             }
             else {
@@ -2089,11 +2089,11 @@ public:
             if (ptr->left == nullptr && ptr->right == nullptr) {
                 break;
             }
-            if (ptr->left != nullptr) {
+            if (ptr->left) {
                 nodeQueue.push(ptr->left);
                 depthQueue.push(depth + 1);
             }
-            if (ptr->right != nullptr) {
+            if (ptr->right) {
                 nodeQueue.push(ptr->right);
                 depthQueue.push(depth + 1);
             }
@@ -2119,10 +2119,10 @@ public:
                     // Leaf node
                     return depth;
                 }
-                if (ptr->left != nullptr) {
+                if (ptr->left) {
                     nodeQueue.push(ptr->left);
                 }
-                if (ptr->right != nullptr) {
+                if (ptr->right) {
                     nodeQueue.push(ptr->right);
                 }
             }
@@ -2227,12 +2227,12 @@ public:
     ListNode *removeNthFromEnd(ListNode *head, int n) {
         ListNode *temp = new ListNode(0);
         temp->next = head;
-        if (head != nullptr && n > 0){
+        if (head && n > 0){
             ListNode *prep = temp, *ptr = head, *past = head;
             for (int i = 0; i < n; ++i) {
                 past = past->next;
             }
-            while (past != nullptr){
+            while (past){
                 prep = prep->next;
                 ptr = ptr->next;
                 past = past->next;
@@ -2290,15 +2290,15 @@ public:
         while (!nodeSt.empty()) {
             TreeNode *ptr = nodeSt.top();
             nodeSt.pop();
-            if (prep != nullptr) {
+            if (prep) {
                 prep->left = nullptr;
                 prep->right = ptr;
             }
             prep = ptr;
-            if (ptr->right != nullptr) {
+            if (ptr->right) {
                 nodeSt.push(ptr->right);
             }
-            if (ptr->left != nullptr) {
+            if (ptr->left) {
                 nodeSt.push(ptr->left);
             }
         }
@@ -2560,7 +2560,7 @@ public:
     int lengthOfList(ListNode *head) {
         int ret = 0;
         ListNode *ptr = head;
-        while (ptr != nullptr) {
+        while (ptr) {
             ++ret;
             ptr = ptr->next;
         }
@@ -2589,7 +2589,7 @@ public:
         }
         ListNode *smallPartBeg = head, *smallPartEnd = head, *curlPtr = head;
         ListNode *bigPartBeg = nullptr, *bigPartEnd = nullptr;
-        while (curlPtr != nullptr) {
+        while (curlPtr) {
             if (curlPtr->val >= x) {
                 if (bigPartBeg == nullptr) {
                     bigPartBeg = bigPartEnd = curlPtr;
@@ -2610,10 +2610,10 @@ public:
             }
             curlPtr = curlPtr->next;
         }
-        smallPartEnd != nullptr ? smallPartEnd->next = bigPartBeg : NULL;
-        bigPartEnd != nullptr ? bigPartEnd->next = nullptr : NULL;
+        smallPartEnd ? smallPartEnd->next = bigPartBeg : NULL;
+        bigPartEnd ? bigPartEnd->next = nullptr : NULL;
 
-        return smallPartBeg != nullptr ? smallPartBeg : bigPartBeg;
+        return smallPartBeg ? smallPartBeg : bigPartBeg;
     }
     // Combination Sum
     // Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
@@ -2720,14 +2720,14 @@ public:
             return nullptr;
         }
         ListNode *endA = headA;
-        while (endA->next != nullptr) {
+        while (endA->next) {
             endA = endA->next;
         }
         // Let the tail of the A points to the head of B
         endA->next = headB;
 
         ListNode *slow = headA, *fast = headA;
-        while (fast->next != nullptr && fast->next->next != nullptr) {
+        while (fast->next && fast->next->next) {
             slow = slow->next;
             fast = fast->next->next;
             if (slow == fast) {
@@ -3000,10 +3000,10 @@ public:
             }
             else {
                 ret[ret.size() - 1].push_back(tmp->val);
-                if (tmp->left != nullptr) {
+                if (tmp->left) {
                     nodeQueue.push(tmp->left);
                 }
-                if (tmp->right != nullptr) {
+                if (tmp->right) {
                     nodeQueue.push(tmp->right);
                 }
                 if (nodeQueue.front() == nullptr) {
@@ -3194,7 +3194,7 @@ public:
         ListNode *cur = head->next, *sortedTail = head;
         ListNode *tmp = new ListNode(0);
         tmp->next = head;
-        while (cur != nullptr) {
+        while (cur) {
             if (cur->val < sortedTail->val) {
                 ListNode *ptr = tmp;
                 while (ptr->next->val < cur->val) {
@@ -3280,7 +3280,7 @@ public:
     ListNode *reverseKGroup(ListNode *head, int k) {
         ListNode *tmp = head;
         int length = 0;
-        while (tmp != nullptr) {
+        while (tmp) {
             tmp = tmp->next;
             ++length;
         }
@@ -3342,8 +3342,8 @@ public:
         ListNode *prep = new ListNode(0);
         prep->next = cur;
         ListNode *newHead = prep;
-        while (cur != nullptr) {
-            while (cur->next != nullptr && cur->val != cur->next->val) {
+        while (cur) {
+            while (cur->next && cur->val != cur->next->val) {
                 cur = cur->next;
                 prep = prep->next;
             }
@@ -3351,7 +3351,7 @@ public:
                 return newHead->next;
             }
             int dupValue = cur->val;
-            while (cur != nullptr && cur->val == dupValue) {
+            while (cur && cur->val == dupValue) {
                 cur = cur->next;
             }
             prep->next = cur;
@@ -3540,7 +3540,7 @@ public:
         TreeNode *first, *second, *prep;
         first = second = prep = nullptr;
         recoverTreeHelper(root, &first, &second, &prep);
-        if (first != nullptr) {
+        if (first) {
             swap(first->val, second->val);
         }
     }
@@ -3549,7 +3549,7 @@ public:
             return;
         }
         recoverTreeHelper(root->left, first, second, prep);
-        if (*prep != nullptr && (*prep)->val > root->val) {
+        if (*prep && (*prep)->val > root->val) {
             if (*first == nullptr) {
                 *first = *prep;
                 *second = root;
@@ -3799,13 +3799,13 @@ public:
         ListNode *sumList = new ListNode(-1);
         ListNode *cur1 = l1, *cur2 = l2, *curSum = sumList;
         int catching = 0;
-        while (cur1 != nullptr || cur2 != nullptr) {
+        while (cur1 || cur2) {
             int sum = catching;
-            if (cur1 != nullptr) {
+            if (cur1) {
                 sum += cur1->val;
                 cur1 = cur1->next;
             }
-            if (cur2 != nullptr) {
+            if (cur2) {
                 sum += cur2->val;
                 cur2 = cur2->next;
             }
@@ -3905,15 +3905,15 @@ public:
         stack<TreeNode *> tmpSt;
         TreeNode *ptr = root;
         TreeNode *prev = nullptr;
-        while (!tmpSt.empty() || ptr != nullptr) {
-            if (ptr != nullptr) {
+        while (!tmpSt.empty() || ptr) {
+            if (ptr) {
                 tmpSt.push(ptr);
                 ptr = ptr->left;
             }
             else {
                 ptr = tmpSt.top();
                 tmpSt.pop();
-                if (prev != nullptr && prev->val >= ptr->val) {
+                if (prev && prev->val >= ptr->val) {
                     return false;
                 }
                 prev = ptr;
@@ -4165,7 +4165,7 @@ public:
         ListNode *prePivot = head, *fast = head, *tail = head;
         // Calculate the lengh of the list and find the tail node.
         long long len = 0;
-        while (tail->next != nullptr) {
+        while (tail->next) {
             tail = tail->next;
             ++len;
         }
@@ -4194,7 +4194,7 @@ public:
         // Make list to be a circle.
         ListNode *ptr = head;
         long long len = 1;
-        while (ptr->next != nullptr) {
+        while (ptr->next) {
             ptr = ptr->next;
             ++len;
         }
@@ -4367,7 +4367,7 @@ public:
         // Quick Sort.
         int length = 0;
         ListNode *cur = head;
-        while (cur != nullptr) {
+        while (cur) {
             ++length;
             cur = cur->next;
         }
@@ -4387,7 +4387,7 @@ public:
             cur = cur->next;
         }
         // Let cur points to the begining of the part2.
-        while (cur->next != nullptr && cur->next->val == cur->val) {
+        while (cur->next && cur->next->val == cur->val) {
             ++len;
             cur = cur->next;
         }
@@ -4426,7 +4426,7 @@ public:
         }
         // Find the middle node.
         ListNode *fast = head->next->next, *mid = head;
-        while (fast != nullptr && fast->next != nullptr) {
+        while (fast && fast->next) {
             fast = fast->next->next;
             mid = mid->next;
         }
@@ -4658,12 +4658,12 @@ public:
         }
         ListNode *slow = head, *fast = head;
         ListNode *l1 = head, *l2 = nullptr;
-        while (fast != nullptr && fast->next != nullptr && fast->next->next != nullptr) {
+        while (fast && fast->next && fast->next->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
         ListNode *cur = slow->next;
-        while (cur != nullptr) {
+        while (cur) {
             ListNode *next = cur->next;
             cur->next = l2;
             l2 = cur;
@@ -4671,7 +4671,7 @@ public:
         }
         slow->next = nullptr;
         // Merge the two lists.
-        while (l1 != nullptr && l2 != nullptr) {
+        while (l1 && l2) {
             ListNode *l2Next = l2->next;
             l2->next = l1->next;
             l1->next = l2;
@@ -6433,8 +6433,8 @@ public:
             TreeNode *ptr = nodeQueue.front();
             ret.push_back(ptr->val);
             while (ptr) {
-                if (ptr->right != nullptr) nodeQueue.push(ptr->right);
-                if (ptr->left != nullptr) nodeQueue.push(ptr->left);
+                if (ptr->right) nodeQueue.push(ptr->right);
+                if (ptr->left) nodeQueue.push(ptr->left);
                 nodeQueue.pop();
                 ptr = nodeQueue.front();
             }
@@ -6870,6 +6870,40 @@ public:
         swap(nums[++i], nums[end]);
         return i;
     }
+
+    int findKthLargest_another(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> heap;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (heap.size() < k) {
+                heap.push(nums[i]);
+            }
+            else if (nums[i] > heap.top()) {
+                heap.pop();
+                heap.push(nums[i]);
+            }
+        }
+        return heap.top();
+    }
+
+    int findKthLargest_anotherII(vector<int>& nums, int k) {
+        multiset<int> ms;
+        if (k < 1 || nums.size() < k) {
+            return 0;
+        }
+        for (int i = 0; i < nums.size(); ++i) {
+            if (ms.size() < k) {
+                ms.insert(nums[i]);
+            }
+            else {
+                auto minIter = ms.begin();
+                if (*minIter < nums[i]) {
+                    ms.erase(minIter);
+                    ms.insert(nums[i]);
+                }
+            }
+        }
+        return *(ms.begin());
+    }
     // House Robber II
     // After robbing those houses on that street, the thief has found himself a new place for his thievery so that he will not get too much attention. This time, all houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, the security system for these houses remain the same as for those in the previous street.
     // Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
@@ -7038,10 +7072,10 @@ public:
             paths.push_back(path);
             return;
         }
-        if (root->left != nullptr) {
+        if (root->left) {
             binaryTreePaths(root->left, path, paths);
         }
-        if (root->right != nullptr) {
+        if (root->right) {
             binaryTreePaths(root->right, path, paths);
         }
     }
