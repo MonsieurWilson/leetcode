@@ -1165,14 +1165,14 @@ public:
     int findMinII(vector<int> &nums, int beg, int end) {
         while (beg < end) {
             int mid = beg + (end - beg) / 2;
-            if (nums[mid] > nums[end]) {
+            if (nums[mid] == nums[end] && nums[mid] == nums[beg]) {
+                return min(findMinII(nums, beg, mid), findMinII(nums, mid + 1, end));
+            }
+            else if (nums[mid] > nums[end]) {
                 beg = mid + 1;
             }
-            else if (nums[mid] < nums[end]) {
-                end = mid;
-            }
             else {
-                return min(findMinII(nums, beg, mid), findMinII(nums, mid + 1, end));
+                end = mid;
             }
         }
         return nums[end];
@@ -3886,18 +3886,16 @@ public:
     // The right subtree of a node contains only nodes with keys greater than the node's key.
     // Both the left and right subtrees must also be binary search trees.
     bool isValidBST(TreeNode *root) {
-        // Recursive.
-        // Noticing about the overflow.
-        return isValidBSTHelper(root, LONG_MAX, LONG_MIN);
+        return isValidBST(root, LONG_MIN, LONG_MAX);
     }
-    bool isValidBSTHelper(TreeNode *root, long leftMax, long rightMin) {
-        if (root == nullptr) {
+    bool isValidBST(TreeNode *root, const long left, const long right) {
+        if (!root) {
             return true;
         }
-        if (root->val >= leftMax || root->val <= rightMin) {
-            return false;
+        if (left < root->val && root->val < right) {
+            return isValidBST(root->left, left, root->val) && isValidBST(root->right, root->val, right);
         }
-        return isValidBSTHelper(root->left, root->val, rightMin) && isValidBSTHelper(root->right, leftMax, root->val);
+        return false;
     }
 
     bool isValidBST_iteration(TreeNode *root) {
@@ -7726,6 +7724,52 @@ public:
         for (int i = pos; i < lens; ++i) {
             nums[i] = 0;
         }
+    }
+    // Find the Duplicate Number
+    // Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+    // Note:
+    // You must not modify the array (assume the array is read only).
+    // You must use only constant, O(1) extra space.
+    // Your runtime complexity should be less than O(n2).
+    // There is only one duplicate number in the array, but it could be repeated more than once.
+    int findDuplicate(vector<int>& nums) {
+        int slow = 0, fast = nums[0];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        fast = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return fast;
+    }
+    // Word Pattern
+    // Given a pattern and a string str, find if str follows the same pattern.
+    // Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.
+    // Examples:
+    // pattern = "abba", str = "dog cat cat dog" should return true.
+    // pattern = "abba", str = "dog cat cat fish" should return false.
+    // pattern = "aaaa", str = "dog cat cat dog" should return false.
+    // pattern = "abba", str = "dog dog dog dog" should return false.
+    bool wordPattern(string pattern, string str) {
+        unordered_map<char, string> umap;
+        int j = 0;
+        for (int i = 0; i < pattern.size(); ++i) {
+            string tmp = "";
+            while (j < str.size() && str[j] != ' ') {
+                tmp += str[j++];
+            }
+            if (umap.count(pattern[i]) == 0) {
+                umap[pattern[i]] = tmp;
+            }
+            else if (umap[pattern[i]] != tmp) {
+                return false;
+            }
+            ++j;
+        }
+        return true;
     }
 };
 #endif

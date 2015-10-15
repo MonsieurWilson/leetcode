@@ -51,8 +51,9 @@ int main(){
     */
     stime = clock();
 
+    bool ret = LONG_MIN < 0 && 0 < LONG_MAX;
+    cout << ret << endl;
 
-    
 
 
 
