@@ -7033,19 +7033,18 @@ public:
         vector<int> ret(1, 1);
         int base[] = {2, 3, 5}, idx[] = {0, 0, 0};
         for (int i = 2; i <= n; ++i) {
-            int minVal = base[0] * ret[idx[0]];
-            for (int j = 1; j < 3; ++j) {
+            int minVal = INT_MAX;
+            for (int j = 0; j < 3; ++j) {
                 minVal = min(minVal, base[j] * ret[idx[j]]);
             }
 
             for (int j = 0; j < 3; ++j) {
-                if (base[j] * ret[idx[j]] == minVal) {
+                while (base[j] * ret[idx[j]] <= minVal) {
                     ++idx[j];
                 }
             }
             ret.push_back(minVal);
         }
-
         return ret[ret.size() - 1];
     }
     // Add Digits
@@ -7663,7 +7662,7 @@ public:
             return 1;
         }
         int numBits = 0, highBits = 1;
-        int highNum = x, lowNum;
+        int highNum = n, lowNum;
         while (highNum >= 10) {
             highBits *= 10;
             highNum /= 10;
@@ -7698,7 +7697,9 @@ public:
     }
 
     int countDigitK_improved(int n, int k) {
-        int iCount = 0, iFactor = 1;
+        // Beware of overflow
+        int iCount = 0;
+        long iFactor = 1;
         int iLowerNum = 0, iCurrNum = 0, iHigherNum = 0;
         while (n / iFactor) {
             iLowerNum = n % iFactor;
