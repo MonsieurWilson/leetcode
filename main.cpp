@@ -28,34 +28,30 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
-    vector<int> vec;
+    vector<string> vec;
     Vector::crtVec(vec, size);
-    */
 
     /**
      * Create and traversal the tree
      */
-    /*
     TreeNode *root = Tree::crtTree(vec);
     vector<int> traversal = s.inorderTraversal(root);
     cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
-    */
 
     /*
     cout << "-------------------Time Cost-----------------------" << endl; 
     */
     stime = clock();
 
-    bool ret = LONG_MIN < 0 && 0 < LONG_MAX;
-    cout << ret << endl;
-
-
-
+    cout << "Input the path sum: " << endl;
+    int sum;
+    while (cin >> sum) {
+        cout << s.pathSum_another(root, sum) << endl;
+    }
 
     ftime = clock();
     prtTimeCost(stime, ftime);

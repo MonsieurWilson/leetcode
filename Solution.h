@@ -1359,12 +1359,12 @@ public:
     // 2) The first integer of each row is greater than the last integer of the previous row.
     bool searchMatrix(vector<vector<int>> &matrix, int target) {
         // Binary Search in 2D
-        int rowNum = matrix.size();
-        if (rowNum <= 0) {
+        int row = matrix.size();
+        if (row <= 0) {
             return false;
         }
-        int colNum = matrix[0].size();
-        int beg = 0, end = rowNum - 1, line;
+        int col = matrix[0].size();
+        int beg = 0, end = row - 1, line;
         while (beg <= end) {
             int mid = beg + (end - beg) / 2;
             if (matrix[mid][0] == target) {
@@ -1380,7 +1380,7 @@ public:
         if (end < 0) {
             return false;
         }
-        line = end; beg = 0; end = colNum - 1;
+        line = end; beg = 0; end = col - 1;
         while (beg <= end) {
             int mid = beg + (end - beg) / 2;
             if (matrix[line][mid] == target) {
@@ -1980,6 +1980,29 @@ public:
         }
         pathSumHelper(root->left, route, ret, curSum, sum);
         pathSumHelper(root->right, route, ret, curSum, sum);
+    }
+
+    vector<vector<int>> pathSum_another(TreeNode *root, int sum) {
+        vector<vector<int>> ret;
+        if (root) {
+            vector<int> path;
+            pathSum(root, path, ret, sum);
+        }
+        return ret;
+    }
+    void pathSum(TreeNode *root, vector<int> &path, vector<vector<int>> &ret, int &sum) {
+        if (root == nullptr) {
+            return ;
+        }
+        sum -= root->val;
+        path.push_back(root->val);
+        if (root->left == nullptr && root->right == nullptr && sum == 0) {
+            ret.push_back(path);
+        }
+        pathSum(root->left, path, ret, sum);
+        pathSum(root->right, path, ret, sum);
+        sum += root->val;
+        path.pop_back();
     }
     // Trapping Rain Water
     // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
@@ -4733,26 +4756,30 @@ public:
     // You should return [1,2,3,6,9,8,7,4,5].
     vector<int> spiralOrder(vector<vector<int>> &matrix) {
         vector<int> ret;
-        int rowNum = matrix.size();
-        if (rowNum != 0 ) {
-            int colNum = matrix[0].size();
-            int level = min(ceil(rowNum / 2.0), ceil(colNum / 2.0));
-            for (int r = 0; r < level; ++r) {
-                for (int c = r; c < colNum - r; ++c) {
-                    ret.push_back(matrix[r][c]);
+        int row = matrix.size();
+        if (row) {
+            int col = matrix[0].size();
+            // int level = min(ceil(row / 2.0), ceil(col / 2.0));
+            // for (int start = 0; start < level; ++start) {
+            for (int start = 0; row > 2 * start && col > 2 * start; ++start) {
+                int endc = col - start - 1, endr = row - start - 1;
+                for (int c = start; c <= endc; ++c) {
+                    ret.push_back(matrix[start][c]);
                 }
-                for (int c = r + 1; c < rowNum - r; ++c) {
-                    ret.push_back(matrix[c][colNum - 1 - r]);
+                if (start < endr) {
+                    for (int r = start + 1; r <= endr; ++r) {
+                        ret.push_back(matrix[r][endc]);
+                    }
                 }
-                if (r == rowNum - r - 1 || r == colNum - r - 1) {
-                    // Overcome the case rowNum = 1 or colNum = 1.
-                    break;
+                if (start < endr && start < endc) {
+                    for (int c = endc - 1; c >= start; --c) {
+                        ret.push_back(matrix[endr][c]);
+                    }
                 }
-                for (int c = colNum - r - 2; c >= r; --c) {
-                    ret.push_back(matrix[rowNum - r - 1][c]);
-                }
-                for (int c = rowNum - r - 2; c > r; --c) {
-                    ret.push_back(matrix[c][r]);
+                if (start < endc && start + 1 < endr) {
+                    for (int r = endr - 1; r > start; --r) {
+                        ret.push_back(matrix[r][start]);
+                    }
                 }
             }
         }
@@ -7636,16 +7663,17 @@ public:
             return 1;
         }
         int numBits = 0, highBits = 1;
-        int x = n;
-        while (x >= 10) {
+        int highNum = x, lowNum;
+        while (highNum >= 10) {
             highBits *= 10;
-            x /= 10;
+            highNum /= 10;
         }
-        if (x == 1) {
-            return n % highBits + 1 + countDigitOne(highBits - 1) + countDigitOne(n % highBits);
+        lowNum = n - highNum * highBits;
+        if (highNum == 1) {
+            return lowNum + 1 + countDigitOne(highBits - 1) + countDigitOne(lowNum);
         }
         else {
-            return highBits + n / highBits * countDigitOne(highBits - 1) + countDigitOne(n % highBits);
+            return highBits + highNum * countDigitOne(highBits - 1) + countDigitOne(lowNum);
         }
     }
 
@@ -7687,7 +7715,6 @@ public:
             }
             iFactor *= 10;
         }
-
         return iCount;
     }
     // Product of Array Except Self
