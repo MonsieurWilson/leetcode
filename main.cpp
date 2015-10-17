@@ -1,5 +1,3 @@
-using namespace std;
-
 #include "Solution.h"
 
 void prtTimeCost(const clock_t stime, const clock_t ftime) {
@@ -51,10 +49,18 @@ int main(){
     */
     stime = clock();
 
-    int n, k;
-    while (cin >> n >> k) {
-        cout << s.countDigitK_improved(n, k) << endl;
+    int lens;
+    while (cin >> lens) {
+        vector<int> nums(lens);
+        for (int i = 0; i < lens; ++i) {
+            cin >> nums[i];
+        }
+        cout << s.singleNumberIII(nums) << endl;
     }
+
+
+
+
 
     ftime = clock();
     prtTimeCost(stime, ftime);

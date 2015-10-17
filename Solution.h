@@ -21,10 +21,13 @@
 #include <sstream>
 #include <ctime>
 
+using namespace std;
+
 // Data Structure head files and I/O head files
 #include "Structure.h"
 #include "Vector.h"
 #include "Array.h"
+
 
 
 class Solution{
@@ -6547,7 +6550,7 @@ public:
         int cnt = 0;
         bool preNum = false;
         for (; idx < len; ++idx) {
-            while (idx < len && validNumber(s[idx])) {
+            while (idx < len && isdigit(s[idx])) {
                 preNum = true;
                 ++idx;
             }
@@ -6565,9 +6568,6 @@ public:
             }
         }
         return preNum;
-    }
-    bool validNumber(const char &ch) {
-        return '0' <= ch && ch <= '9';
     }
     // Text Justification
     // Given an array of words and a length L, format the text such that each line has exactly L characters and is fully (left and right) justified.
@@ -7037,7 +7037,6 @@ public:
             for (int j = 0; j < 3; ++j) {
                 minVal = min(minVal, base[j] * ret[idx[j]]);
             }
-
             for (int j = 0; j < 3; ++j) {
                 while (base[j] * ret[idx[j]] <= minVal) {
                     ++idx[j];
@@ -7122,25 +7121,17 @@ public:
             while (!(xorVal & mask)) {
                 mask <<= 1;
             }
-            vector<int> class1, class2;
+            int single1 = 0, single2 = 0;
             for (int idx = 0; idx < nums.size(); ++idx) {
                 if (nums[idx] & mask) {
-                    class1.push_back(nums[idx]);
+                    single1 ^= nums[idx];
                 }
                 else {
-                    class2.push_back(nums[idx]);
+                    single2 ^= nums[idx];
                 }
             }
-            int unqNum = 0;
-            for (int idx = 0; idx < class1.size(); ++idx) {
-                unqNum ^= class1[idx];
-            }
-            ret.push_back(unqNum);
-            unqNum = 0;
-            for (int idx = 0; idx < class2.size(); ++idx) {
-                unqNum ^= class2[idx];
-            }
-            ret.push_back(unqNum);
+            ret.push_back(single1);
+            ret.push_back(single2);
         }
         return ret;
     }
@@ -7782,22 +7773,24 @@ public:
     // pattern = "aaaa", str = "dog cat cat dog" should return false.
     // pattern = "abba", str = "dog dog dog dog" should return false.
     bool wordPattern(string pattern, string str) {
-        unordered_map<char, string> umap;
-        int j = 0;
-        for (int i = 0; i < pattern.size(); ++i) {
+        unordered_map<char, string> ptnMap;
+        unordered_map<string, char> strMap;
+        int lenp = pattern.size(), lens = str.size();
+        int ptrp = 0, ptrs = 0;
+        for (; ptrp < lenp && ptrs < lens; ++ptrp, ++ptrs) {
             string tmp = "";
-            while (j < str.size() && str[j] != ' ') {
-                tmp += str[j++];
+            while (ptrs < str.size() && str[ptrs] != ' ') {
+                tmp += str[ptrs++];
             }
-            if (umap.count(pattern[i]) == 0) {
-                umap[pattern[i]] = tmp;
+            if (ptnMap.count(pattern[ptrp]) == 0 && strMap.count(tmp) == 0) {
+                ptnMap[pattern[ptrp]] = tmp;
+                strMap[tmp] = pattern[ptrp];
             }
-            else if (umap[pattern[i]] != tmp) {
+            else if (ptnMap[pattern[ptrp]] != tmp || strMap[tmp] != pattern[ptrp]) {
                 return false;
             }
-            ++j;
         }
-        return true;
+        return ptrp >= lenp && ptrs >= lens;
     }
 };
 #endif
