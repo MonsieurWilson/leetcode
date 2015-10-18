@@ -40,8 +40,9 @@ int main(){
      */
     /*
     TreeNode *root = Tree::crtTree(vec);
-    vector<int> traversal = s.inorderTraversal(root);
-    cout << "The inorderTraversal sequence is:" << endl << traversal << endl;
+    cout << "The inorderTraversal sequence is:" << endl;
+    cout << s.postorderTraversal(root) << endl;
+    cout << s.postorderTraversal_another(root) << endl;
     */
 
     /*
@@ -51,9 +52,8 @@ int main(){
 
     int n;
     while (cin >> n) {
-        cout << s.convertToTitle(n) << endl;
+        cout << s.solveNQueens(n) << endl;
     }
-
 
 
 

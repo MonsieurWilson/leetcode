@@ -677,12 +677,13 @@ public:
     vector<int> morrisInorderTraversal(TreeNode *root) {
         // Morris Traversal
         vector<int> ret;
-        for(TreeNode *now = root, *tmp; now;) {
+        for(TreeNode *now = root; now;) {
             if(now->left == nullptr) {
                 ret.push_back(now->val);
                 now = now->right;
             }
             else {
+                TreeNode *tmp;
                 for(tmp = now->left; tmp->right && tmp->right != now;) {
                     tmp = tmp->right;
                 }
@@ -712,13 +713,13 @@ public:
     vector<int> postorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        postorderTraversalHelper(root, ret);
+        postorderTraversal(root, ret);
         return ret;
     }
-    void postorderTraversalHelper(TreeNode *root,vector<int> &ret) {
+    void postorderTraversal(TreeNode *root, vector<int> &ret) {
         if (root) {
-            postorderTraversalHelper(root->left, ret);
-            postorderTraversalHelper(root->right, ret);
+            postorderTraversal(root->left, ret);
+            postorderTraversal(root->right, ret);
             ret.push_back(root->val);
         }
     }
@@ -744,6 +745,28 @@ public:
             }
         }
         reverse(ret.begin(), ret.end());
+        return ret;
+    }
+
+    vector<int> postorderTraversal_another(TreeNode *root) {
+        vector<int> ret;
+        stack<TreeNode *> tmpSt;
+        TreeNode *cur = root, *prev = nullptr;
+        while (cur || !tmpSt.empty()) {
+            while (cur) {
+                tmpSt.push(cur);
+                cur = cur->left;
+            }
+            TreeNode *tmp = tmpSt.top();
+            if (tmp->right && tmp->right != prev) {
+                cur = tmp->right;
+            }
+            else {
+                ret.push_back(tmp->val);
+                prev = tmp;
+                tmpSt.pop();
+            }
+        }
         return ret;
     }
     // Search Insert Position
@@ -775,6 +798,7 @@ public:
             while (ptr) {
                 if (ptr->val == pre->val) {
                     pre->next = ptr->next;
+                    delete ptr;
                     ptr = pre->next;
                 }
                 else {
@@ -809,24 +833,21 @@ public:
             while (sol[idx] <= n && !legalPosition(sol, idx)) {
                 ++sol[idx];
             }
-            if (sol[idx] <= n) {
-                if (idx == n) {
-                    vector<string> line;
-                    for (int i = 1; i <= n; ++i) {
-                        string s(n, '.');
-                        s[sol[i] - 1] = 'Q';
-                        line.push_back(s);
-                    }
-                    ret.push_back(line);
+            if (sol[idx] > n) {
+                --idx;
+            }
+            else if (idx == n) {
+                vector<string> line;
+                for (int i = 1; i <= n; ++i) {
+                    string s(n, '.');
+                    s[sol[i] - 1] = 'Q';
+                    line.push_back(s);
                 }
-                else {
-                    ++idx;
-                    sol[idx] = 0;
-                }
+                ret.push_back(line);
             }
             else {
-                // backtracking
-                --idx;
+                ++idx;
+                sol[idx] = 0;
             }
         }
         return ret;
@@ -835,25 +856,22 @@ public:
     // Follow up for N-Queens problem.
     // Now, instead outputting board configurations, return the total number of distinct solutions.
     int totalNQueens(int n) {
-        int ret = 0;
+        int ret = 0, idx = 1;
         vector<int> sol(n + 1, 0);
-        int idx = 1;
         while (idx > 0) {
             ++sol[idx];
             while ((sol[idx] <= n) && (legalPosition(sol,idx) == false)) {
                 ++sol[idx];
             }
-            if (sol[idx] <= n) {
-                if (idx == n) {
-                    ++ret;
-                }
-                else {
-                    ++idx;
-                    sol[idx] = 0;
-                }
+            if (sol[idx] > n) {
+                --idx;
+            }
+            else if (idx == n) {
+                ++ret;
             }
             else {
-                --idx;
+                ++idx;
+                sol[idx] = 0;
             }
         }
         return ret;
