@@ -49,15 +49,10 @@ int main(){
     */
     stime = clock();
 
-    int lens;
-    while (cin >> lens) {
-        vector<int> nums(lens);
-        for (int i = 0; i < lens; ++i) {
-            cin >> nums[i];
-        }
-        cout << s.singleNumberIII(nums) << endl;
+    int n;
+    while (cin >> n) {
+        cout << s.convertToTitle(n) << endl;
     }
-
 
 
 

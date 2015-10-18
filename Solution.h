@@ -109,7 +109,7 @@ public:
     // Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
     int singleNumberII(int A[], int n) {
         int ret;
-        sort(A,A+n);
+        sort(A, A+n);
         for (int i = 0; i != n; ) {
             int num1 = A[i], num2;
             if (i + 2 < n) {
@@ -134,13 +134,10 @@ public:
     // The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
     int maxDepth(TreeNode *root) {
         // Recursive
-        // Depth-first-Search
         if (root == nullptr) {
             return 0;
         }
-        int leftDepth = 1 + maxDepth(root->left), rightDepth = 1 + maxDepth(root->right);
-
-        return leftDepth >= rightDepth ? leftDepth : rightDepth;
+        return 1 + max(maxDepth(root->left), maxDepth(root->right));
     }
 
     int maxDepth_iteration(TreeNode *root) {
@@ -172,7 +169,7 @@ public:
     // Majority Element
     // Given an array of size n, find the majority element. The majority element is the element that appears more than floor(n/2) times.
     // You may assume that the array is non-empty and the majority element always exist in the array.
-    // Solution: Sorting, Hash table, Divide and conquer, Bit manipulation, Moore voting algorithm
+    // Solution: Sorting, Hash table, Divide and conquer, Bit manipulation, Moore voting algorithm, Quick selection
     int majorityElement(vector<int> &num) {
         // Moore voting algorithm
         int candidate = 0, cnt = 0;
@@ -196,12 +193,11 @@ public:
     // Given an integer array of size n, find all elements that appear more than n/3 times. The algorithm should run in linear time and in O(1) space.
     vector<int> majorityElementII(vector<int>& nums) {
         vector<int> ret;
-        int cnt1 = 0, cnt2 = 0, candidate1 = 0, candidate2 = 0;
         int lens = nums.size();
         if (lens == 0) {
             return ret;
         }
-        // Moore voting algorithm
+        int cnt1 = 0, cnt2 = 0, candidate1 = 0, candidate2 = 0;
         for (int i = 0; i < lens; ++i) {
             if (!cnt1 || nums[i] == candidate1) {
                 ++cnt1;
@@ -242,15 +238,13 @@ public:
             return true;
         }
         else if (p && q) {
-            if (p->val != q->val) {
-                return false;
-            }
-            return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+            return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
         }
         else {
             return false;
         }
     }
+
     bool isSameTree_iteration(TreeNode *p, TreeNode *q) {
         stack<pair<TreeNode *, TreeNode *>> nodeSt;
         nodeSt.push(make_pair(p, q));
@@ -320,18 +314,18 @@ public:
         }
         // leftMax[i] means the maxProfit before suffix i, while rightMax[i] means the maxProfit after suffix i.
         vector<int> leftMax(lens, 0), rightMax(lens, 0);
-        int minEle = prices[0], maxEle = prices[lens - 1];
+        int minVal = prices[0], maxVal = prices[lens - 1];
         for (int idx = 1; idx < lens; ++idx) {
-            if (prices[idx] < minEle) {
-                minEle = prices[idx];
+            if (prices[idx] < minVal) {
+                minVal = prices[idx];
             }
-            leftMax[idx] = max(leftMax[idx - 1], prices[idx] - minEle);
+            leftMax[idx] = max(leftMax[idx - 1], prices[idx] - minVal);
 
             int ridx = lens - 1 - idx;
-            if (prices[ridx] > maxEle) {
-                maxEle = prices[ridx];
+            if (prices[ridx] > maxVal) {
+                maxVal = prices[ridx];
             }
-            rightMax[ridx] = max(rightMax[ridx + 1], maxEle - prices[ridx]);
+            rightMax[ridx] = max(rightMax[ridx + 1], maxVal - prices[ridx]);
         }
         // Combine the leftMax and rightMax.
         int ret = 0;
@@ -343,9 +337,10 @@ public:
 
     int maxProfitIII_improved(vector<int>& prices) {
         // Another interesting solution
-        int states[2][4] = {INT_MIN, 0, INT_MIN, 0};
-        int len = prices.size(), cur = 0, next = 1;
-        for(int i = 0; i < len; ++i)
+        vector<vector<int>> states(2, vector<int>(4, 0));
+        states[0][0] = states[0][2] = INT_MIN;
+        int lens = prices.size(), cur = 0, next = 1;
+        for(int i = 0; i < lens; ++i)
         {
             states[next][0] = max(states[cur][0], -prices[i]);
             states[next][1] = max(states[cur][1], states[cur][0] + prices[i]);
@@ -395,9 +390,9 @@ public:
 
     int maxProfitIV_improved(int k, vector<int> &prices) {
         vector<int> minP, maxP;
-        int res = findMinMax(prices, minP, maxP);
+        int ret = findMinMax(prices, minP, maxP);
         if(maxP.size() <= k) {
-            return res;
+            return ret;
         }
         else {
             return FSM_stock(minP, maxP, k);
@@ -468,7 +463,6 @@ public:
         if (n < 3) {
             return n;
         }
-
         int ret = 0;
         for (int i = 1; i <= n; ++i) {
             ret += numTrees(i - 1) * numTrees(n - i);
@@ -484,7 +478,7 @@ public:
                 dp[i] += dp[j - 1] * dp[i - j];
             }
             dp[i] *= 2;
-            if (i % 2) {
+            if (i & 1 == 0) {
                 dp[i] += dp[i / 2] * dp[i / 2];
             }
         }
@@ -493,9 +487,9 @@ public:
     // Unique Binary Search Trees II
     // Given n, generate all structurally unique BST's (binary search trees) that store values 1...n.
     vector<TreeNode *> generateTrees(int n) {
-        return generateHelper(1, n);
+        return generateTrees(1, n);
     }
-    vector<TreeNode *> generateHelper(const int beg, const int end) {
+    vector<TreeNode *> generateTrees(const int beg, const int end) {
         vector<TreeNode *> ret;
         if (beg > end) {
             return {nullptr};
@@ -503,12 +497,11 @@ public:
         else if (beg == end) {
             return {new TreeNode(beg)};
         }
-
         TreeNode *root = nullptr;
         for (int idx = beg; idx <= end; ++idx) {
             vector<TreeNode *> leftSubTree, rightSubTree;
-            leftSubTree = generateHelper(beg, idx - 1);
-            rightSubTree = generateHelper(idx + 1, end);
+            leftSubTree = generateTrees(beg, idx - 1);
+            rightSubTree = generateTrees(idx + 1, end);
             for (int i = 0; i < leftSubTree.size(); ++i) {
                 for (int j = 0; j< rightSubTree.size(); ++j) {
                     root = new TreeNode(idx);
@@ -604,15 +597,15 @@ public:
     vector<int> preorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        preorderTraversalHelper(root, ret);
+        preorderTraversal(root, ret);
         return ret;
     }
-    void preorderTraversalHelper(TreeNode *root, vector<int> &vec) {
+    void preorderTraversal(TreeNode *root, vector<int> &vec) {
         // Recursive helper function
         if (root) {
             vec.push_back(root->val);
-            preorderTraversalHelper(root->left, vec);
-            preorderTraversalHelper(root->right, vec);
+            preorderTraversal(root->left, vec);
+            preorderTraversal(root->right, vec);
         }
     }
 
@@ -651,15 +644,15 @@ public:
     vector<int> inorderTraversal(TreeNode *root) {
         // Recursive
         vector<int> ret;
-        inorderTraversalHelper(root,ret);
+        inorderTraversal(root, ret);
         return ret;
     }
-    void inorderTraversalHelper(TreeNode *root, vector<int> &vec) {
+    void inorderTraversal(TreeNode *root, vector<int> &vec) {
         // Auxiliary function
         if (root) {
-            inorderTraversalHelper(root->left,vec);
+            inorderTraversal(root->left, vec);
             vec.push_back(root->val);
-            inorderTraversalHelper(root->right,vec);
+            inorderTraversal(root->right, vec);
         }
     }
 
