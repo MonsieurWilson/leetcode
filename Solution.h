@@ -906,7 +906,6 @@ public:
     // Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
     int climbStairs(int n) {
         // Fibonacci sequence
-        // Recursive algorithm will get a TLE
         if (n <= 3) {
             return n;
         }
@@ -931,17 +930,16 @@ public:
     TreeNode *sortedArrayToBST(vector<int> &num) {
         TreeNode *root = nullptr;
         if (num.size()) {
-            int beg = 0, end = num.size() - 1;
-            root = sortHelper(num, beg, end);
+            root = sortedArrayToBST(num, 0, num.size());
         }
         return root;
     }
-    TreeNode *sortHelper(vector<int> &num, const int beg, const int end) {
+    TreeNode *sortedArrayToBST(vector<int> &num, const int beg, const int end) {
         if (beg <= end) {
             int mid = beg + (end - beg) / 2;
             TreeNode *root = new TreeNode(num[mid]);
-            root->left = sortHelper(num, beg, mid - 1);
-            root->right = sortHelper(num, mid + 1, end);
+            root->left = sortedArrayToBST(num, beg, mid - 1);
+            root->right = sortedArrayToBST(num, mid + 1, end);
             return root;
         }
         return nullptr;
@@ -951,17 +949,17 @@ public:
     ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
         ListNode *head = new ListNode(0);
         ListNode *ptr = head;
-        ListNode *pointer1 = l1, *pointer2 = l2;
-        while (pointer1 || pointer2) {
-            if (pointer2 == nullptr || (pointer1 && pointer1->val < pointer2->val)) {
-                ptr->next = pointer1;
+        ListNode *ptr1 = l1, *ptr2 = l2;
+        while (ptr1 || ptr2) {
+            if (ptr2 == nullptr || (ptr1 && ptr1->val < ptr2->val)) {
+                ptr->next = ptr1;
                 ptr = ptr->next;
-                pointer1 = pointer1->next;
+                ptr1 = ptr1->next;
             }
             else {
-                ptr->next = pointer2;
+                ptr->next = ptr2;
                 ptr = ptr->next;
-                pointer2 = pointer2->next;
+                ptr2 = ptr2->next;
             }
         }
         return head->next;
@@ -969,21 +967,22 @@ public:
     // Remove Element
     // Given an array and a value, remove all instances of that value in place and return the new length.
     // The order of elements can be changed. It doesn't matter what you leave beyond the new length.
-    int removeElement(int A[], int n, int elem) {
+    int removeElement(vector<int> &nums, int elem) {
+        int lens = nums.size();
         int cnt = 0;
-        for (int idx = 0; idx < n; ++idx) {
-            if (A[idx] == elem) {
+        for (int idx = 0; idx < lens; ++idx) {
+            if (nums[idx] == elem) {
                 ++cnt;
             }
             else {
-                A[idx - cnt] = A[idx];
+                nums[idx - cnt] = nums[idx];
             }
         }
-        return n - cnt;
+        return lens - cnt;
     }
     // Find Peak Element
     // A peak element is an element that is greater than its neighbors.
-    // Given an input array where num[i] =/= num[i+1], find a peak element and return its index.
+    // Given an input array where num[i] ≠ num[i+1], find a peak element and return its index.
     // The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
     // You may imagine that num[-1] = num[n] = -inf
     // Note:
@@ -1008,16 +1007,16 @@ public:
         if (head && head->next) {
             ListNode *tmp = new ListNode(0);
             tmp->next = head;
-            ListNode *pointer1 = head, *pointer2 = head->next, *ptr = tmp;
-            while (pointer1 && pointer2) {
-                ptr->next = pointer2;
-                pointer1->next = pointer2->next;
-                pointer2->next = pointer1;
+            ListNode *ptr1 = head, *ptr2 = head->next, *ptr = tmp;
+            while (ptr1 && ptr2) {
+                ptr->next = ptr2;
+                ptr1->next = ptr2->next;
+                ptr2->next = ptr1;
 
-                ptr = pointer1;
-                pointer1 = pointer1->next;
-                if (pointer1) {
-                    pointer2 = pointer1->next;
+                ptr = ptr1;
+                ptr1 = ptr1->next;
+                if (ptr1) {
+                    ptr2 = ptr1->next;
                 }
             }
             head = tmp->next;
@@ -1028,7 +1027,6 @@ public:
     // Given a binary tree, determine if it is height-balanced.
     // For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
     bool isBalanced(TreeNode *root) {
-        // Pruning
         if (root == nullptr) {
             return true;
         }
@@ -1153,7 +1151,7 @@ public:
     int findMin_improved(vector<int> &nums) {
         // Binary Search
         int lens = nums.size();
-        int beg = 0, end = nums.size() - 1, mid;
+        int beg = 0, end = lens - 1, mid;
         while (beg <= end) {
             mid = beg + (end - beg) / 2;
             if (nums[mid] < nums[(mid - 1 + lens) % lens] && nums[mid] < nums[(mid + 1) % lens]) {
@@ -3017,40 +3015,38 @@ public:
     // ]
     vector<vector<int>> zigzagLevelOrder(TreeNode *root) {
         vector<vector<int>> ret;
-        queue<TreeNode *> nodeQueue;
         if (root == nullptr) {
             return ret;
         }
-        nodeQueue.push(root);
-        nodeQueue.push(nullptr);
-        vector<int> tmp;
-        ret.push_back(tmp);
-        while (!nodeQueue.empty()) {
-            TreeNode *tmp = nodeQueue.front();
-            nodeQueue.pop();
-            if (tmp == nullptr) {
-                if (nodeQueue.front() == nullptr) {
-                    break;
-                }
-                vector<int> line;
-                ret.push_back(line);
-            }
-            else {
-                ret[ret.size() - 1].push_back(tmp->val);
+        vector<stack<TreeNode *>> levels(2, stack<TreeNode *>());
+        int cur = 0, next = 1;
+        levels[0].push(root);
+        vector<int> line;
+        while (!levels[0].empty() || !levels[1].empty()) {
+            TreeNode *tmp = levels[cur].top();
+            levels[cur].pop();
+            line.push_back(tmp->val);
+            if (cur == 0) {
                 if (tmp->left) {
-                    nodeQueue.push(tmp->left);
+                    levels[next].push(tmp->left);
                 }
                 if (tmp->right) {
-                    nodeQueue.push(tmp->right);
-                }
-                if (nodeQueue.front() == nullptr) {
-                    nodeQueue.push(nullptr);
+                    levels[next].push(tmp->right);
                 }
             }
-        }
-        // Zigzag
-        for (int idx = 1; idx < ret.size(); idx += 2) {
-            reverse(ret[idx].begin(), ret[idx].end());
+            else {
+                if (tmp->right) {
+                    levels[next].push(tmp->right);
+                }
+                if (tmp->left) {
+                    levels[next].push(tmp->left);
+                }
+            }
+            if (levels[cur].empty()) {
+                ret.push_back(line);
+                line.clear();
+                swap(cur, next);
+            }
         }
         return ret;
     }

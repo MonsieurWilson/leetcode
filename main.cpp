@@ -26,34 +26,27 @@ int main(){
     /**
      * Get and print the vector
      */
-    /*
     cout << "Input the vector size" << endl;
     int size;
     cin >> size;
     cout << "Input the vector:" << endl;
     vector<string> vec;
     Vector::crtVec(vec, size);
-    */
 
     /**
      * Create and traversal the tree
      */
-    /*
     TreeNode *root = Tree::crtTree(vec);
     cout << "The inorderTraversal sequence is:" << endl;
     cout << s.postorderTraversal(root) << endl;
     cout << s.postorderTraversal_another(root) << endl;
-    */
 
     /*
     cout << "-------------------Time Cost-----------------------" << endl; 
     */
     stime = clock();
 
-    int n;
-    while (cin >> n) {
-        cout << s.solveNQueens(n) << endl;
-    }
+    cout << s.zigzagLevelOrder(root) << endl;
 
 
 

@@ -100,12 +100,12 @@ public:
     }
 };
 
-static ostream & operator << (ostream &out, const ListNode *head) {
+ostream & operator << (ostream &out, ListNode *head) {
     if (head == nullptr) {
         out << "The list is empty.";
     }
     else {
-        const ListNode *ptr = head;
+        ListNode *ptr = head;
         while (ptr) {
             out << ptr->val;
             if (ptr->next) {
@@ -168,36 +168,36 @@ private:
 class MinStack {
 public:
     void push(int x) {
-        eleStack.push(x);
-        if (minStack.empty() || (!minStack.empty() && minStack.top() >= x)) {
-            minStack.push(x);
+        eleSt.push(x);
+        if (minSt.empty() || (!minSt.empty() && minSt.top() >= x)) {
+            minSt.push(x);
         }
     }
 
     void pop() {
-        if (!eleStack.empty()) {
-            if (eleStack.top() == minStack.top()) {
-                minStack.pop();
+        if (!eleSt.empty()) {
+            if (eleSt.top() == minSt.top()) {
+                minSt.pop();
             }
-            eleStack.pop();
+            eleSt.pop();
         }
     }
 
     int top() {
-        if (!eleStack.empty()) {
-            return eleStack.top();
+        if (!eleSt.empty()) {
+            return eleSt.top();
         }
         return -1;
     }
 
     int getMin() {
-        if (!minStack.empty()) {
-            return minStack.top();
+        if (!minSt.empty()) {
+            return minSt.top();
         }
         return -1;
     }
 private:
-    stack<int> eleStack, minStack;
+    stack<int> eleSt, minSt;
 };
 
 // Implement Stack using Queues
