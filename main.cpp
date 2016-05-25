@@ -5,12 +5,6 @@ void prtTimeCost(const clock_t stime, const clock_t ftime) {
 }
 
 
-int hmmId = 0, stateId = 2;
-hmmId = vri->genMaxNode->info.hmm->hIdx;
-if (vri->genMaxTok.align) {
-    stateId = vri->genMaxTok.align->state;
-}
-
 int main(){
     // close the sync.
     ios::sync_with_stdio(false); 
